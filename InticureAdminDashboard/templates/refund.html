@@ -1,0 +1,893 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <div class="d-flex mb3">
+                                    <h4 class="nk-block-title mr-auto ">Refund</h4>
+                                    <input type="hidden" id="currency" name="currency" value="{{currency}}">
+                                    <!-- India US buttons -->
+                                    <div class="button-group">
+                                        <a class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" href="{{url_for('refund',currency='inr')}}">
+                                            </em><span>India</span></a>
+                                        <a class="d-sm-inline-flex btn btn-outline-light bg-white btn-md"  href="{{url_for('refund',currency='usd')}}">
+                                            <span>US</span></a>
+                                    </div>
+
+                                    {#<a href="html/user-list-regular.html"
+                                        class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                            class="icon ni ni-arrow-left"></em><span>Back</span></a>#}
+                                    {#<button class="d-sm-inline-flex btn btn-dark btn-md ">Add </button>#}
+                                </div>
+                                <div class="nk-block-des">
+                                    {#<p>Using the most basic table markup, here’s how <code
+                                            class="code-class">.table</code> based tables look by default.</p>#}
+                                </div>
+                            </div>
+                        </div>
+                        {#
+                            <!-- Datatable -->
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <table class="datatable-init table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Tiger Nixon</td>
+                                            <td>System Architect</td>
+                                            <td>Edinburgh</td>
+                                            <td>61</td>
+                                            <td>2011/04/25</td>
+                                            <td>$320,800</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Garrett Winters</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>63</td>
+                                            <td>2011/07/25</td>
+                                            <td>$170,750</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ashton Cox</td>
+                                            <td>Junior Technical Author</td>
+                                            <td>San Francisco</td>
+                                            <td>66</td>
+                                            <td>2009/01/12</td>
+                                            <td>$86,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cedric Kelly</td>
+                                            <td>Senior Javascript Developer</td>
+                                            <td>Edinburgh</td>
+                                            <td>22</td>
+                                            <td>2012/03/29</td>
+                                            <td>$433,060</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Airi Satou</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>33</td>
+                                            <td>2008/11/28</td>
+                                            <td>$162,700</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Brielle Williamson</td>
+                                            <td>Integration Specialist</td>
+                                            <td>New York</td>
+                                            <td>61</td>
+                                            <td>2012/12/02</td>
+                                            <td>$372,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Herrod Chandler</td>
+                                            <td>Sales Assistant</td>
+                                            <td>San Francisco</td>
+                                            <td>59</td>
+                                            <td>2012/08/06</td>
+                                            <td>$137,500</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rhona Davidson</td>
+                                            <td>Integration Specialist</td>
+                                            <td>Tokyo</td>
+                                            <td>55</td>
+                                            <td>2010/10/14</td>
+                                            <td>$327,900</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Colleen Hurst</td>
+                                            <td>Javascript Developer</td>
+                                            <td>San Francisco</td>
+                                            <td>39</td>
+                                            <td>2009/09/15</td>
+                                            <td>$205,500</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sonya Frost</td>
+                                            <td>Software Engineer</td>
+                                            <td>Edinburgh</td>
+                                            <td>23</td>
+                                            <td>2008/12/13</td>
+                                            <td>$103,600</td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card-preview -->
+                        #}
+
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <ul class="list-inline mb-2">
+
+                                <li><label class="form-label" >Filter</label></li>
+
+                                <li>
+
+                                <div class="form-group">
+                                    <!-- <label class="form-label" >Filter</label> -->
+                                    <div class="form-control-wrap ">
+                                        <div class="form-control-select">
+                                            <select class="form-control" id="status" name="status" onchange="filterFunc('status')">
+                                                <option value="">All</option>
+                                                <option value="1">Paid</option>
+                                                <option value="0">Pending</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                            <li>From:</li>
+
+                            <li>
+                                <div class="form-group" style="margin-top: 1px;">
+                                    <label class="form-label" style="font-family:Manrope ;font-weight:400;font: size 15px;"></label>
+                                    <div class="form-control-wrap">
+                                        {#<div class="form-icon form-icon-left">#}
+                                            {#<em class="icon ni ni-calendar"></em>#}
+                                        {#</div>#}
+                                        <input type="date" class="form-control " id="from" name="from" data-date-format="yyyy-mm-dd"  onchange="filterFunc('from')" >
+                                    </div>
+                                    <!-- <div class="form-note">Date format <code>yyyy-mm-dd</code></div> -->
+                                </div>
+                            </li>
+
+                            <li>To:</li>
+
+                            <li>
+                                <div class="form-group" style="margin-top: 1px;">
+                                    <label class="form-label" style="font-family:Manrope ;font-weight:400;font: size 15px;"></label>
+                                    <div class="form-control-wrap">
+                                        {#<div class="form-icon form-icon-left">#}
+                                            {#<em class="icon ni ni-calendar"></em>#}
+                                        {#</div>#}
+                                        <input type="date" class="form-control " id="to" name="to" data-date-format="yyyy-mm-dd"  onchange="filterFunc('to')" >
+                                    </div>
+                                    <!-- <div class="form-note">Date format <code>yyyy-mm-dd</code></div> -->
+                                </div>
+                            </li>
+                            
+                            <li>
+                                <div class="form-group mt-2">
+                                    <button type="button" class="btn btn-md btn-light" onclick="exportTableToExcel('refund_table')">Export as Excel</button>                                    
+                                </div>
+                            </li>
+                            <input type="hidden" id="prev" name="prev" value="{{prev}}">
+                            <input type="hidden" id="next" name="next" value="{{next}}">
+                            </ul>
+
+                                <!-- <br> -->
+                                <table class="table" id="refund_table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">App. No/ Order ID</th>
+                                            <th>Order Date</th>
+                                            <th scope="col">Patient Name</th>
+                                            <th scope="col">Refund Amount</th>
+                                            
+                                            <th>Refund Requested Date</th>
+                                            <th>Doctor Name</th>
+                                            <th>Refund Processed Date</th>
+                                            <th>Refund ID</th>
+                                            <th scope="col">Status</th>
+                                            <th></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tab_body">
+                                    {% if refund_data %}
+                                        {% for data in refund_data %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{data.appointment_id}}</td>
+                                            <td>{{data.appointment_date|date_format}}</td>
+                                            <td>{{data.customer_name}}</td>
+                                            <td>{{data.refund_amount}} {{data.currency|upper}}</td>
+                                            <td>{{data.refund_requested_date|date_format}}</td>
+                                            <td>{{data.doctor_name}}</td>
+                                            <td>
+                                                {% if data.refund_processed_date %}
+                                                {{data.refund_processed_date|date_format}}
+                                                {% else %}
+                                                Not Processed
+                                                {% endif %}
+                                                
+                                            </td>
+                                            <td>{{data.refund_id}}</td>
+                                            <td>
+                                                {% if data.refund_status == 0 %}
+                                                <span class="badge badge-danger">Pending</span>
+                                                {% elif data.refund_status == 1 %}
+                                                <span class="badge badge-success">Completed</span>
+                                                {% endif%}
+                                            </td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-v-alt"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                        <ul class="link-list-plain">
+                                                           
+                                                            <li><a href="#refund{{data.refund_id}}" data-toggle="modal">Refund</a></li>
+                                                            {#<li><a href="#">View</a></li>#}
+                                                            
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                        <tr></tr>
+                                        
+                                    </tbody>
+                                </table>
+
+                                <!-- Pagination -->
+                                <nav>
+                                    <ul class="pagination justify-content-center mt-2" id="paginate">
+                                        {% if prev %}
+                                        <li class="page-item {% if not prev %} disabled {% endif%}"><a class="page-link btn" {% if prev %}{% endif %} tabindex="-1" 
+                                            {% if not prev %}aria-disabled="true"{% else %}{% endif%} onclick="prevFunc()">Prev</a></li>
+                                        {% endif %}
+                                        <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">2 <span class="sr-only">(current)</span></a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                                        {% if next %}
+                                        <li class="page-item {% if not next %} disabled {% endif %}"><a class="page-link btn " {% if next %}{% endif%} 
+                                            {% if not next %}aria-disabled="true"{% else %}{% endif%} onclick="nextFunc()">Next</a></li>
+                                            {% endif %}
+                                    </ul>
+                                </nav>
+                                <!-- Pagination -->
+                            </div>
+                        </div><!-- .card-preview -->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+        {% if refund_data %}
+            {% for data in refund_data %}
+            <!-- ***************    REFUND MODAL FOR STATUS CHANGE  @S  ******************** -->
+
+            <div class="modal fade" tabindex="-1" id="refund{{data.refund_id}}" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body modal-body-lg text-center">
+                            <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                                <input type="hidden" id="form_type" name="form_type" value="refund">
+                                <input type="hidden" id="refund_id" name="refund_id" value="{{data.refund_id}}">
+                            <div class="nk-modal">
+                                <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-info-i bg-info"></em>
+                                <h4 class="nk-modal-title">Approve Refund</h4>
+                                <div class="nk-modal-text">
+                                    <!-- <p class="lead"> Appointment </p> -->
+                                    
+                                    <p class="lead">Changing the status to 'Completed' will initiate the refund process
+                                        </p>
+                                    <!-- <p class="text-soft">If you need help please contact us at (855) 485-7373.</p> -->
+                                    <!-- <div class="col-lg-6"> -->
+                                        <div class="form-group">
+                                            {#<label class="form-label" for="refund_status">Status</label>#}
+                                            <div class="form-control-wrap ">
+                                                <div class="form-control-select">
+                                                    {#<!-- <select class="form-control" id="status{{data.refund_id}}" 
+                                                    name="status{{data.refund_id}}"> -->#}
+                                                    <select class="form-control" id="refund_status{{data.refund_id}}" 
+                                                    name="refund_status{{data.refund_id}}" {#onchange="statusFunc('{{data.refund_id}}','{{data.id}}')"#}>
+                                                        {#<option value="">Select Option</option>#}
+                                                        <option value="0">Pending</option>
+                                                        <option value="1">Complete</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!-- </div> -->
+                                    <!-- <p class="lead">Accepting this profile implies that you have verified the information 
+                                        provided by this doctor.</p> -->
+                                    <!-- <p class="text-soft">If you need help please contact us at (855) 485-7373.</p> -->
+                                </div>
+                                <div class="nk-modal-action mt-5">
+                                    <button type="submit" class="btn btn-lg btn-mw btn-primary" onclick="statusFunc('{{data.refund_id}}','{{data.id}}')">Update</button>
+                                    {#<a href="" type="button" class="btn btn-lg btn-mw btn-dark">Accept</a>#}
+                                    <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                                </div>
+                            </div>
+                            </form>
+                        </div><!-- .modal-body -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ***************    REFUND MODAL FOR STATUS CHANGE  @E  ******************** -->
+            {% endfor %}
+            {% endif %}
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+    // FUNCTION TO CALLED WHEN FILTER IS CHANGED
+    const filterFunc = async (param) => {
+        // Value is fetched from filters
+        var status=document.getElementById('status').value;
+        var from=document.getElementById('from').value;
+        var to=document.getElementById('to').value;
+        var currency=document.getElementById('currency').value;
+        var refund_id="";
+        // if value of any filter is null default value "" is assigned
+        if(status === null){
+            status = "";
+        }
+        if(from === null){
+            from = ""
+        }
+        if(from === null){
+            to = ""
+        }
+        // var api="https://api.inticure.com/api/administrator/refund/?date_from=2023-03-15&date_to=2023-03-29&limit=5&refund_id=2023-03-16-0008&status=0";
+        // api base
+        var base="https://api.inticure.online/api/administrator/refund/?";
+        //var base="http://localhost:8000/api/administrator/refund/?";
+        // rest of api url with arguments
+        var refund_api="date_from="+from+"&date_to="+to+"&limit="+"5"+"&refund_id="+refund_id+"&status="+status+"&currency="+currency;
+        // console.log(refund_api);
+        // api call with GET method(listing)
+        const response = await fetch(base+refund_api, {
+    
+        method: 'GET',
+        // body: JSON.stringify(payload), // string or object
+        headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+        }
+        });
+        // converting response to json
+        const myJson = await response.json();
+        console.log("response",myJson);
+
+        // Data in table with filters
+        var data = myJson['results'];
+        var tab_data="";
+        $('#tab_body').empty();
+        var ref_status="";
+        // looping the values in variable data
+        $.each(data,function(index,value){
+            // generating html elements for table
+            td='<td>'+value.appointment_id+'</td><td>'+value.appointment_date+'</td><td>'+value.customer_name+'</td><td>'+value.refund_amount+'</td><td>'+value.refund_requested_date+'</td><td>'+value.doctor_name+'</td><td>'+value.refund_processed_date+'</td><td>'+value.refund_id+'</td>';
+            if (value.refund_status === 1){
+                ref_status = '<td><span class="badge badge-success">Complete</span></td>';
+            }
+            else{
+                ref_status = '<td><span class="badge badge-danger">Pending</span></td>';
+            }
+            // stat_td='<td>'+ref_status+'</td>';
+            // html for drop down button
+            dd_btn = '<td><div class="dropdown"><a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-v-alt"></em></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-xs"> <ul class="link-list-plain"><li><a href="#refund'+value.refund_id+'" data-toggle="modal">Refund</a></li> </ul></div></div></td>';
+            // html for whole table body tr
+            i=index+1;
+            tab_data+='<tr><td>'+ i +'</td>'+td+ref_status+dd_btn+'</tr>';
+            
+            // $('#tab_body').append(tab_data);
+        });
+        // appending generated elements to table with id tab_data
+        $('#tab_body').append(tab_data);
+        if (data.length===0){
+            console.log("0")
+            tab_data = '<tr class="text-center">No data available</tr>';
+            $('#tab_body').append(tab_data);
+        }       
+
+        // pagination
+        prev=myJson['previous'];
+        // console.log("prev",prev);
+        next=myJson['next'];
+        $('#paginate').empty();
+        // Appending next and prev page api calls if it is present, else disabled next and prev is shown
+        if (prev === null){
+            console.log('inside if');
+            prev_page='<li class="page-item disabled "><a class="page-link" href="" tabindex="-1" aria-disabled="true">Prev</a></li>';            
+        }
+        else{
+            // prev_page='<li class="page-item"><a class="page-link" href="'+prev+'" tabindex="-1" >Prev</a></li>';  
+            prev_page='<li class="page-item"><a class="page-link" tabindex="-1" onclick="prevFunc()">Prev</a></li>';
+        }
+        $('#paginate').append(prev_page);
+        if (next === null){            
+            next_page='<li class="page-item disabled "><a class="page-link" href="" tabindex="-1" aria-disabled="true">Next</a></li>';        
+        }
+        else{
+            // next_page='<li class="page-item"><a class="page-link" href="'+next+'" tabindex="-1" >Next</a></li>'; 
+            next_page='<li class="page-item"><a class="page-link" tabindex="-1" onclick="nextFunc()">Next</a></li>';
+        }
+        $('#paginate').append(next_page);
+
+        // Function end
+        return myJson;
+        
+    }
+</script>
+
+<script>
+const statusFunc = async (refund_id,id) => {
+        // Value from status modal
+        var refund_status=document.getElementById('refund_status'+refund_id).value;
+        // Value is fetched from filters
+        var status=document.getElementById('status').value;
+        var from=document.getElementById('from').value;
+        var to=document.getElementById('to').value;
+        var currency=document.getElementById('currency').value;
+        var refund_id=refund_id;
+        console.log(refund_id);
+        var id = id;
+        console.log(id);
+        // if value of any filter is null default value "" is assigned
+        if(status === null){
+            status = "";
+        }
+        if(from === null){
+            from = ""
+        }
+        if(from === null){
+            to = ""
+        }
+        payload={};
+        payload.refund_status = parseInt(refund_status);
+        console.log(payload);
+        strpay=JSON.stringify(payload);
+        console.log(strpay);
+        //var api="https://api.inticure.com/api/administrator/refund/?date_from=2023-03-15&date_to=2023-03-29&limit=5&refund_id=2023-03-16-0008&status=0";
+        // api base
+        var refund_api="https://api.inticure.online/api/administrator/refund/"+id+"/";
+        //var refund_api="http://localhost:8000/api/administrator/refund/"+id+"/";
+        // rest of api url with arguments
+        // var refund_api="date_from="+from+"&date_to="+to+"&limit="+"5"+"&refund_id="+refund_id+"&status="+status;
+        console.log(refund_api);
+        // api call with GET method(listing)
+        const post_response = await fetch(refund_api, {
+    
+        method: 'POST',
+        body: JSON.stringify(payload), // string or object
+        headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+        }
+        });
+        // converting response to json
+        const postResp = await post_response.json();
+        console.log("response",postResp);
+
+        // Refund api call with GET method to list the new changes
+        var base="https://13.232.211.97:8000/api/administrator/refund/?";
+        // rest of api url with arguments
+        var refund_api="date_from="+from+"&date_to="+to+"&limit="+"5"+"&refund_id="+refund_id+"&status="+status+"&currency="+currency;
+        console.log(refund_api);
+        // api call with GET method(listing)
+        const response = await fetch(base+refund_api, {
+    
+        method: 'GET',
+        // body: JSON.stringify(payload), // string or object
+        headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+        }
+        });
+        // converting response to json
+        const myJson = await response.json();
+        console.log("response",myJson);
+        // Data in table with filters
+        var data = myJson['results'];
+        var tab_data="";
+        $('#tab_body').empty();
+        // looping the values in variable data
+        $.each(data,function(index,value){
+            // generating html elements for table
+            td='<td>'+value.appointment_id+'</td><td>'+value.appointment_date+'</td><td>'+value.customer_name+'</td><td>'+value.refund_amount+'</td><td>'+value.refund_requested_date+'</td><td>'+value.doctor_name+'</td><td>'+value.refund_processed_date+'</td><td>'+value.refund_id+'</td>';
+            if (value.refund_status === 1){
+                ref_status = '<td><span class="badge badge-success">Complete</span></td>';
+            }
+            else{
+                ref_status = '<td><span class="badge badge-danger">Pending</span></td>';
+            }
+            // stat_td='<td>'+ref_status+'</td>';
+            // html for drop down button
+            dd_btn = '<td><div class="dropdown"><a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-v-alt"></em></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-xs"> <ul class="link-list-plain"><li><a href="#refund'+value.refund_id+'" data-toggle="modal">Refund</a></li> </ul></div></div></td>';
+            // html for whole table body tr
+            
+            tab_data+='<tr><td>'+ index++ +'</td>'+td+ref_status+dd_btn+'</tr>';
+            
+            // $('#tab_body').append(tab_data);
+        });
+        // appending generated elements to table with id tab_data
+        $('#tab_body').append(tab_data);
+        if (data.length===0){
+            console.log("0")
+            tab_data = '<tr class="text-center">No data available</tr>';
+            $('#tab_body').append(tab_data);
+        }       
+
+        // pagination
+        prev=myJson['previous'];
+        // console.log("prev",prev);
+        next=myJson['next'];
+        $('#paginate').empty();
+        // Appending next and prev page api calls if it is present, else disabled next and prev is shown
+        if (prev === null){
+            console.log('inside if');
+            prev_page='<li class="page-item disabled "><a class="page-link" href="" tabindex="-1" aria-disabled="true">Prev</a></li>';            
+        }
+        else{
+            // prev_page='<li class="page-item"><a class="page-link" href="'+prev+'" tabindex="-1" >Prev</a></li>';  
+            prev_page='<li class="page-item"><a class="page-link btn" tabindex="-1" onclick="prevFunc()">Prev</a></li>'; 
+        }
+        $('#paginate').append(prev_page);
+        if (next === null){            
+            next_page='<li class="page-item disabled "><a class="page-link" href="" tabindex="-1" aria-disabled="true">Next</a></li>';        
+        }
+        else{
+            // next_page='<li class="page-item"><a class="page-link" href="'+next+'" tabindex="-1" >Next</a></li>'; 
+            next_page='<li class="page-item"><a class="page-link btn" href="#" tabindex="-1" onclick="nextFunc()">Next</a></li>'; 
+        }
+        $('#paginate').append(next_page);
+
+        // Function end
+        return myJson;
+        
+    }
+</script>
+    
+<script>
+const nextFunc = async () => {
+    // value from next and prev
+    var next=document.getElementById('next').value;
+    var currency=document.getElementById('currency').value;
+    // var prev=document.getElementById('prev').value;
+        // Value is fetched from filters
+        // var status=document.getElementById('status').value;
+        // var from=document.getElementById('from').value;
+        // var to=document.getElementById('to').value;
+        // var refund_id="";
+        // if value of any filter is null default value "" is assigned
+        // if(status === null){
+        //     status = "";
+        // }
+        // if(from === null){
+        //     from = ""
+        // }
+        // if(from === null){
+        //     to = ""
+        // }
+        // var api="https://api.inticure.com/api/administrator/refund/?date_from=2023-03-15&date_to=2023-03-29&limit=5&refund_id=2023-03-16-0008&status=0";
+    // api base
+    var base="https://api.inticure.online/api/administrator/refund/?";
+    //var base="http://localhost:8000/api/administrator/refund/?";
+    // rest of api url with arguments
+    var refund_api="date_from="+from+"&date_to="+to+"&limit="+"5"+"&refund_id="+refund_id+"&status="+status+"&currency="+currency;
+    // console.log(refund_api);
+    // api call with GET method(listing)
+    const response = await fetch(next, {
+
+    method: 'GET',
+    // body: JSON.stringify(payload), // string or object
+    headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin':'*',
+    'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+    }
+    });
+    // converting response to json
+    const myJson = await response.json();
+    console.log("response",myJson);
+
+    // Data in table with filters
+    var data = myJson['results'];
+    var tab_data="";
+    $('#tab_body').empty();
+    var ref_status="";
+    // looping the values in variable data
+    $.each(data,function(index,value){
+        // generating html elements for table
+        td='<td>'+value.appointment_id+'</td><td>'+value.appointment_date+'</td><td>'+value.customer_name+'</td><td>'+value.refund_amount+'</td><td>'+value.refund_requested_date+'</td><td>'+value.doctor_name+'</td><td>'+value.refund_processed_date+'</td><td>'+value.refund_id+'</td>';
+        if (value.refund_status === 1){
+            ref_status = '<td><span class="badge badge-success">Complete</span></td>';
+        }
+        else{
+            ref_status = '<td><span class="badge badge-danger">Pending</span></td>';
+        }
+        // stat_td='<td>'+ref_status+'</td>';
+        // html for drop down button
+        dd_btn = '<td><div class="dropdown"><a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-v-alt"></em></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-xs"> <ul class="link-list-plain"><li><a href="#refund'+value.refund_id+'" data-toggle="modal">Refund</a></li> </ul></div></div></td>';
+        // html for whole table body tr
+        
+        tab_data+='<tr><td>'+ index++ +'</td>'+td+ref_status+dd_btn+'</tr>';
+        
+        // $('#tab_body').append(tab_data);
+    });
+    // appending generated elements to table with id tab_data
+    $('#tab_body').append(tab_data);
+    if (data.length===0){
+        console.log("0")
+        tab_data = '<tr class="text-center">No data available</tr>';
+        $('#tab_body').append(tab_data);
+    }       
+
+    // pagination
+    prev=myJson['previous'];
+    // console.log("prev",prev);
+    next=myJson['next'];
+    $('#paginate').empty();
+    // Appending next and prev page api calls if it is present, else disabled next and prev is shown
+    if (prev === null){
+        console.log('inside if');
+        prev_page='<li class="page-item disabled "><a class="page-link btn" href="" tabindex="-1" aria-disabled="true">Prev</a></li>';            
+    }
+    else{
+        // prev_page='<li class="page-item"><a class="page-link btn" href="'+prev+'" tabindex="-1" onclick="prevFunc()">Prev</a></li>';  
+        prev_page='<li class="page-item"><a class="page-link btn" tabindex="-1" onclick="prevFunc()">Prev</a></li>';
+    }
+    $('#paginate').append(prev_page);
+    if (next === null){            
+        next_page='<li class="page-item disabled "><a class="page-link btn" href="" tabindex="-1" aria-disabled="true">Next</a></li>';        
+    }
+    else{
+        // next_page='<li class="page-item"><a class="page-link btn" href="'+next+'" tabindex="-1" onclick="nextFunc()">Next</a></li>'; 
+        next_page='<li class="page-item"><a class="page-link btn" tabindex="-1" onclick="nextFunc()">Next</a></li>';
+    }
+    $('#paginate').append(next_page);
+
+    // setting value for prev and next
+    document.getElementById('next').value = next;
+    document.getElementById('prev').value = prev;
+
+    // Function end
+    return myJson;
+        
+    }
+</script>
+
+<script>
+    const prevFunc = async () => {
+        // value from next and prev
+        var next=document.getElementById('next').value;
+        var prev=document.getElementById('prev').value;
+        var currency=document.getElementById('currency').value;
+            // Value is fetched from filters
+            // var status=document.getElementById('status').value;
+            // var from=document.getElementById('from').value;
+            // var to=document.getElementById('to').value;
+            // var refund_id="";
+            // if value of any filter is null default value "" is assigned
+            // if(status === null){
+            //     status = "";
+            // }
+            // if(from === null){
+            //     from = ""
+            // }
+            // if(from === null){
+            //     to = ""
+            // }
+            // var api="https://api.inticure.com/api/administrator/refund/?date_from=2023-03-15&date_to=2023-03-29&limit=5&refund_id=2023-03-16-0008&status=0";
+        // api base
+        var base="https://api.inticure.online/api/administrator/refund/?";
+        //var base="http://localhost:8000/api/administrator/refund/?";
+        // rest of api url with arguments
+        var refund_api="date_from="+from+"&date_to="+to+"&limit="+"5"+"&refund_id="+refund_id+"&status="+status+"&currency="+currency;
+        // console.log(refund_api);
+        // api call with GET method(listing)
+        const response = await fetch(prev, {
+    
+        method: 'GET',
+        // body: JSON.stringify(payload), // string or object
+        headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+        }
+        });
+        // converting response to json
+        const myJson = await response.json();
+        console.log("response",myJson);
+    
+        // Data in table with filters
+        var data = myJson['results'];
+        var tab_data="";
+        $('#tab_body').empty();
+        var ref_status="";
+        // looping the values in variable data
+        $.each(data,function(index,value){
+            // generating html elements for table
+            td='<td>'+value.appointment_id+'</td><td>'+value.appointment_date+'</td><td>'+value.customer_name+'</td><td>'+value.refund_amount+'</td><td>'+value.refund_requested_date+'</td><td>'+value.doctor_name+'</td><td>'+value.refund_processed_date+'</td><td>'+value.refund_id+'</td>';
+            if (value.refund_status === 1){
+                ref_status = '<td><span class="badge badge-success">Complete</span></td>';
+            }
+            else{
+                ref_status = '<td><span class="badge badge-danger">Pending</span></td>';
+            }
+            // stat_td='<td>'+ref_status+'</td>';
+            // html for drop down button
+            dd_btn = '<td><div class="dropdown"><a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-v-alt"></em></a><div class="dropdown-menu dropdown-menu-right dropdown-menu-xs"> <ul class="link-list-plain"><li><a href="#refund'+value.refund_id+'" data-toggle="modal">Refund</a></li> </ul></div></div></td>';
+            // html for whole table body tr
+            
+            tab_data+='<tr><td>'+ index++ +'</td>'+td+ref_status+dd_btn+'</tr>';
+            
+            // $('#tab_body').append(tab_data);
+        });
+        // appending generated elements to table with id tab_data
+        $('#tab_body').append(tab_data);
+        if (data.length===0){
+            console.log("0")
+            tab_data = '<tr class="text-center">No data available</tr>';
+            $('#tab_body').append(tab_data);
+        }       
+    
+        // pagination
+        prev=myJson['previous'];
+        // console.log("prev",prev);
+        next=myJson['next'];
+        $('#paginate').empty();
+        // Appending next and prev page api calls if it is present, else disabled next and prev is shown
+        if (prev === null){
+            console.log('inside if');
+            prev_page='<li class="page-item disabled "><a class="page-link btn" href="" tabindex="-1" aria-disabled="true">Prev</a></li>';            
+        }
+        else{
+            // prev_page='<li class="page-item"><a class="page-link btn" href="'+prev+'" tabindex="-1" onclick="prevFunc()">Prev</a></li>';  
+            prev_page='<li class="page-item"><a class="page-link btn" tabindex="-1" onclick="prevFunc()">Prev</a></li>';
+        }
+        $('#paginate').append(prev_page);
+        if (next === null){            
+            next_page='<li class="page-item disabled "><a class="page-link btn" href="" tabindex="-1" aria-disabled="true">Next</a></li>';        
+        }
+        else{
+            // next_page='<li class="page-item"><a class="page-link btn" href="'+next+'" tabindex="-1" onclick="nextFunc()">Next</a></li>'; 
+            next_page='<li class="page-item"><a class="page-link btn" tabindex="-1" onclick="nextFunc()">Next</a></li>';
+        }
+        $('#paginate').append(next_page);
+
+        // setting value for prev and next
+        document.getElementById('next').value = next;
+        document.getElementById('prev').value = prev;
+    
+        // Function end
+        return myJson;
+            
+        }
+    </script>
+
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+<script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+<script>
+function exportTableToExcel(tableID) {
+  var wb = XLSX.utils.table_to_book(document.getElementById(tableID));
+  var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+  function s2ab(s) {
+    var buf = new ArrayBuffer(s.length);
+    var view = new Uint8Array(buf);
+    for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+    return buf;
+  }
+  saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), tableID+'.xlsx');
+}
+</script>
+
+<!-- <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script type="text/javascript">
+    function exportTableToExcel(tableID, filename = '') {
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        // var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+        // var tableHTML = tableSelect.parentElement.innerHTML.replace(/ /g, '%20');
+        var tableHTML = tableSelect.outerHTML;
+        console.log(tableHTML);
+
+        // Specify file name
+        filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+        // Create download link element
+        downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+            // downloadLink.href = 'data:' + dataType + ', ' + encodeURIComponent(tableHTML);
+
+            // Setting the file name
+            downloadLink.download = filename;
+
+            //triggering the function
+            downloadLink.click();
+        }
+    }
+</script> -->
+
+<!-- <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script type="text/javascript">
+    function exportTableToExcel(tableID, filename = '') {
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+        // Specify file name
+        filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+        // Create download link element
+        downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+            // Setting the file name
+            downloadLink.download = filename;
+
+            //triggering the function
+            downloadLink.click();
+        }
+    }
+</script> -->
+
+{% endblock %}
+

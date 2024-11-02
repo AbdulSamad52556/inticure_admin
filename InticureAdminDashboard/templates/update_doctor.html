@@ -1,0 +1,1531 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="components-preview">
+                    <div class="nk-block-head nk-block-head-lg wide-sm">
+                        <div class="nk-block-head-content">
+                            <!-- <div class="nk-block-head-sub"><a class="back-to" href="html/components.html"><em class="icon ni ni-arrow-left"></em><span>Components</span></a></div> -->
+                            <h2 class="nk-block-title fw-normal">Edit Doctor</h2>
+                            <div class="nk-block-des">
+                                <!-- <p class="lead">Form is most esential part of your project. We styled out nicely so you can
+                                     build your form so quickly.</p> -->
+                            </div>
+                            
+                        </div>
+                    </div><!-- .nk-block -->
+                    
+                    <div class="nk-block nk-block-lg">
+                        <!-- <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <h4 class="title nk-block-title">Basic Form Style - S1</h4>
+                                <div class="nk-block-des">
+                                    <p>Below example helps you to build your own form nice way.</p>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- {#<form action="" method="POST">#} -->
+                        <div class="card card-bordered">
+                            <div class="card-inner">
+                                <div class="card-head">
+                                    <h5 class="card-title">Doctor Info</h5>
+                                </div>
+                                <form method="POST" action="" enctype="multipart/form-data">
+                                    <div class="row g-4">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="first_name">First Name</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="first_name" name="first_name" required="" value="{{doctor_profile1.first_name}} ">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="last_name">Last Name</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="last_name" name="last_name" required="" value="{{doctor_profile1.last_name}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="gender">Gender</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="gender" name="gender">
+                                                            <option value=""{% if doctor_profile2.gender == "" %}selected{% endif %}>Select</option>
+                                                            <option value="male"{% if doctor_profile2.gender == "male" %}selected{% endif %}>Male</option>
+                                                            <option value="female"{% if doctor_profile2.gender == "female" %}selected{% endif %}>Female</option>                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <!--<div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="email_address">Email address</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="email_address" name="email_address" required="" value="{{doctor_profile1.email}}">
+                                                </div>
+                                            </div>
+                                        </div>////commented by join////-->
+
+                                        <!--Email address START-->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="email_address">Email address</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="email_address" name="email_address" required readonly value="{{ doctor_profile1.email }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <script>
+                                            document.getElementById('email_address').addEventListener('click', function() {
+                                                alert("This field is currently read-only.");
+                                            });
+                                        </script>
+                                        <!--Email address END-->                                        
+                                        
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="phone_no">Phone No</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="phone_no" name="phone_no" value="{{doctor_profile2.mobile_number}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6";>
+                                            <div class="form-group">
+                                                <label class="form-label" for="designation">Designation</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="designation" name="designation">
+                                                            <option value=""{% if doctor_profile2.doctor_flag == "" %}selected{% endif %}>Select Option</option>
+                                                            <option value="junior"{% if doctor_profile2.doctor_flag == "junior" %}selected{% endif %}>Junior Doctor</option>
+                                                            <option value="senior"{% if doctor_profile2.doctor_flag == "senior" %}selected{% endif %}>Senior Doctor</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <!--<div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="designation">Designation</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="designation" name="designation" disabled>
+                                                            <option value="" {% if doctor_profile2.doctor_flag == "" %}selected{% endif %}>Select Option</option>
+                                                            <option value="junior" {% if doctor_profile2.doctor_flag == "junior" %}selected{% endif %}>Junior Doctor</option>
+                                                            <option value="senior" {% if doctor_profile2.doctor_flag == "senior" %}selected{% endif %}>Senior Doctor</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>////commented by join////-->
+                                        
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="qualification">Qualification (E.g. MBBS, MD, FRCS, etc.)</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="qualification" name="qualification" value="{{doctor_profile2.qualification}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="category_id">Category Id</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="category_id">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="category_id">Category</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="category_id" name="category_id">
+                                                            <option value="">Select</option>
+                                                            <option value="1">Sexual Issues</option>
+                                                            <option value="2">Stress & Anxiety</option>
+                                                            <option value="3">Diet & Nutrition</option>
+                                                            <option value="4">Sleep Disorder</option>
+                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="specialization">Specialization</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="specialization" name="specialization">
+                                                            <option value="">Select Option</option>
+                                                            {% for specialization in specializations %}
+                                                            <option value="{{specialization.specialization}}"{% if doctor_profile2.specialization == specialization.specialization %}selected{% endif %}>{{specialization.specialization|capitalize}}</option>                                                                              
+                                                            {% endfor %}                      
+                                                            <!-- <option value="sexologist">Sexologist</option>
+                                                            <option value="psychologist">Psychologist</option>
+                                                            <option value="dietitian">Dietitian</option>
+                                                            <option value="somnologist">Somnologist</option> -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="language">Language</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="language1" name="language1">
+                                                            <option value="">Select</option>
+                                                            {% for language in languages %}
+                                                            <option value="{{language.language}}"{% if doctor_profile2.language_known == language.language %}selected{% endif %}>{{language.language}}</option>                                                                              
+                                                            {% endfor %}                                                           
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  -->
+
+                                        <!--<div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="certificate_number">Certification Number</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="certificate_number" name="certificate_number" value="{{doctor_profile2.certificate_no}}">
+                                                </div>
+                                            </div>
+                                        </div>////commented by join////-->
+                                        
+                                        <!--Certification Number START-->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="certificate_number">Certification Number</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="certificate_number" name="certificate_number" value="{{ doctor_profile2.certificate_no }}" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <script>
+                                            document.getElementById('certificate_number').addEventListener('click', function() {
+                                                alert("This field is currently read-only.");
+                                            });
+                                        </script>
+                                        <!--Certification Number END-->
+
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="certificate_file">Upload Certificate</label>
+                                            <div class="form-control-wrap">
+                                                <div class="custom-file">
+                                                    <input type="file" accept="image/png, .jpeg, .jpg, .pdf"  class="custom-file-input" id="certificate_file" name="certificate_file" >
+                                                    <label class="custom-file-label" for="certificate_file">Choose file </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                         <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Language</label>
+                                                <div class="form-control-wrap">
+                                                    <select class="form-select" multiple="multiple" id="language" name="language" data-placeholder="Select options">
+                                                        {#<option value="default_option">Default Option</option>#}
+                                                        {% for language in languages %}                                                
+                                                        <!-- {# here a for loop with language_list breaks the list and compare it with language from language api #} -->
+                                                        <!-- {# so all the languages in profile2 variable will be preselected in the element #} -->
+                                                        <option value="{{language.language}}"{% for lang in language_list %}{% if lang == language.language %}selected{% endif %}{% endfor %}>{{language.language|capitalize}}</option>                                                       
+                                                        {% endfor %}                                                                                                            
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="address">Address</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="address" name="address" value="{{doctor_profile2.address}}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="address_proof_file">Upload Address Proof</label>
+                                            <div class="form-control-wrap">
+                                                <div class="custom-file">
+                                                    <input type="file" accept="image/png, .jpeg, .jpg, .pdf"  class="custom-file-input" id="address_proof_file" name="address_proof_file" >
+                                                    <label class="custom-file-label" for="address_proof_file">Choose file </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+            
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="location">Location</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="location" name="location">
+                                                            <option value=""{% if doctor_profile2.location == "" %}selected{% endif %}>Select Option</option>
+                                                            <option value="1"{% if doctor_profile2.location == "1" %}selected{% endif %}>India</option>
+                                                            <option value="2"{% if doctor_profile2.location == "2" %}selected{% endif %}>US</option>
+                                                            <!-- <option value="Kannur"{% if doctor_profile2.location == "Kannur" %}selected{% endif %}>Kannur</option>
+                                                            <option value="Thrissur"{% if doctor_profile2.location == "Thrissur" %}selected{% endif %}>Thrissur</option> -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="photo_file">Upload Profile Photo</label>
+                                                <div class="form-control-wrap">
+                                                    <div class="custom-file">
+                                                        <input type="file" accept="image/png, .jpeg, .jpg, .pdf"  class="custom-file-input" id="photo_file" name="photo_file" >
+                                                        <label class="custom-file-label" for="photo_file">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="signature_file">Upload Signature</label>
+                                                <div class="form-control-wrap">
+                                                    <div class="custom-file">
+                                                        <input type="file" {#multiple=""#} accept="image/png, .jpeg, .jpg, .pdf" class="custom-file-input" id="signature_file" name="signature_file" value="{{doctor_profile2.signature}}">
+                                                        <label class="custom-file-label" for="signature_file">Choose file </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="doctor_bio">Add a bio</label>
+                                                <div class="form-control-wrap">
+                                                    <textarea class="form-control form-control-md" id="doctor_bio" name="doctor_bio" placeholder="Write a brief bio"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!--<div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="doctor_bio">Add a bio</label>
+                                                <div class="form-control-wrap">
+                                                    <textarea class="form-control form-control-md" id="doctor_bio" name="doctor_bio"
+                                                        placeholder="Write a brief bio" readonly>{{ bio_value }}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <script>
+                                            document.getElementById('doctor_bio').addEventListener('click', function() {
+                                                alert("This field cannot be edited.");
+                                            });
+                                        </script>-->
+                                        
+                                                                 
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="default-06"> Signature</label>
+                                                <div class="form-control-wrap">
+                                                    <div class="custom-file">
+                                                        <input type="file" {#multiple=""#} accept="image/png, .jpeg, .jpg, .pdf" class="custom-file-input" id="customFile" name="customFile">
+                                                        <label class="custom-file-label" for="customFile">{% if doctor_profile2.signature %}{{signature}}{% else %} Choose file {% endif %}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    
+                                        <!-- <div class="col-lg-6" style="display:none ;">
+                                            <div class="form-group">
+                                                <label class="form-label" for="location">Location</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="location" name="location">
+                                                            <option value=""{% if doctor_profile2.location == "" %}selected{% endif %}>Select Option</option>
+                                                            <option value="Trivandrum"{% if doctor_profile2.location == "Trivandrum" %}selected{% endif %}>Trivandrum</option>
+                                                            <option value="Kochi"{% if doctor_profile2.location == "Kochi" %}selected{% endif %}>Kochi</option>
+                                                            <option value="Kannur"{% if doctor_profile2.location == "Kannur" %}selected{% endif %}>Kannur</option>
+                                                            <option value="Thrissur"{% if doctor_profile2.location == "Thrissur" %}selected{% endif %}>Thrissur</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  -->
+                                        <!-- <div class="nk-divider divider md"></div> -->
+
+                                        <!-- <h6>Working Hours </h6>
+                                        <p>Enable working hours to let people know what times you are working and when you are not available for meetings.
+                                            This will warn people if they try to invite you to a meeting outside of these hours.
+                                        </p> -->
+                                        <!-- enable working hours checkbox -->
+                                    <!-- <div class="row g-4">
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="preview-block">
+                                                <span class="preview-title overline-title"></span>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="enable_working_hours" name="enable_working_hours"
+                                                    onclick="workHourToggle()">
+                                                    <label class="custom-control-label" for="enable_working_hours">Enable Working Hours</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <!-- days checkboxes -->
+                                    
+
+                                        <!-- day select check box -->
+                                        
+                                    <!-- <div class="row gy-4" id="days_checkbox">
+                                        <div class="row gx-2">
+                                            <div class="w-55">
+                                                <div class="col-md-3 col-sm-6">
+                                                    <div class="preview-block">
+                                                        {#<span class="preview-title overline-title">Sunday</span>#}
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="sunday" name="sunday">
+                                                            <label class="custom-control-label" for="sunday">Sunday</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-md-3 col-sm-6">
+                                                <div class="preview-block">
+                                                    {#<span class="preview-title overline-title">Monday</span>#}
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="monday" name="monday">
+                                                        <label class="custom-control-label" for="monday">Monday</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row gx-2">
+                                            <div class="w-50">
+                                                <div class="col-md-3 col-sm-6">
+                                                    <div class="preview-block">
+                                                        {#<span class="preview-title overline-title">Tuesday</span>#}
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="tuesday" name="tuesday">
+                                                            <label class="custom-control-label" for="tuesday">Tuesday</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6">
+                                                <div class="preview-block">
+                                                    {#<span class="preview-title overline-title">Wednesday</span>#}
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="wednesday" name="wednesday">
+                                                        <label class="custom-control-label" for="wednesday">Wednesday</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row gx-2">
+                                            <div class="w-55">
+                                                <div class="col-md-3 col-sm-6">
+                                                    <div class="preview-block">
+                                                        {#<span class="preview-title overline-title">Thursday</span>#}
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="thursday" name="thursday">
+                                                            <label class="custom-control-label" for="thursday">Thursday</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col-sm-6">
+                                                <div class="preview-block">
+                                                    {#<span class="preview-title overline-title">Friday</span>#}
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="friday" name="friday">
+                                                        <label class="custom-control-label" for="friday">Friday</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row gx-2">
+                                            <div class="w-55">
+                                                <div class="col-md-3 col-sm-6">
+                                                    <div class="preview-block">
+                                                        {#<span class="preview-title overline-title">Saturday</span>#}
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="saturday" name="saturday">
+                                                            <label class="custom-control-label" for="saturday">Saturday</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div> -->
+                                    <!-- day select check box end -->
+
+                                    <!-- selected day and time slot selection start-->
+
+                                    <!-- <div class="row gy-4">
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                {#<label class="form-label">Start Date & Time</label>#}
+                                                <div class="row gx-2">
+                                                    <div class="w-40">
+                                                        <label class="title">Monday</label>
+                                                    </div>
+                                                    <div class="w-45">
+                                                        <div class="form-control-wrap">
+                                                            <select class="form-select form-control form-control-lg">
+                                                                <option value="default_option">9 AM </option>
+                                                                <option value="option_select_name">10 AM </option>
+                                                                <option value="option_select_name">11 AM</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="form-group">
+                                                {#<label class="form-label">Start Date & Time</label>#}
+                                                <div class="row gx-2">
+                                                    <div class="w-40">
+                                                        <label class="title">to</label>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label class="title">to</label>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                {#<label class="form-label">Start Date & Time</label>#}
+                                                <div class="row gx-2">
+                                                    <div class="w-12">
+                                                        <div class="form-control-wrap">
+                                                            <label class="title">to</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="w-40">
+                                                        <div class="form-control-wrap">
+                                                            <select class="form-select form-control form-control-lg">
+                                                                <option value="default_option">Default Option</option>
+                                                                <option value="option_select_name">Option select name</option>
+                                                                <option value="option_select_name">Option select name</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                    <!-- days and timeslots -->
+                                    <div class="row gy-4" id="sunday_div" style="display:none ;">
+                                        <div>
+                                    <ul class="list-inline ml-3">
+                                        <li>
+                                        <div class="w-40">
+                                            <label class="title mr-1">Sunday</label>
+                                        </div>
+                                    </li>
+                                    <li class="ml-4">
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg" id="sunday_from1" name="sunday_from1">
+                                                <option value="default_option">9 AM </option>
+                                                <option value="option_select_name">10 AM </option>
+                                                <option value="option_select_name">11 AM</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <li><label class="title">to</label></li>
+                                    <li>
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg" id="sunday_to1" name="sunday_to1">
+                                                <option value="default_option">9 AM </option>
+                                                <option value="option_select_name">10 AM </option>
+                                                <option value="option_select_name">11 AM</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                    <!-- <li class="preview-btn-item">
+                                        <span class="preview-title overline-title"></span>
+                                        <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                    </li> -->
+                                    <li>
+                                        <a type="button" id="sunday_slot2" class="btn btn-round btn-icon btn-sm btn-light"  
+                                        data-toggle="tooltip" data-placement="top" title="Add another working hours period to this day" onclick="sundaySlot2Toggle()">
+                                            <em class="icon ni ni-plus"></em></a>
+                                    </li>
+                                    <!-- 2nd timeslot -->
+                                    <li>
+                                        <div id="addfrom2" style="display:none;">
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg" id="sunday_from2" name="sunday_from2">
+                                                <option value="default_option">9 AM </option>
+                                                <option value="option_select_name">10 AM </option>
+                                                <option value="option_select_name">11 AM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    <li><div id="labelto2" style="display:none;"><label class="title">to</label></div></li>
+                                    <li >
+                                        <div id="addto2" style="display:none;">
+                                            <div class="form-control-wrap">
+                                                <select class="form-select form-control form-control-lg" id="sunday_to2" name="sunday_to2">
+                                                    <option value="default_option">9 AM </option>
+                                                    <option value="option_select_name">10 AM </option>
+                                                    <option value="option_select_name">11 AM</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <!-- 2nd timeslot end -->
+                                    <li>
+                                        <a type="button" id="sunday_slot3" class="btn btn-round btn-icon btn-sm btn-light" style="display:none;"  onclick="sundaySlot3Toggle()">
+                                            <em class="icon ni ni-plus"></em></a>
+                                    </li>
+                                    <!-- 3rd timeslot -->
+                                    <li>
+                                        <div id="addfrom3" style="display:none;">
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg" id="sunday_from3" name="sunday_from3">
+                                                <option value="default_option">9 AM </option>
+                                                <option value="option_select_name">10 AM </option>
+                                                <option value="option_select_name">11 AM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    <li><div id="labelto3" style="display:none;"><label class="title">to</label></div></li>
+                                    <li >
+                                        <div id="addto3" style="display:none;">
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg" id="sunday_to3" name="sunday_to3">
+                                                <option value="default_option">9 AM </option>
+                                                <option value="option_select_name">10 AM </option>
+                                                <option value="option_select_name">11 AM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    <!-- 3rd timeslot end -->
+                                    <li>
+                                        <a type="button" id="sunday_slot4" class="btn btn-round btn-icon btn-sm btn-light" style="display:none;" onclick="sundaySlot4Toggle()"><em class="icon ni ni-plus"></em></a>
+                                    </li>
+                                    <!-- 4th timeslot -->
+                                    <li >
+                                        <div id="addfrom4" style="display:none;">
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg" id="sunday_from4" name="sunday_from4">
+                                                <option value="default_option">9 AM </option>
+                                                <option value="option_select_name">10 AM </option>
+                                                <option value="option_select_name">11 AM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    <li><div id="labelto4" style="display:none;"><label class="title">to</label></div></li>
+                                    <li >
+                                        <div id="addto4" style="display:none;">
+                                        <div class="form-control-wrap">
+                                            <select class="form-select form-control form-control-lg" id="sunday_to4" name="sunday_to4">
+                                                <option value="default_option">9 AM </option>
+                                                <option value="option_select_name">10 AM </option>
+                                                <option value="option_select_name">11 AM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    </li>
+                                    <!-- 4th timeslot end -->
+                                    </ul>
+                            </div>
+                                </div>
+                                <!-- Monday -->
+                                <div class="row gy-4" id="monday_div" style="display:none ;">
+                                    <div>
+                                <ul class="list-inline ml-3">
+                                    <li>
+                                    <div class="w-40">
+                                        <label class="title">Monday</label>
+                                    </div>
+                                </li>
+                                <li class="ml-4">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="monday_from1" name="monday_from1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li><label class="title" >to</label></li>
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="monday_to1" name="monday_to1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <!-- <li class="preview-btn-item">
+                                    <span class="preview-title overline-title"></span>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li> -->
+                                <li>
+                                    <a id="monday_slot2" class="btn btn-round btn-icon btn-sm btn-light" data-toggle="tooltip" data-placement="top" onclick="mondaySlot2Toggle()"><em class="icon ni ni-plus"></em></a>
+                                </li>
+                                <!-- 2nd timeslot -->
+                                <li>
+                                    <div id="monday_add_from2" style="display:none;">
+                                    <div class="form-control-wrap" >
+                                        <select class="form-select form-control form-control-lg" id="monday_from2" name="monday_from2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <li><div id="mondaylabel2" style="display:none;"><label class="title">to</label></div></li>
+                                <li >
+                                    <div id="monday_add_to2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="monday_to2" name="monday_to2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <!-- 2nd timeslot end -->
+                                <li>
+                                    <a type="button" id="monday_slot3" class="btn btn-round btn-icon btn-sm btn-light" style="display:none;"  onclick="mondaySlot3Toggle()">
+                                        <em class="icon ni ni-plus"></em></a>
+                                </li>
+                                <!-- 3rd timeslot -->
+                                <li>
+                                    <div id="monday_add_from3" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="monday_from3" name="monday_from3">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <li><div id="mondaylabel3" style="display:none;"><label class="title">to</label></div></li>
+                                <li >
+                                    <div id="monday_add_to3" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="monday_to3" name="monday_to3">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <!-- 3rd timeslot end -->
+                                <li>
+                                    <a type="button" id="monday_slot4" class="btn btn-round btn-icon btn-sm btn-light" style="display:none;" onclick="mondaySlot4Toggle()"><em class="icon ni ni-plus"></em></a>
+                                </li>
+                                <!-- 4th timeslot -->
+                                <li >
+                                    <div id="monday_add_from4" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="monday_from4" name="monday_from4">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <li><div id="mondaylabel4" style="display:none;"><label class="title">to</label></div></li>
+                                <li >
+                                    <div id="monday_add_to4" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="monday_to4" name="monday_to4">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <!-- 4th timeslot end -->
+                                </ul>
+                        </div>
+                            </div>
+                                <!-- Monday -->
+
+                                <!-- Tuesday -->
+                                <div class="row gy-4" id="tuesday_div" style="display:none ;">
+                                    <div>
+                                <ul class="list-inline ml-3">
+                                    <li>
+                                    <div class="w-40">
+                                        <label class="title">Tuesday</label>
+                                    </div>
+                                </li>
+                                
+                                <li class="ml-4">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="tuesday_from1" name="tuesday_from1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li><label class="title">to</label></li>
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="tuesday_to1" name="tuesday_to1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <!-- <li class="preview-btn-item">
+                                    <span class="preview-title overline-title"></span>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li> -->
+                                <li>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li>
+                                <!-- 2nd timeslot -->
+                                <li>
+                                    <div id="addfrom2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="tuesday_from2" name="tuesday_from2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <li><div id="labelto2" style="display:none;"><label class="title">to</label></div></li>
+                                <li >
+                                    <div id="addto2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="tuesday_to2" name="tuesday_to2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <!-- 2nd timeslot end -->
+                                </ul>
+                        </div>
+                            </div>
+                                <!-- Tuesday -->
+
+                                <!-- Wednesday -->
+                                <div class="row gy-4" id="wednesday_div" style="display:none ;">
+                                    <div>
+                                <ul class="list-inline ml-3">
+                                    <li>
+                                    <div class="w-40">
+                                        <label class="title">Wednesday</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="wednesday_from1" name="wednesday_from1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li><label class="title">to</label></li>
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="wednesday_to1" name="wednesday_to1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <!-- <li class="preview-btn-item">
+                                    <span class="preview-title overline-title"></span>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li> -->
+                                <li>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li>
+                                <!-- 2nd timeslot -->
+                                <li>
+                                    <div id="addfrom2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="wednesday_from2" name="wednesday_from2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <li><div id="labelto2" style="display:none;"><label class="title">to</label></div></li>
+                                <li >
+                                    <div id="addto2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="wednesday_to2" name="wednesday_to2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <!-- 2nd timeslot end -->
+                                </ul>
+                        </div>
+                            </div>
+                                <!-- Wednesday -->
+
+                                <!-- Thursday -->
+                                <div class="row gy-4" id="thursday_div" style="display:none ;">
+                                    <div>
+                                <ul class="list-inline ml-3">
+                                    <li>
+                                    <div class="w-40">
+                                        <label class="title">Thursday</label>
+                                    </div>
+                                </li>
+                                <li class="ml-3">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="thursday_from1" name="thursday_from1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li><label class="title">to</label></li>
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="thursday_to1" name="thursday_to1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <!-- <li class="preview-btn-item">
+                                    <span class="preview-title overline-title"></span>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li> -->
+                                <li>
+                                    <a type="button" id="generate"  class="btn btn-round btn-icon btn-sm btn-light" ><em class="icon ni ni-plus"></em></a>
+                                </li>
+                                <!-- 2nd timeslot -->
+                                <li id="container"></li>
+                                <li>
+                                    <div id="addfrom2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="thursday_from2" name="thursday_from2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <li><div id="labelto2" style="display:none;"><label class="title">to</label></div></li>
+                                <li >
+                                    <div id="addto2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="thursday_to2" name="thursday_to2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <!-- 2nd timeslot end -->
+                                </ul>
+                        </div>
+                            </div>
+                                <!-- Thursday -->
+
+                                <!-- Friday -->
+                                <div class="row gy-4" id="friday_div" style="display:none ;">
+                                    <div>
+                                <ul class="list-inline ml-3">
+                                    <li>
+                                    <div class="w-40">
+                                        <label class="title mr-2"> Friday </label>
+                                    </div>
+                                </li>
+                                <li class="ml-4">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="friday_from1" name="friday_from1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li><label class="title">to</label></li>
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="friday_to1" name="friday_to1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <!-- <li class="preview-btn-item">
+                                    <span class="preview-title overline-title"></span>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li> -->
+                                <li>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li>
+                                <!-- 2nd timeslot -->
+                                <li>
+                                    <div id="addfrom2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="friday_from2" name="friday_from2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <li><div id="labelto2" style="display:none;"><label class="title">to</label></div></li>
+                                <li >
+                                    <div id="addto2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="friday_to2" name="friday_to2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <!-- 2nd timeslot end -->
+                                </ul>
+                        </div>
+                            </div>
+                                <!-- Friday -->
+
+                                <!-- Saturday -->
+                                <div class="row gy-4" id="saturday_div" style="display:none ;">
+                                    <div>
+                                <ul class="list-inline ml-3">
+                                    <li>
+                                    <div class="w-40">
+                                        <label class="title mr-0">Saturday</label>
+                                    </div>
+                                </li>
+                                <li class="ml-3">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="saturday_from1" name="saturday_from1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li><label class="title">to</label></li>
+                                <li>
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="saturday_to1" name="saturday_to1">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <!-- <li class="preview-btn-item">
+                                    <span class="preview-title overline-title"></span>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li> -->
+                                <li>
+                                    <button  class="btn btn-round btn-icon btn-sm btn-light" onclick="addToggle()"><em class="icon ni ni-plus"></em></button>
+                                </li>
+                                <!-- 2nd timeslot -->
+                                <li>
+                                    <div id="addfrom2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="saturday_from2" name="saturday_from2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <li><div id="labelto2" style="display:none;"><label class="title">to</label></div></li>
+                                <li >
+                                    <div id="addto2" style="display:none;">
+                                    <div class="form-control-wrap">
+                                        <select class="form-select form-control form-control-lg" id="saturday_to2" name="saturday_to2">
+                                            <option value="default_option">9 AM </option>
+                                            <option value="option_select_name">10 AM </option>
+                                            <option value="option_select_name">11 AM</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </li>
+                                <!-- 2nd timeslot end -->
+                                </ul>
+                        </div>
+                            </div>
+                                <!-- Saturday -->
+                                    <!-- selected day and time slot selection  end -->
+                                    <!-- <div class="row g-4">
+                                        <div class="col-12">
+                                            <p>Learn more about <a href="">working hours</a></p>
+                                        </div>
+                                    </div> -->
+
+                                        <!-- date from and to elements -->
+                                        <!-- <div class="row g-4">
+                                            <div class="col-lg-12">
+                                                <p style="font-weight: bold;">Date</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="from_date">From</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="date" class="form-control " id="from_date" name="from_date" data-date-format="yyyy-mm-dd"  value="{{doctor_profile2.working_date_frm}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="to_date">To</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="date" class="form-control " id="to_date" name="to_date" data-date-format="yyyy-mm-dd"  value="{{doctor_profile2.working_date_to}}">
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                                <!-- Time slot heading -->
+                                            <!-- <div class="col-lg-12">
+                                                <p style="font-weight: bold;">Time</p>
+                                            </div> -->
+
+                                            <!-- <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="from_time">From</label>
+                                                    <div class="form-control-wrap">                                                        
+                                                        <input type="time" class="form-control form-control form-control-outlined time-picker" id="outlined-time-picker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="to_time">To</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="time" class="form-control form-control form-control-outlined time-picker" id="outlined-time-picker">
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <!-- date from and to elements end -->
+
+                                            <!-- Timeslot form elements -->
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="from_time">From</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="from_time" name="from_time" >
+                                                            <option value=""{% if doctor_profile2.time_slot_from == "" %}selected{% endif %}>Select Option</option>
+                                                            <option value="10"{% if doctor_profile2.time_slot_from == 10 %}selected{% endif %}>9.00 AM</option>
+                                                            <option value="11"{% if doctor_profile2.time_slot_from == 11 %}selected{% endif %}>10.00 AM</option>
+                                                            <option value="12"{% if doctor_profile2.time_slot_from == 12 %}selected{% endif %}>11.00 AM</option>
+                                                            <option value="13"{% if doctor_profile2.time_slot_from == 13 %}selected{% endif %}>12.00 PM</option>
+                                                            <option value="14"{% if doctor_profile2.time_slot_from == 14 %}selected{% endif %}>1.00 PM</option>
+                                                            <option value="15"{% if doctor_profile2.time_slot_from == 15 %}selected{% endif %}>2.00 PM</option>
+                                                            <option value="16"{% if doctor_profile2.time_slot_from == 16 %}selected{% endif %}>3.00 PM</option>
+                                                            <option value="17"{% if doctor_profile2.time_slot_from == 17 %}selected{% endif %}>4.00 PM</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="to_time">To</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="to_time" name="to_time" value="{{doctor_profile2.time_slot_to}}">
+                                                            <option value=""{% if doctor_profile2.time_slot_to == "" %}selected{% endif %}>Select Option</option>
+                                                            <option value="10"{% if doctor_profile2.time_slot_to == 10 %}selected{% endif %}>9.00 AM</option>
+                                                            <option value="11"{% if doctor_profile2.time_slot_to == 11 %}selected{% endif %}>10.00 AM</option>
+                                                            <option value="12"{% if doctor_profile2.time_slot_to == 12 %}selected{% endif %}>11.00 AM</option>
+                                                            <option value="13"{% if doctor_profile2.time_slot_to == 13 %}selected{% endif %}>12.00 PM</option>
+                                                            <option value="14"{% if doctor_profile2.time_slot_to == 14 %}selected{% endif %}>1.00 PM</option>
+                                                            <option value="15"{% if doctor_profile2.time_slot_to == 15 %}selected{% endif %}>2.00 PM</option>
+                                                            <option value="16"{% if doctor_profile2.time_slot_to == 16 %}selected{% endif %}>3.00 PM</option>
+                                                            <option value="17"{% if doctor_profile2.time_slot_to == 17 %}selected{% endif %}>4.00 PM</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  -->
+                                        <!-- time slots form elements end -->
+
+
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="option">Options</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="option" name="option">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="option2">Options</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="option2" name="option2">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Communication</label>
+                                                <ul class="custom-control-group g-3 align-center">
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-email-1">
+                                                            <label class="custom-control-label" for="com-email-1">Email</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-sms-1">
+                                                            <label class="custom-control-label" for="com-sms-1">SMS</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-phone-1">
+                                                            <label class="custom-control-label" for="com-phone-1">Phone</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Payment Methods</label>
+                                                <ul class="custom-control-group g-3 align-center">
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-card-1">
+                                                            <label class="custom-control-label" for="pay-card-1">Card</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-bitcoin-1">
+                                                            <label class="custom-control-label" for="pay-bitcoin-1">Bitcoin</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-cash-1">
+                                                            <label class="custom-control-label" for="pay-cash-1">Cash</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div> -->
+                                    <div class="row g-4">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-lg btn-dark">Update</button>
+                                                <a href="{{url_for('doctor_details',doctor_id=doctor_id)}}" class="btn btn-lg btn-dark">{#<em class="icon ni ni-arrow-left"></em>#}<span>Back</span></a>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- row div -->
+                                </form>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div><!-- card -->
+        </div><!-- .nk-block -->
+    </div><!-- .components-preview -->
+</div>
+</div>
+</div>
+</div>
+<!-- enable working hours toggle -->
+<script>
+    function workHourToggle(){
+        var enable_working_hours = document.getElementById("enable_working_hours");
+        var day_checkbox = document.getElementById("day_checkbox");
+        // var select_to2 = document.getElementById("addto2");
+        if (day_checkbox.style.display === "none") {
+            day_checkbox.style.display = "block";
+            
+        } 
+        else {
+            day_checkbox.style.display = "none";
+        }
+    }
+</script>
+
+<!-- days timeslot selection div toggle s -->
+<script>
+    function sundayToggle(){
+        var sunday_div = document.getElementById("sunday_div");
+        
+        if (sunday_div.style.display === "none") {
+            sunday_div.style.display = "block";            
+        } 
+        else {
+            sunday_div.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function mondayToggle(){
+        var monday_div = document.getElementById("monday_div");
+        
+        if (monday_div.style.display === "none") {
+            monday_div.style.display = "block";            
+        } 
+        else {
+            monday_div.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function tuesdayToggle(){
+        var tuesday_div = document.getElementById("tuesday_div");
+        
+        if (tuesday_div.style.display === "none") {
+            tuesday_div.style.display = "block";            
+        } 
+        else {
+            tuesday_div.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function wednesdayToggle(){
+        var wednesday_div = document.getElementById("wednesday_div");
+        
+        if (wednesday_div.style.display === "none") {
+            wednesday_div.style.display = "block";            
+        } 
+        else {
+            wednesday_div.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function thursdayToggle(){
+        var thursday_div = document.getElementById("thursday_div");
+        
+        if (thursday_div.style.display === "none") {
+            thursday_div.style.display = "block";            
+        } 
+        else {
+            thursday_div.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function fridayToggle(){
+        var friday_div = document.getElementById("friday_div");
+        
+        if (friday_div.style.display === "none") {
+            friday_div.style.display = "block";            
+        } 
+        else {
+            friday_div.style.display = "none";
+        }
+    }
+</script>
+
+<script>
+    function saturdayToggle(){
+        var saturday_div = document.getElementById("saturday_div");
+        
+        if (saturday_div.style.display === "none") {
+            saturday_div.style.display = "block";            
+        } 
+        else {
+            saturday_div.style.display = "none";
+        }
+    }
+</script>
+<!-- days timeslot selection div toggle e -->
+
+<script>
+    function sundaySlot2Toggle(){
+        var select_from2 = document.getElementById("addfrom2");
+        var labelto2 = document.getElementById("labelto2");
+        var select_to2 = document.getElementById("addto2");
+        var sunday_slot2 = document.getElementById("sunday_slot2");
+        if (select_from2.style.display === "none") {
+            select_from2.style.display = "block";
+            labelto2.style.display = "block";
+            select_to2.style.display = "block";
+            sunday_slot2.style.display = "none";
+            sunday_slot3.style.display = "block";
+        } 
+        // else {
+        //     another_doctor.style.display = "none";
+        //     select_doctor.style.display = "none";
+        // }
+    }
+</script>
+<script>
+    function sundaySlot3Toggle(){
+        var select_from3 = document.getElementById("addfrom3");
+        var labelto3 = document.getElementById("labelto3");
+        var select_to3 = document.getElementById("addto3");
+        if (select_from3.style.display === "none") {
+            select_from3.style.display = "block";
+            labelto3.style.display = "block";
+            select_to3.style.display = "block";
+            sunday_slot3.style.display = "none";
+            sunday_slot4.style.display = "block";
+        } 
+        // else {
+        //     another_doctor.style.display = "none";
+        //     select_doctor.style.display = "none";
+        // }
+    }
+</script>
+<script>
+    function sundaySlot4Toggle(){
+        var select_from4 = document.getElementById("addfrom4");
+        var labelto4 = document.getElementById("labelto4");
+        var select_to4 = document.getElementById("addto4");
+        if (select_from4.style.display === "none") {
+            select_from4.style.display = "block";
+            labelto4.style.display = "block";
+            select_to4.style.display = "block";
+            sunday_slot4.style.display = "none";
+            // sunday_slot4.style.display = "block";
+        } 
+        // else {
+        //     another_doctor.style.display = "none";
+        //     select_doctor.style.display = "none";
+        // }
+    }
+</script>
+
+<!-- "monday_add_from3" -->
+<script>
+    function mondaySlot2Toggle(){
+        var select_from2 = document.getElementById("monday_add_from2");
+        var labelto2 = document.getElementById("mondaylabel2");
+        var select_to2 = document.getElementById("monday_add_to2");
+        var monday_slot2 = document.getElementById("monday_slot2");
+        if (select_from2.style.display === "none") {
+            select_from2.style.display = "block";
+            labelto2.style.display = "block";
+            select_to2.style.display = "block";
+            monday_slot2.style.display = "none";
+            monday_slot3.style.display = "block";
+        } 
+        // else {
+        //     another_doctor.style.display = "none";
+        //     select_doctor.style.display = "none";
+        // }
+    }
+</script>
+
+<script>
+    function mondaySlot3Toggle(){
+        var select_from2 = document.getElementById("monday_add_from3");
+        var labelto2 = document.getElementById("mondaylabel3");
+        var select_to2 = document.getElementById("monday_add_to3");
+        var monday_slot2 = document.getElementById("monday_slot3");
+        if (select_from2.style.display === "none") {
+            select_from2.style.display = "block";
+            labelto2.style.display = "block";
+            select_to2.style.display = "block";
+            monday_slot3.style.display = "none";
+            monday_slot4.style.display = "block";
+        } 
+        // else {
+        //     another_doctor.style.display = "none";
+        //     select_doctor.style.display = "none";
+        // }
+    }
+</script>
+
+<script>
+    document.getElementById('generate').onclick = function w() {
+ 
+ var values = ["dog", "cat", "parrot", "rabbit"];
+
+ var select = document.createElement("select");
+ select.name = "pets";
+ select.id = "pets"
+
+ for (const val of values)
+ {
+     var option = document.createElement("option");
+     option.value = val;
+     option.text = val.charAt(0).toUpperCase() + val.slice(1);
+     select.appendChild(option);
+ }
+
+ var label = document.createElement("label");
+ label.innerHTML = "Choose your pets: "
+ label.htmlFor = "pets";
+
+ document.getElementById("container").appendChild(label).appendChild(select);
+}
+</script>
+
+{% endblock %}

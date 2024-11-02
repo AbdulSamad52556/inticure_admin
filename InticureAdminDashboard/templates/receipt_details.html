@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- content @s -->
+<div class="nk-content ">
+  <div class="container-fluid">
+      <div class="nk-content-inner">
+          <div class="nk-content-body">
+<div class="content">
+    <div class="container">
+      <div class="d-flex flex-row justify-content-between mg-b-10">
+        <div class="pd-10 " style="margin-left:30px ;"><h2 id="section1" class="mg-b-10">Receipt</h2></div>
+        <!-- <form action="" method="POST"> -->
+        <div class="pd-10 ">
+          {#<a href="#resultmodal" type="button" class="btn btn-outline-primary" data-toggle="modal">Result Upload</a>#}
+          {% if invoice_details['status'] == 2 %}
+          {#<a href="{{url_for('pay_confirm',appointment_id=invoice_details.appointment_id)}}" type="button" class="btn btn-outline-dark" >Pay</a>#}
+          {#<a href="{{url_for('invoice_preview')}}" type="button" class="btn btn-outline-dark" >Pay</a>#}
+          <!-- <button  type="submit" class="btn btn-outline-dark" >Pay</button> -->
+          {% endif %}
+        </div>
+    <!-- </form> -->
+      </div>
+   
+    
+      <!-- result upload modal code beginning-->    
+      <div class="modal fade" id="resultmodal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered wd-sm-400" role="document">
+          <div class="modal-content">
+            <div class="modal-body pd-20 pd-sm-40">
+              <a href="" role="button" class="close pos-absolute t-15 r-15" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </a>
+              <form action="" method="POST">
+              <div>
+                <h4>Result Upload</h4>
+                <!-- <p class="tx-color-03">Enter Booking Details & Upload File</p> -->
+                <!-- <div class="form-group">
+                  <label>Bookings</label>
+                  <select class="custom-select" id="booking" name="booking">
+                    <option value="" selected>Select</option>                
+                    <option value="1">Male</option>
+                    <option value="2">Female</option>   
+                  </select>  
+                </div> -->
+                <div class="form-group">
+                  <label>Invoice Details</label>
+                  <input type="text" class="form-control" id="role" name="role" placeholder="" value="{#{{booking_details['id']}}#}">
+                </div>
+                <div class="form-group">
+                  <label>Result</label>
+                  <input type="file" accept="image/png, .jpeg, .jpg, image/gif" class="custom-file-input" id="specialization_icon" name="specialization_icon">
+                <label class="custom-file-label">Choose file</label>
+                </div>
+    
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div><!-- modal-body -->
+          </div><!-- modal-content -->
+        </form>
+        </div><!-- modal-dialog -->
+      </div>
+     <!-- result upload modal code end -->
+    
+      <div class="card-body">
+    <div class="content tx-13">
+        <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+          <div class="row">
+            <div class="col-sm-6">
+              <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03 title overline-title text-base">Booked From</label>
+              <h6 class="tx-15 mg-b-10">Inticure App, Inc.</h6>
+              <p class="mg-b-0">Bangalore</p>
+              <p class="mg-b-0">Tel No: 324 445-4544</p>
+              <p class="mg-b-0">Email: info@inticure.com</p>
+            </div><!-- col -->
+            <div class="col-sm-6 tx-right d-none d-md-block">
+              <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03">Appointment Number</label>
+              <h1 class="tx-normal tx-color-04 mg-b-10 tx-spacing--2 text-soft">#{{invoice_details.appointment_id}} {# #DF032AZ00022 #}</h1>
+            </div><!-- col -->
+            <div class="col-sm-6 col-lg-8 mg-t-40 mg-sm-t-0 mg-md-t-40">
+                <p></p>
+              <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03 title overline-title text-base">Patient Details</label>
+              <h6 class="tx-15 mg-b-10">Name : {% if invoice_details['name'] %} {{invoice_details['name']}}{% else %} Not Available {% endif %}</h6>
+              <p class="mg-b-0">Age : {% if invoice_details['age'] %} {{invoice_details['age']}} {% else %} Not Available {% endif %} </p>
+              <p class="mg-b-0">Gender : {% if invoice_details['gender'] %} {{invoice_details['gender']}} {% else %} Not Available {% endif %} </p>
+              <p class="mg-b-0">Address : {% if invoice_details['address'] %} {{invoice_details['address']}} {% else %} Not Available {% endif %} </p>
+              <p class="mg-b-0">Phone : {% if invoice_details['phone_number'] %} {{invoice_details['phone_number']}}{% else %} Not Available {% endif %} </p>
+              <p class="mg-b-0">Email: {% if invoice_details['email'] %} {{invoice_details['email']}}{% else %} Not Available {% endif %} </p>
+            </div><!-- col -->
+            <div class="col-sm-6 col-lg-4 mg-t-40">
+              <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03 title overline-title text-base">Appointment Information</label>
+              <ul class="list-unstyled lh-7">
+                <li class="d-flex justify-content-between">
+                  <span>Appointment Number</span>
+                  <span>{{invoice_details.appointment_id}}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  <span>Appointment For</span>
+                  <span>{% if invoice_details['service'] %} {{invoice_details['service']}} {% else %} Not Available {% endif %}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  <span>Date</span>
+                  <span>{{invoice_details.issue_date|date_format}}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  <span>Time</span>
+                  <span>{{invoice_details['issue_time']|time_format}}</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  <span>Payment Status</span>
+                  <span>
+                    {% if invoice_details['status'] == 1 %}
+                    Paid
+                    {% elif invoice_details['status'] == 2 %}
+                    Pending
+                    {% endif %}
+                </span>
+                </li>
+                <li class="d-flex justify-content-between">
+                    <span>Invoice ID</span>
+                    <span>{{invoice_details['invoice_id']}}</span>
+                </li>
+                
+              </ul>
+            </div><!-- col -->
+          </div><!-- row -->
+    
+          <div class="table-responsive mg-t-40">
+            <table class="table table-invoice bd-b">
+              <thead>
+                <tr>
+                  <th class="wd-20p">Service </th>
+                  <!-- <th class="wd-40p d-none d-sm-table-cell">Description</th> -->
+                  <th class="tx-center">Vendor Fee</th>
+                  <th class="tx-right">Tax</th>
+                  <th class="tx-right">Total Amount</th>
+                  <th class="tx-right">Mode Of Payment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="tx-nowrap">{% if invoice_details['service'] %} {{invoice_details['service']}} {% else %} Not Available {% endif %}</td>
+                  <!-- <td class="d-none d-sm-table-cell tx-color-03">Sed ut perspiciatis unde omnis iste natus error 
+                    sit voluptatem accusantium doloremque laudantium, totam rem aperiam...</td> -->
+                  <td class="tx-center">{{invoice_details['vendor_fee']}}</td>
+                  <td class="tx-right"></td>
+                  <td class="tx-right">{{invoice_details['total']}}</td>
+                  <td class="tx-right">{{invoice_details['mode_of_pay']}}</td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+    
+          <div class="row justify-content-between">
+            <div class="col-sm-6 col-lg-6 order-2 order-sm-0 mg-t-40 mg-sm-t-0">
+              <label class="tx-sans tx-uppercase tx-10 tx-medium tx-spacing-1 tx-color-03"></label>
+              <p>For any help regarding bookings please contact us through info@inticure.com</p>
+            </div><!-- col -->
+            <!-- <div class="col-sm-6 col-lg-4 order-1 order-sm-0">
+              <ul class="list-unstyled lh-7 pd-r-10">
+                <li class="d-flex justify-content-between">
+                  <span>Sub-Total</span>
+                  <span>$5,750.00</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  <span>Tax (5%)</span>
+                  <span>$287.50</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  <span>Discount</span>
+                  <span>-$50.00</span>
+                </li>
+                <li class="d-flex justify-content-between">
+                  <strong>Total Due</strong>
+                  <strong>$5,987.50</strong>
+                </li>
+              </ul> -->
+    
+              <!-- <button class="btn btn-block btn-primary">Pay Now</button> -->
+            </div><!-- col -->
+          </div><!-- row -->
+        </div><!-- container -->
+      </div><!-- content -->
+    </div>
+    </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- content @e -->
+{% endblock %}

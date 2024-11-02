@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <div class="d-flex mb3">
+                                    <h4 class="nk-block-title mr-auto ">Appointments</h4>
+                                    {#<a href="html/user-list-regular.html"
+                                        class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                            class="icon ni ni-arrow-left"></em><span>Back</span></a>#}
+                                    {#<button class="d-sm-inline-flex btn btn-dark btn-md ">Add </button>#}
+                                    <button class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" data-toggle="modal"
+                                        data-target="#filter"><em class="icon ni ni-filter"></em><span>Filter</span></button>
+                                </div>
+                                <div class="nk-block-des">
+                                    {#<p>Using the most basic table markup, here’s how <code
+                                            class="code-class">.table</code> based tables look by default.</p>#}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <table class="datatable-init table" data-ordering="false">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Patient Name</th>
+                                            <th>Patient Email</th>
+                                            <th>Patient Phone</th>
+                                            <th>Doctor Name</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Meet Link</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for appointment in appointments %}
+                                        <tr>
+                                            <td><a href="{{url_for('appointment_details',appointment_id=appointment.appointment_id)}}">{{appointment.appointment_id}}</a></td>
+                                            <td>{% if appointment.user_fname %}
+                                                {{appointment.user_fname|capitalize}}
+                                                {{appointment.user_lname|capitalize}}
+                                                {% else %}
+                                                Not Available
+                                                {% endif %}
+                                            </td>
+                                            
+                                             <td>
+                                             {% if appointment.user_mail %}
+                                             {{appointment.user_mail}}
+                                           
+                                             {% endif %}
+                                             </td>
+                                             <td>
+                                             {% if appointment.user_phone %}
+                                             {{appointment.user_phone}}
+                                             {% else %}
+                                             Not Available
+                                             {% endif %}
+                                             </td>
+                                             <td>
+                                            {% if appointment.senior_doc_name %}
+                                            SR {{appointment.senior_doc_name}}
+                                            {% elif appointment.junior_doc_name %}
+                                            JR {{appointment.junior_doc_name}}
+                                            {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if appointment.type_booking == "new" %}
+                                            {% if appointment.sr_rescheduled_date %}
+                                                {{appointment.sr_rescheduled_date|date_format}}
+                                            {% elif appointment.escalated_date %}
+                                                {{appointment.escalated_date|date_format}}
+                                            {% elif appointment.rescheduled_date %}
+                                                {{appointment.rescheduled_date|date_format}}
+                                            {% elif appointment.appointment_date %}
+                                                {{appointment.appointment_date|date_format}} 
+                                            {% else %}
+                                                Not Available
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {% if (appointment.type_booking == "regular") or (appointment.type_booking == "followup") %}
+                                        {% if appointment.sr_rescheduled_date %}
+                                                {{appointment.sr_rescheduled_date|date_format}}
+                                        {% elif appointment.appointment_date %}
+                                                {{appointment.appointment_date|date_format}} 
+                                        {% endif %}
+                                        {% endif %}
+                                            </td>
+                                            <!-- <td>{{appointment.appointment_time}}</td> -->
+                                            <td>
+                                                {% if appointment.type_booking == "new" %}
+
+                                        {% if appointment.sr_rescheduled_time %}
+                                            {{appointment.sr_rescheduled_time}}
+
+                                        {% elif appointment.escalated_time_slot %}
+                                            {{appointment.escalated_time_slot}}
+                                        {% elif appointment.rescheduled_time %}
+                                            {{appointment.rescheduled_time }}
+                                        {% elif appointment.time_slot %}
+                                            {{appointment.time_slot}}
+                                        {% else %}
+                                            Not Available
+                                        {% endif %}
+
+                                    {% endif %}
+
+                                    {% if (appointment.type_booking == "regular") or (appointment.type_booking == "followup") %}
+
+                                        {% if appointment.sr_rescheduled_time %}
+                                            {{appointment.sr_rescheduled_time}}
+                                        {% elif appointment.time_slot %}
+                                            {{appointment.time_slot}}
+                                        {% endif %}
+
+                                    {% endif %}
+                                            </td>
+                                            <td>
+                                            {% if appointment.senior_meeting_link %}
+                                                {{appointment.senior_meeting_link}}
+                                            {% else %}
+                                                {{appointment.meeting_link}} 
+                                            {% endif %}
+                                            </td>
+                                            <td> 
+                                                {% if appointment.appointment_status == 0 %}
+                                                <span class="tb-status text-info">New</span>
+                                                {% elif appointment.appointment_status==1 %}
+                                                <span class="tb-status text-success">Accepted</span>
+                                                {% elif appointment.appointment_status==2 %}
+                                                <span class="tb-status text-primary">Escalated</span>
+                                                {% elif appointment.appointment_status==3 %}
+                                                <span class="tb-status text-danger">Cancelled</span>
+                                                {% elif appointment.appointment_status==4 %}
+                                                <span class="tb-status text-warning">Reschedule requested by doctor</span>
+                                                {% elif appointment.appointment_status==5 %}
+                                                <span class="tb-status text-warning">Reschedule requested by patient</span>
+                                                {% elif appointment.appointment_status==6 %}
+                                                <span class="tb-status text-gray">Closed</span>
+                                                {% elif appointment.appointment_status==7 %}
+                                                <span class="tb-status text-primary">Rescheduled</span>
+                                                {% elif appointment.appointment_status==8 %}
+                                                <span class="tb-status text-info">Follow Up</span>
+                                                {% elif appointment.appointment_status==9 %}
+                                                <span class="tb-status text-danger">No Show</span>
+                                                {% elif appointment.appointment_status==10 %}
+                                                <span class="tb-status text-danger">Transfered</span>
+                                                {% elif appointment.appointment_status==11 %}
+                                                <span class="tb-status text-danger">Transfered</span>
+                                                {% elif appointment.appointment_status==12 %}
+                                                <span class="tb-status text-danger">New</span>
+                                                {% endif %}    
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card-preview -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ########################## FILTER MODAL @S ################################## -->
+
+<div class="modal fade" tabindex="-1" id="filter" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" {#class="form-validate is-alter"#} {#novalidate="novalidate"#}>
+                    <input type="hidden" id="form_type" name="form_type" value="filter">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="status">Appointment Status</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="status" name="status">
+                                    <option value="">All</option>
+                                    <option value="0">New</option>
+                                    <option value="1">Accepted</option>
+                                    <option value="2">Escalated</option>
+                                    <option value="3">Cancelled</option>
+                                    <option value="4">Reschedule Request by Doctor</option>
+                                    <option value="5">Reschedule Request by Patient</option>
+                                    <option value="6">Closed</option>
+                                    <option value="7">Rescheduled</option>
+                                    <option value="8">Follow Up</option>
+                                    <option value="9">No Show</option>
+                                    <option value="10">Transfered</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="specialization">Specialization</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="specialization" name="specialization">
+                                    <option value="">Select Option</option>
+                                    <option value="sexologist">Sexologist</option>
+                                    <option value="psychologist">Psychologist</option>
+                                    <option value="dietitian">Dietitian</option>
+                                    <option value="somnologist">Somnologist</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="location" name="location">
+                                    <option value="">Select Option</option>
+                                    <option value="1">Trivandrum</option>
+                                    <option value="2">Kochi</option>
+                                    <option value="3">Kannur</option>
+                                    <option value="4">Thrissur</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Apply Filter</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- ########################## FILTER MODAL @E ################################## -->
+{% endblock %}

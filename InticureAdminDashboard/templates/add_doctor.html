@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="components-preview">
+                    <div class="nk-block-head nk-block-head-lg wide-sm">
+                        <div class="nk-block-head-content">
+                            <!-- <div class="nk-block-head-sub"><a class="back-to" href="html/components.html"><em class="icon ni ni-arrow-left"></em><span>Components</span></a></div> -->
+                            <h2 class="nk-block-title fw-normal">Add New Doctor</h2>
+                            <div class="nk-block-des">
+                                <!-- <p class="lead">Form is most esential part of your project. We styled out nicely so you can
+                                     build your form so quickly.</p> -->
+                            </div>
+                        </div>
+                    </div><!-- .nk-block -->
+                    <div class="nk-block nk-block-lg">
+                        <!-- <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <h4 class="title nk-block-title">Basic Form Style - S1</h4>
+                                <div class="nk-block-des">
+                                    <p>Below example helps you to build your own form nice way.</p>
+                                </div>
+                            </div>
+                        </div> -->
+                        <form action="" method="POST">
+                        <div class="card card-bordered">
+                            <div class="card-inner">
+                                <div class="card-head">
+                                    <h5 class="card-title">Doctor Info</h5>
+                                </div>
+                                <form action="#">
+                                    <div class="row g-4">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="first_name">First Name</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="first_name" name="first_name" required="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="last_name">Last Name</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="last_name" name="last_name" required="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="gender">Gender</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="gender" name="gender">
+                                                            <option value="">Select</option>
+                                                            <option value="male">Male</option>
+                                                            <option value="female">Female</option>                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="email_address">Email address</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="email_address" name="email_address" required="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="phone_no">Phone No</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="phone_no" name="phone_no">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="designation">Designation</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="designation" name="designation">
+                                                            <option value="">Select Option</option>
+                                                            <option value="junior">Junior Doctor</option>
+                                                            <option value="senior">Senior Doctor</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="category_id">Category Id</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="category_id">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="category_id">Category</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="category_id" name="category_id">
+                                                            <option value="">Select</option>
+                                                            <option value="1">Sexual Issues</option>
+                                                            <option value="2">Stress & Anxiety</option>
+                                                            <option value="3">Diet & Nutrition</option>
+                                                            <option value="4">Sleep Disorder</option>
+                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="specialization">Specialization</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="specialization" name="specialization">
+                                                            <option value="">Select Option</option>
+                                                            {% for specialization in specializations %}
+                                                            <option value="{{specialization.specialization}}">{{specialization.specialization|capitalize}}</option>
+                                                            {% endfor %} 
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Language</label>
+                                                <div class="form-control-wrap">
+                                                    <select class="form-select" multiple="multiple" id="language" name="language" data-placeholder="Select options">
+                                                        <option value="">Select</option>
+                                                        {% for language in languages %}   
+                                                        <option value="{{language.language}}">{{language.language|capitalize}}</option>  
+                                                        {% endfor %}                                                                                                            
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="language">Language</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="language" name="language">
+                                                            <option value="">Select</option>
+                                                            <option value="english">English</option>
+                                                            <option value="malayalam">Malayalam</option>                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="location">Location</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="location" name="location">
+                                                            <option value="">Select Option</option>
+                                                            <option value="1">India</option>
+                                                            <option value="2">US</option>
+                                                            <!-- <option value="Kannur">Kannur</option>
+                                                            <option value="Thrissur">Thrissur</option> -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="default-06">Upload Signature</label>
+                                                <div class="form-control-wrap">
+                                                    <div class="custom-file">
+                                                        <input type="file" multiple="" class="custom-file-input" id="customFile" name="customFile">
+                                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-lg btn-dark">Add</button>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="option">Options</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="option" name="option">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="form-label" for="option2">Options</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="option2" name="option2">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Communication</label>
+                                                <ul class="custom-control-group g-3 align-center">
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-email-1">
+                                                            <label class="custom-control-label" for="com-email-1">Email</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-sms-1">
+                                                            <label class="custom-control-label" for="com-sms-1">SMS</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-phone-1">
+                                                            <label class="custom-control-label" for="com-phone-1">Phone</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Payment Methods</label>
+                                                <ul class="custom-control-group g-3 align-center">
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-card-1">
+                                                            <label class="custom-control-label" for="pay-card-1">Card</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-bitcoin-1">
+                                                            <label class="custom-control-label" for="pay-bitcoin-1">Bitcoin</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-cash-1">
+                                                            <label class="custom-control-label" for="pay-cash-1">Cash</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    {#
+                                    <div class="nk-divider divider md"></div>
+                                        <h6>Working Hours Details</h6>
+                                        <div class="row g-4">
+                                            <div class="col-lg-12">
+                                                <p style="font-weight: bold;">Date</p>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <!-- <h6>Date</h6> -->
+                                                <div class="form-group">
+                                                    <label class="form-label" for="from_date">From</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="date" class="form-control " id="from_date" name="from_date" data-date-format="yyyy-mm-dd"  value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="to_date">To</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="date" class="form-control " id="to_date" name="to_date" data-date-format="yyyy-mm-dd"  value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-12">
+                                                <p style="font-weight: bold;">Time</p>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="from_time">From</label>
+                                                    <div class="form-control-wrap ">
+                                                        <div class="form-control-select">
+                                                            <select class="form-control" id="from_time" name="from_time">
+                                                                <option value="">Select Option</option>
+                                                                <option value="10">9.00 AM</option>
+                                                                <option value="11">10.00 AM</option>
+                                                                <option value="12">11.00 AM</option>
+                                                                <option value="13">12.00 PM</option>
+                                                                <option value="14">1.00 PM</option>
+                                                                <option value="15">2.00 PM</option>
+                                                                <option value="16">3.00 PM</option>
+                                                                <option value="17">4.00 PM</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+    
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="to_time">To</label>
+                                                    <div class="form-control-wrap ">
+                                                        <div class="form-control-select">
+                                                            <select class="form-control" id="to_time" name="to_time">
+                                                                <option value="">Select Option</option>
+                                                                <option value="10">9.00 AM</option>
+                                                                <option value="11">10.00 AM</option>
+                                                                <option value="12">11.00 AM</option>
+                                                                <option value="13">12.00 PM</option>
+                                                                <option value="14">1.00 PM</option>
+                                                                <option value="15">2.00 PM</option>
+                                                                <option value="16">3.00 PM</option>
+                                                                <option value="17">4.00 PM</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+
+                                            <!-- <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="from_time">From</label>
+                                                    <div class="form-control-wrap">                                                        
+                                                        <input type="time" class="form-control form-control form-control-outlined time-picker" id="outlined-time-picker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="to_time">To</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="t" class="form-control form-control form-control-outlined time-picker" id="outlined-time-picker">
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            
+                                        
+                                    </div>
+                                    #}
+                                </form>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div><!-- card -->
+        </div><!-- .nk-block -->
+    </div><!-- .components-preview -->
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

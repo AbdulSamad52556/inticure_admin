@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content ">
+
+<!-- SWEET ALERTS @S -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<script>
+   
+Swal.fire({
+
+       title:"{{ category.title() }}!",
+       // success , error , warning ,info
+
+       text: "{{ message }}",
+       // Custom message flashed from your flask routes
+
+       icon: "{{ category }}"
+       // success , error , warning ,info
+
+})
+
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<!-- SWEET ALERTS @E -->
+
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="card">
+                        <div class="card-aside-wrap">
+                            <div class="card-inner card-inner-lg">
+                                <div class="nk-block-head nk-block-head-lg">
+                                    <div class="nk-block-between">
+                                        <div class="nk-block-head-content">
+                                            <h4 class="title nk-block-title">Edit Category</h4>
+                                            <div class="nk-block-des">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-inner">
+                                            <div class="card-head">
+                                                {# <h5 class="card-title">Select Date and Time</h5>#}
+                                            </div>
+                                            <form action="" method="POST" class="gy-3">
+                                                
+                                                <div class="row g-3 align-center">
+                                                    <div class="col-lg-5">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Title</label>
+                                                            <span class="form-note"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div class="form-group">
+                                                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control" id="title"
+                                                                    name="title" value="{{edit_cat.title}}" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                                <div class="row g-3 align-center">
+                                                    <div class="col-lg-5">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Description</label>
+                                                            <span class="form-note"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div class="form-group">
+                                                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control" id="description"
+                                                                    name="description" value="{{edit_cat.description}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>                                                                                                
+                                                
+                                                <div class="row g-3">
+                                                    <div class="col-lg-7 offset-lg-5">
+                                                        <div class="form-group mt-2">
+                                                            <button type="submit" class="btn btn-md btn-dark">Update </button>
+                                                            <!-- {#<a href="{{url_for('follow_up_preview')}}" type="submit" class="btn btn-md btn-dark" >Send Appointment Request</a>#} -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div><!-- card -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

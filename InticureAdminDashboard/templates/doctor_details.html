@@ -1,0 +1,664 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content ">
+
+<!-- SWEET ALERTS @S -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<script>
+   
+Swal.fire({
+
+       title:"{{ category.title() }}!",
+       // success , error , warning ,info
+
+       text: "{{ message }}",
+       // Custom message flashed from your flask routes
+
+       icon: "{{ category }}"
+       // success , error , warning ,info
+
+})
+
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<!-- SWEET ALERTS @E -->
+
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between g-3">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">
+                                <!-- Doctor Details : -->
+                                <!-- {#<strong class="text-primary small">Abu Bin Ishtiyak</strong>#} -->
+                                {% if doctor_profile1.first_name %}
+                                    Dr {{doctor_profile1.first_name|capitalize}} {{doctor_profile1.last_name|capitalize}}
+                                {% else %}
+                                    Name of Doctor Not Available
+                                                    
+                                {% endif %}
+                            </h3>
+                            <a {% if doctor_profile2.is_accepted ==1 %} style="display:block;"{% else %} style="display:none;" {% endif %} style="color: green;"><em class="icon ni ni-check-circle-fill" style="color: green;"></em>Approved Profile</a>
+                            <a {% if doctor_profile2.is_accepted ==0 %} style="display:block;"{% else %} style="display:none;" {% endif %} style="color: red;"><em class="icon ni ni-cross-circle-fill" style="color: red;"></em>Rejected Profile</a>
+                            <div class="nk-block-des text-soft">
+                                {#
+                                <ul class="list-inline">
+                                    <li>User ID: <span class="text-base">UD003054</span></li>
+                                    <li>Last Login: <span class="text-base">15 Feb, 2019 01:02 PM</span></li>
+                                </ul>
+                                #}
+                            </div>
+                        </div>
+                        
+                        <div class="nk-block-head-content">
+                            <ul class="list-inline">
+                            {% if (doctor_profile2.is_accepted != 1) or (doctor_profile2.is_accepted != 0) %}
+                            <li style="margin-right:2px ;">
+                            <a id="accept_doctor_btn" {% if (doctor_profile2.is_accepted == 1) or (doctor_profile2.is_accepted == 0) %} style="display:none;"{% else %} style="display:block;" {% endif %} data-toggle="modal" href="#accept_doctor" class="btn btn-primary ">Accept</a>
+                        </li>
+                        <li>
+                            <a id="reject_doctor_btn" {% if (doctor_profile2.is_accepted ==1) or (doctor_profile2.is_accepted ==0) %} style="display:none;"{% else %} style="display:block;" {% endif %} data-toggle="modal" href="#reject_doctor" class="btn btn-outline-danger ">Reject</a>
+                        </li>
+
+                            {% endif %}
+                            {#
+                            <a {% if doctor_profile2.is_accepted ==1 %} style="display:block;"{% else %} style="display:none;" {% endif %} style="color: green;"><em class="icon ni ni-check-circle-fill" style="color: green;"></em>Approved Profile</a>
+                            <a {% if doctor_profile2.is_accepted ==0 %} style="display:block;"{% else %} style="display:none;" {% endif %} style="color: red;"><em class="icon ni ni-cross-circle-fill" style="color: red;"></em>Rejected Profile</a>
+                            #}
+                            <a href="{{url_for('doctors')}}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                            <a href="{{url_for('doctors')}}" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
+                            </ul>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card">
+                        {#<div class="card-aside-wrap">#}
+                            <div class="card-content">
+                                <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#personal_info">{#<em class="icon ni ni-user-circle">#}</em><span>Personal</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#documents">{#<em class="icon ni ni-repeat"></em>#}<span>Documents</span></a>
+                                    </li>
+                                    <!--
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#appointments">{#<em class="icon ni ni-repeat"></em>#}<span>Appointments</span></a>
+                                    </li>
+                                    -->
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#timeslots">{#<em class="icon ni ni-repeat"></em>#}<span>Time Slots</span></a>
+                                    </li>
+                                    
+                                    {#
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#"><em class="icon ni ni-file-text"></em><span>Documents</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#"><em class="icon ni ni-bell"></em><span>Notifications</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#"><em class="icon ni ni-activity"></em><span>Activities</span></a>
+                                    </li>
+                                    #}
+                                    {#
+                                    <li class="nav-item nav-item-trigger d-xxl-none">
+                                        <a href="#" class="toggle btn btn-icon btn-trigger" data-target="userAside"><em class="icon ni ni-user-list-fill"></em></a>
+                                    </li>
+                                    #}
+                                </ul><!-- .nav-tabs -->
+
+                               <!-- ################################### TAB CONTENT @S ############################################ -->
+                               <div class="tab-content">
+                                <!-- personal info tab -->
+                                <div class="tab-pane active" id="personal_info">
+                                <div class="card-inner">
+                                    <div class="nk-block">
+                                        {#<div class="nk-block-head">#}
+                                            {#<h5 class="title">Personal Information</h5>#}
+                                            {#<p>Basic info, like your name and address, that you use on Nio Platform.</p>#}
+                                        {#</div>#}
+                                        <div class="d-flex mb-3 " style="margin-left:55px ;">
+                                            <h5 class="title mr-auto">
+                                                {#Patient Information#}
+                                                {% if doctor_profile1.first_name %}
+                                                Dr {{doctor_profile1.first_name|capitalize}} {{doctor_profile1.last_name|capitalize}}
+                                                {% else %}
+                                                    Name of Doctor Not Available
+                                                    
+                                                {% endif %}
+                                            </h5>
+                                            
+                                            
+                                            <div class="dropdown">
+                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-v-alt"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                    <ul class="link-list-plain">
+                                                        {#<li><a href="">View</a></li>#}
+                                                        <li><a href="{{url_for('update_doctor',doctor_id=doctor_profile2.user_id)}}">Edit</a></li>
+                                                        {#<li><a href="#">Edit</a></li>#}
+                                                        {#<li><a href="#">Remove</a></li>#}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>   
+                                        <!-- .nk-block-head -->
+                                        {% if doctor_profile2.doctor_bio %}
+                                        <div class="col-12" style="margin-bottom: 5px; margin-left: 40px;margin-right: 40px; padding-right: 40px;">
+                                            <h6>Bio</h6>
+                                            <p>{{doctor_profile2.doctor_bio}}</p>
+                                        </div>
+                                        {% endif %}
+                                        <div class="profile-ud-list" style="margin-left: 5px;">
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Designation</span>
+                                                    <span class="profile-ud-value">
+                                                        {% if doctor_profile2.doctor_flag %}
+                                                    {{doctor_profile2.doctor_flag | capitalize}} Doctor
+                                                    {% else %}
+                                                    Not Available
+                                                    {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Specialization</span>
+                                                    <span class="profile-ud-value">{{doctor_profile2.specialization|capitalize}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Qualification</span>
+                                                    <span class="profile-ud-value">{{doctor_profile2.qualification}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Languages Known</span>
+                                                    <span class="profile-ud-value">{{language_known}}</span>
+                                                </div>
+                                            </div>
+                                            {#
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Date of Birth</span>
+                                                    <span class="profile-ud-value">10 Aug, 1980</span>
+                                                </div>
+                                            </div>
+                                            #}
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Gender</span>
+                                                    <span class="profile-ud-value">{{doctor_profile2.gender|capitalize}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Mobile Number</span>
+                                                    <span class="profile-ud-value">{{doctor_profile2.mobile_number}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Email Address</span>
+                                                    <span class="profile-ud-value">{{doctor_profile1.email}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Location</span>
+                                                    <span class="profile-ud-value">
+                                                        {% if doctor_profile2.location %}
+                                                            {% if doctor_profile2.location == '1' %}
+                                                                India 
+                                                            {% elif doctor_profile2.location == '2' %}
+                                                                Outside India
+                                                            {% endif %}
+                                                        {% endif %}
+                                                        
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div><!-- .profile-ud-list -->
+                                    </div><!-- .nk-block -->
+                                
+                                    <div class="nk-block">
+                                        {#
+                                        <div class="nk-block-head nk-block-head-line">
+                                            <h6 class="title overline-title text-base">Additional Information</h6>
+                                        </div><!-- .nk-block-head -->
+                                        #}
+                                        <div class="profile-ud-list">
+                                           
+                                        </div><!-- .profile-ud-list -->
+                                    </div><!-- .nk-block -->
+                                    
+                                </div><!-- .card-inner -->
+                                </div>
+                                <!-- doctor personal info tab content end -->
+
+                                <!-- DOCUMENTS TAB CONTENT start-->
+                                <div class="tab-pane " id="documents">
+                                    <div class="card card-preview">
+                                        <div class="card-inner">
+
+                                           
+
+                                            <ul {#class="inline-list"#} style="margin-left:20px ">
+                                                {% if doctor_profile2.registration_certificate %}
+                                                
+                                                <li>
+                                                <a href="{{url_for('user_download',file_path=doctor_profile2.registration_certificate,doctor_id=doctor_profile2.user_id)}}" >
+                                                    <em class="icon ni ni-file-download" style="font-size:xxx-large;"></em></a>
+                                                </li>
+                                                <li>Certificate</li>
+                                                {#<li>{{doctor_profile2.registration_certificate}}</li>#}
+                                                {% endif %}
+                                                {% if doctor_profile2.address_proof %}
+                                                
+                                                <li>
+                                                    <a href="{{url_for('user_download',file_path=doctor_profile2.address_proof,doctor_id=doctor_profile2.user_id)}}" >
+                                                        <em class="icon ni ni-file-download" style="font-size:xxx-large;"></em></a>
+                                                    </li>
+                                                <li>Address Proof</li>
+                                                {#<li>{{doctor_profile2.address_proof}}</li>#}
+                                                {% endif %}
+                                                {% if doctor_profile2.signature %}
+                                                
+                                                <li>
+                                                    <a href="{{url_for('user_download',file_path=doctor_profile2.signature,doctor_id=doctor_profile2.user_id)}}" >
+                                                        <em class="icon ni ni-file-download" style="font-size:xxx-large;"></em></a>
+                                                    </li>
+                                                <li>Signature</li>
+                                                {#<li>{{doctor_profile2.signature}}</li>#}
+                                                {% endif %}
+
+                                                {% if doctor_profile2.profile_pic %}                                                
+                                                <li>
+                                                    <a href="{{url_for('user_download',file_path=doctor_profile2.profile_pic,doctor_id=doctor_profile2.user_id)}}" >
+                                                        <em class="icon ni ni-file-download" style="font-size:xxx-large;"></em></a>
+                                                    </li>
+                                                <li>Photo</li>
+                                                {#<li>{{doctor_profile2.profile_pic}}</li>#}
+                                                {% endif %}
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- DOCUMENTS TAB CONTENT end-->
+
+                                <!-- appointments tab content start-->
+                                <div class="tab-pane " id="appointments">
+                                    <div class="card card-preview">
+                                        <div class="card-inner">
+                                            <table class="datatable-init table" data-ordering="false">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Order ID</th>
+                                                        <th>Patient</th>
+                                                        <th>Date</th>
+                                                        <th>Time</th>
+                                                        <th>Category</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for order in appointment_list %}
+                                                    <tr>
+                                                        <td>{{loop.index}}</td>
+                                                        <td>
+                                                            <a href="{{url_for('appointment_details',appointment_id=order.appointment_id)}}"><span>#{{order.appointment_id}}</span></a>
+                                                        </td>
+                                                        <td>
+                                                            {% if order.user_fname %}
+                                                                {{order.user_fname}} {{order.user_lname}}
+                                                            {% else %}
+                                                                {{order.user_mail}}
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{order.appointment_date|date_format}}</td>
+                                                        <td>{{order.time_slot}}</td>
+                                                        <td>{{order.category}}</td>
+                                                        <td>
+                                                            {% if order.appointment_status==0 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-info">New</span>
+                                                            {% elif order.appointment_status==1 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-success">Accepted</span>
+                                                            {% elif order.appointment_status==2 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-primary">Escalated</span>
+                                                            {% elif order.appointment_status==3 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-danger">Cancelled</span>
+                                                            {% elif order.appointment_status==4 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-warning">Reschedule requested by doctor</span>
+                                                            {% elif order.appointment_status==5 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-gray">Reschedule request sent to doctor</span>
+                                                            {% elif order.appointment_status==6 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-secondary">Closed</span>
+                                                            {% elif order.appointment_status == 7 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-primary">Rescheduled</span>
+                                                            {% elif order.appointment_status==8 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-info">Follow up</span>
+                                                            {% elif order.appointment_status==9 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-danger">No show</span>
+                                                            {% elif order.appointment_status==10 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-danger">Transfered </span>
+                                                            {% elif order.appointment_status==11 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-danger">Transfered</span>
+                                                            {% elif order.appointment_status==12 %}
+                                                            <span class="badge badge-dot badge-dot-xs badge-warning">New Paid</span>
+                                                            {% endif %}  
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="tab-pane " id="timeslots">
+                                    <div class="card card-preview">
+                                        <div class="card-inner">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Time Slot</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <!-- Example rows, replace with dynamic data -->
+                                                    {% for time in doctor_time_slot %}
+                                                    <tr>
+                                                        <td>{{time.date}}</td>
+                                                        <td>{{time.time_slot}} - {{time.end_time}}</td>
+                                                        {% if time.is_active == 0 %}
+                                                            <td class="status active">Active</td>
+                                                        {% else %}
+                                                        <td class="status inactive">Inactive</td>
+                                                        {% endif %}
+                                                    </tr>
+                                                    
+                                                    {% endfor %}
+                                                    <!-- More rows here -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- appointments tab content end-->
+                                <!-- ############################################################## -->
+                               </div>
+                               <!-- tab content end -->
+                               <!-- ########################################################################### -->
+                            </div><!-- .card-content -->
+
+                            {#
+                            <div class="card-aside card-aside-right user-aside toggle-slide toggle-slide-right toggle-break-xxl toggle-screen-xxl" data-content="userAside" data-toggle-screen="xxl" data-toggle-overlay="true" data-toggle-body="true">
+                                <div class="card-inner-group" data-simplebar="init"><div class="simplebar-wrapper" style="margin: 0px;"><div class="simplebar-height-auto-observer-wrapper"><div class="simplebar-height-auto-observer"></div></div><div class="simplebar-mask"><div class="simplebar-offset" style="right: 0px; bottom: 0px;"><div class="simplebar-content-wrapper" style="height: auto; overflow: hidden scroll;"><div class="simplebar-content" style="padding: 0px;">
+                                    <div class="card-inner">
+                                        <div class="user-card user-card-s2">
+                                            <div class="user-avatar lg bg-primary">
+                                                <span>AB</span>
+                                            </div>
+                                            <div class="user-info">
+                                                <div class="badge badge-outline-light badge-pill ucap">Investor</div>
+                                                <h5>Abu Bin Ishtiyak</h5>
+                                                <span class="sub-text">info@softnio.com</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner card-inner-sm">
+                                        <ul class="btn-toolbar justify-center gx-1">
+                                            <li><a href="#" class="btn btn-trigger btn-icon"><em class="icon ni ni-shield-off"></em></a></li>
+                                            <li><a href="#" class="btn btn-trigger btn-icon"><em class="icon ni ni-mail"></em></a></li>
+                                            <li><a href="#" class="btn btn-trigger btn-icon"><em class="icon ni ni-download-cloud"></em></a></li>
+                                            <li><a href="#" class="btn btn-trigger btn-icon"><em class="icon ni ni-bookmark"></em></a></li>
+                                            <li><a href="#" class="btn btn-trigger btn-icon text-danger"><em class="icon ni ni-na"></em></a></li>
+                                        </ul>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <div class="overline-title-alt mb-2">In Account</div>
+                                        <div class="profile-balance">
+                                            <div class="profile-balance-group gx-4">
+                                                <div class="profile-balance-sub">
+                                                    <div class="profile-balance-amount">
+                                                        <div class="number">2,500.00 <small class="currency currency-usd">USD</small></div>
+                                                    </div>
+                                                    <div class="profile-balance-subtitle">Invested Amount</div>
+                                                </div>
+                                                <div class="profile-balance-sub">
+                                                    <span class="profile-balance-plus text-soft"><em class="icon ni ni-plus"></em></span>
+                                                    <div class="profile-balance-amount">
+                                                        <div class="number">1,643.76</div>
+                                                    </div>
+                                                    <div class="profile-balance-subtitle">Profit Earned</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <div class="row text-center">
+                                            <div class="col-4">
+                                                <div class="profile-stats">
+                                                    <span class="amount">23</span>
+                                                    <span class="sub-text">Total Order</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="profile-stats">
+                                                    <span class="amount">20</span>
+                                                    <span class="sub-text">Complete</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="profile-stats">
+                                                    <span class="amount">3</span>
+                                                    <span class="sub-text">Progress</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <h6 class="overline-title-alt mb-2">Additional</h6>
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <span class="sub-text">User ID:</span>
+                                                <span>UD003054</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Last Login:</span>
+                                                <span>15 Feb, 2019 01:02 PM</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">KYC Status:</span>
+                                                <span class="lead-text text-success">Approved</span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="sub-text">Register At:</span>
+                                                <span>Nov 24, 2019</span>
+                                            </div>
+                                        </div>
+                                    </div><!-- .card-inner -->
+                                    <div class="card-inner">
+                                        <h6 class="overline-title-alt mb-3">Groups</h6>
+                                        <ul class="g-1">
+                                            <li class="btn-group">
+                                                <a class="btn btn-xs btn-light btn-dim" href="#">investor</a>
+                                                <a class="btn btn-xs btn-icon btn-light btn-dim" href="#"><em class="icon ni ni-cross"></em></a>
+                                            </li>
+                                            <li class="btn-group">
+                                                <a class="btn btn-xs btn-light btn-dim" href="#">support</a>
+                                                <a class="btn btn-xs btn-icon btn-light btn-dim" href="#"><em class="icon ni ni-cross"></em></a>
+                                            </li>
+                                            <li class="btn-group">
+                                                <a class="btn btn-xs btn-light btn-dim" href="#">another tag</a>
+                                                <a class="btn btn-xs btn-icon btn-light btn-dim" href="#"><em class="icon ni ni-cross"></em></a>
+                                            </li>
+                                        </ul>
+                                    </div><!-- .card-inner -->
+                                </div></div></div></div><div class="simplebar-placeholder" style="width: auto; height: 890px;"></div></div><div class="simplebar-track simplebar-horizontal" style="visibility: hidden;"><div class="simplebar-scrollbar" style="width: 0px; display: none;"></div></div><div class="simplebar-track simplebar-vertical" style="visibility: visible;"><div class="simplebar-scrollbar" style="height: 757px; transform: translate3d(0px, 0px, 0px); display: block;"></div></div></div><!-- .card-inner -->
+                            </div><!-- .card-aside -->
+                        </div><!-- .card-aside-wrap -->
+                        #}
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content end -->
+<!-- --------------------- ACCEPT DOCTOR MODAL @S --------------------------------- -->
+
+<div class="modal fade" tabindex="-1" id="accept_doctor" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="1">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-info-i bg-info"></em>
+                    <h4 class="nk-modal-title">Please Confirm</h4>
+                    <div class="nk-modal-text">
+                        <p class="lead">Accepting this profile implies that you have verified the information 
+                            provided by this doctor.</p>
+                        <!-- <p class="text-soft">If you need help please contact us at (855) 485-7373.</p> -->
+                    </div>
+                    <div class="nk-modal-action mt-5">
+                        {#<button type="submit" class="btn btn-lg btn-mw btn-primary">Accept profile</button>#}
+                        <a href="#doctor_desig" data-toggle="modal" type="button" class="btn btn-lg btn-mw btn-primary">Accept</a>
+                        <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                    </div>
+                </div>
+                </form>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+<!-- --------------------- ACCEPT DOCTOR MODAL @E --------------------------------- -->
+
+<!-- ---------------------  DOCTOR DESIGNATION MODAL @S --------------------------------- -->
+
+<div class="modal fade" tabindex="-1" id="doctor_desig" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="doctor_designation">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-info-i bg-info"></em>
+                    <h4 class="nk-modal-title">Add Designation</h4>
+                    <div class="nk-modal-text">
+                        <!-- <div class="col-lg-6"> -->
+                            <div class="form-group">
+                                {#<label class="form-label" for="designation">Please Add Designation</label>#}
+                                <div class="form-control-wrap ">
+                                    <div class="form-control-select">
+                                        <select class="form-control" id="designation" name="designation">
+                                            {#<option value="">Select Option</option>#}
+                                            <option value="junior">Junior Doctor</option>
+                                            <option value="senior">Senior Doctor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                    
+                            
+                    </div>
+                    <div class="nk-modal-action mt-5">
+                        <button type="submit" class="btn btn-lg btn-mw btn-primary">Save</button>
+                        {#<a href="" type="button" class="btn btn-lg btn-mw btn-dark">Accept</a>#}
+                        <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                    </div>
+                </div>
+                </form>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+<!-- ---------------------  DOCTOR DESIGNATION MODAL @E --------------------------------- -->
+
+<!-- --------------------- REJECT DOCTOR MODAL @S --------------------------------- -->
+<div class="modal fade" tabindex="-1" id="reject_doctor" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="reject">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-info-i bg-danger"></em>
+                    <h4 class="nk-modal-title">Please Confirm</h4>
+                    <div class="nk-modal-text">
+                        <p class="lead">Rejecting this profile implies that you have verified the information 
+                            provided by this doctor.</p>
+                        <!-- <p class="text-soft">If you need help please contact us at (855) 485-7373.</p> -->
+                    </div>
+                    <div class="nk-modal-action mt-5">
+                        <button type="submit" class="btn btn-lg btn-mw btn-primary">Reject profile</button>
+                        {#<a href="" type="button" class="btn btn-lg btn-mw btn-dark">Reject</a>#}
+                        <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                    </div>
+                </div>
+                </form>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 70%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e6f7ff;
+        }
+        .status {
+            font-weight: bold;
+        }
+        .active {
+            color: green;
+        }
+        .inactive {
+            color: red;
+        }
+    </style>
+<!-- --------------------- REJECT DOCTOR MODAL @E --------------------------------- -->
+{% endblock %}

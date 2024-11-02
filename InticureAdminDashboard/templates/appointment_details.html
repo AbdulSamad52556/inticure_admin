@@ -1,0 +1,1647 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- content @s -->
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between g-3">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Appointment ID {{appointment_details.appointment_id}} 
+                                <input type="hidden" id="appointment_id" name="appointment_id" value="{{appointment_details.appointment_id}}">
+                                {#<strong class="text-primary small">Abu Bin Ishtiyak</strong>#}</h3>
+                            <div class="nk-block-des text-soft">
+                                <ul class="list-inline">
+                                    {#<li >App.ID: <span class="text-base">{{appointment_details.appointment_id}}</span></li>#}
+                                    <li>Booked On: <span class="text-base">{{appointment_details.booked_on|date_format}}</span></li>
+                                    <li>Appointment Type: <span class="text-base">
+                                        {% if appointment_details.is_free == 1 %}
+                                        Free 
+                                        {% elif appointment_details.is_free == 0 %}
+                                        Paid
+                                        {% endif %}
+                                    </span></li>
+                                    <li>Status: <span class="text-base">
+                                        {% if appointment_details.appointment_status == 0 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-info">New</span>
+                                        {% elif appointment_details.appointment_status==1 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-success">Accepted</span>
+                                        {% elif appointment_details.appointment_status==2 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-primary">Escalated</span>
+                                        {% elif appointment_details.appointment_status==3 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-danger">Cancelled</span>
+                                        {% elif appointment_details.appointment_status==4 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-gray">Reschedule Req.</span>
+                                        {% elif appointment_details.appointment_status==5 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-warning">Reschedule Req.</span>
+                                        {% elif appointment_details.appointment_status==6 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-secondary">Closed</span>
+                                        {% elif appointment_details.appointment_status==7 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-primary">Rescheduled</span>
+                                        {% elif appointment_details.appointment_status==8 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-info">Follow up</span>
+                                        {% elif appointment_details.appointment_status==9 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-danger">No show</span>
+                                        {% elif appointment_details.appointment_status==10 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-danger">Transfered </span>
+                                        {% elif appointment_details.appointment_status==11 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-danger">Transfered</span>
+                                        {% elif appointment_details.appointment_status==12 %}
+                                        <span class="badge badge-dot badge-dot-xs badge-warning">New Paid</span>
+                                        {% endif %}     
+                                    </span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        {#
+                        <div class="nk-block-head-content">
+                            <a href="{{url_for('customers')}}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                            <!-- <a href="dashboard/doctor_dash" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a> -->
+                            <!-- <a href="html/user-list-regular.html" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Down</span></a> -->
+                            
+                           
+                            <!-- {% if appointment_details.appointment_status == 6 %} 
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-dark" data-toggle="dropdown" aria-expanded="false"><span>More Actions</span><em class="icon ni ni-chevron-down"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-auto mt-1" style="">
+                                    <ul class="link-list-plain">
+                                        
+                                        <li><a data-toggle="modal" data-target="#add_observation">Add Observation</a></li>
+                                        <li><a data-toggle="modal" data-target="#add_prescription">Add Prescription</a></li>
+                                        <li><a href=""><span>Follow Up</span></a></li>
+                                        
+                                    </ul>
+                                    
+                                </div>
+                            </div>
+                            {% endif %} -->
+                        </div>
+                        #}
+                        {% if appointment_details.appointment_status !=6 %}
+                            <div class="dropdown">
+                                <a href="#" class="btn btn-outline-primary" data-toggle="dropdown" aria-expanded="false"><span>More Actions</span><em class="icon ni ni-chevron-down"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-auto mt-1" style="">
+                                    <ul class="link-list-plain">
+                                        {% if (appointment_details.appointment_status==0) %}
+                                        <li><a href="{{url_for('action_doctor',actions=1,appointment_id=appointment_details.appointment_id)}}">Accept </a></li>
+
+                                        {% elif (appointment_details.appointment_status==1) or (appointment_details.appointment_status==10) %}
+                                        <!-- {#<li><a href="{{url_for('action_doctor',actions=2,appointment_id=appointment_details.appointment_id)}}">Escalate </a></li>#} -->
+                                        <li><a data-toggle="modal" data-target="#escalate">Escalate</a></li>
+                                        <li><a data-toggle="modal" data-target="#reschedule">Reschedule </a></li>
+                                        <li><a data-toggle="modal" data-target="#no_show" {#href="{{url_for('action_doctor',actions=9,appointment_id=appointment_details.appointment_id)}}"#}>Mark as No Show</a></li>
+                                        <li><a data-toggle="modal" data-target="#junior_doc_transfer">Transfer Patient</a></li>
+                                        <!-- {#<li><a href="{{url_for('action_doctor',actions=10,appointment_id=appointment_details.appointment_id)}}">Transfer Patient</a></li>#} -->
+                                        {% endif %}
+
+                                        {% if (session.doctor_flag != 1) and (appointment_details.appointment_status==7) %}
+                                        <li><a data-toggle="modal" data-target="#escalate">Escalate</a></li>
+                                        <li><a data-toggle="modal" data-target="#no_show" {#href="{{url_for('action_doctor',actions=9,appointment_id=appointment_details.appointment_id)}}"#}>Mark as No Show</a></li>
+                                        <li><a data-toggle="modal" data-target="#junior_doc_transfer">Transfer Patient</a></li>
+                                        {#<li><a href="{{url_for('action_doctor',actions=10,appointment_id=appointment_details.appointment_id)}}">Transfer Patient</a></li>#}
+                                        {% endif %}
+
+                                        {% if session.doctor_flag == 1 %}
+                                            {% if (appointment_details.appointment_status==2) or (appointment_details.appointment_status==7) or (appointment_details.appointment_status==11) or (appointment_details.appointment_status==12)  %}
+                                            <li><a data-toggle="modal" data-target="#reschedule">Reschedule </a></li>
+                                            <li><a data-toggle="modal" data-target="#no_show" {#href="{{url_for('action_doctor',actions=9,appointment_id=appointment_details.appointment_id)}}"#}>Mark as No Show</a></li>
+                                            <li><a data-toggle="modal" data-target="#senior_doc_transfer_confirm">Transfer Patient</a></li>
+                                            <li><a data-toggle="modal" data-target="#mark_as_done" {#href="{{url_for('action_doctor',actions=6,appointment_id=appointment_details.appointment_id)}}"#}>Mark as Closed</a></li>
+
+                                            <!-- {#{% elif appointment_details.appointment_status == 6 %}#}
+                                            <li><a data-toggle="modal" data-target="#add_observation">Add Observation</a></li>
+                                            <li><a data-toggle="modal" data-target="#add_prescription">Add Prescription</a></li>
+                                            <li><a href=""><span>Follow Up</span></a></li> -->
+                                            {% endif %}
+                                            {% if (appointment_details.appointment_status==8) %}
+                                            <li><a data-toggle="modal" data-target="#reschedule">Reschedule </a></li>
+                                            <li><a data-toggle="modal" data-target="#no_show" {#href="{{url_for('action_doctor',actions=9,appointment_id=appointment_details.appointment_id)}}"#}>Mark as No Show</a></li>
+                                            <li><a data-toggle="modal" data-target="#mark_as_done" {#href="{{url_for('action_doctor',actions=6,appointment_id=appointment_details.appointment_id)}}"#}>Mark as Closed</a></li>
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {% if appointment_details.appointment_status != 6 %}
+                                        <li><a data-toggle="modal" data-target="#cancel">Cancel </a></li>
+                                        {#
+                                        <li {% if (appointment_details.reported_count == 0) or (appointment_details.reported_count == 1) %}style="display:block ;"{% else %}style="display:none;"{% endif %} >
+                                            <a id="report_button" data-toggle="modal" data-target="#report_customer" {% if (appointment_details.reported_count == 0) or (appointment_details.reported_count == 1) %}style="display:block ;"{% else %}style="display:none;"{% endif %}>
+                                                <span>{% if appointment_details.reported_count == 0 %}Report Patient {% elif appointment_details.reported_count == 1 %}Ban Patient{% endif %}</span></a></li>
+                                        <!-- <button  class="btn btn-outline-danger" id="customer_reported" disabled {% if appointment_details.reported_count == 1 %}style="display:block ;"{% else %}style="display:none ;"{% endif %}><span>Ban Customer</span></button> -->
+                                        <li {% if appointment_details.reported_count == 2 %}style="display:block ;"{% else %}style="display:none ;"{% endif %}>
+                                            <a id="customer_reported" {% if appointment_details.reported_count == 2 %}style="display:block ;"{% else %}style="display:none ;"{% endif %}>
+                                                <span> Patient Banned </span></a></li>
+                                        #}
+                                        {% endif %}
+                                    </ul>
+
+                                </div>
+                            </div>
+                            {% endif %}
+                    </div>
+                </div><!-- .nk-block-head -->
+
+                <!-- ######################################################################## -->
+                                            <!-- TABS START-->
+                <!-- ######################################################################## -->
+                <!-- tab s-->
+                <div class="card card-preview">
+                    <div class="card-inner">
+                        <ul class="nav nav-tabs mt-n3">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#customer_info">Customer Info</a>
+                            </li>
+                            <li class="nav-item" {% if appointment_details.type_booking == "new" %} style="display:block;"{% else %} style="display:none;" {% endif %}>
+                                <a class="nav-link" data-toggle="tab" href="#online_assessment">Online Assessment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#analysis_info">Analysis Info</a>
+                            </li>
+                            {#{% if appointment_details.appointment_status == 6 %}#}
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#observations">Observations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#prescriptions">Prescriptions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#follow_up">Follow Up</a>
+                            </li>
+                            {#{% endif %}#}
+                        </ul>
+
+                        <!-- ########## TAB CONTENT ########### -->
+
+                        <div class="tab-content">
+                            <!-- customer info tab content @s -->
+                            <div class="tab-pane active" id="customer_info">
+                                <div class="card-inner">
+                                    {#<p>Cillum ad ut irure tempor velit nostrud occaecat ullamco aliqua anim Lorem sint. </p>#}
+                                    <!-- <div class="nk-block-head"> -->
+                                    {#<h5 class="title">Patient Information</h5>#}
+                                        {#<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>#}
+                                        <div class="d-flex mb-3 " {#style="margin-left:55px ;"#}>
+                                            <h5 class="title mr-auto">
+                                                {#Patient Information#}
+                                                {% if appointment_details.user_fname %}
+                                                    {{appointment_details.user_fname|capitalize}} {{appointment_details.user_lname|capitalize}}
+                                                {% else %}
+                                                    Name Not Available
+                                                    {#{{appointment_details.user_mail}}#}
+                                                {% endif %}
+                                            </h5>
+                                            <!-- <div class="button-group">
+                                                <button type="button" class="btn btn-dark " data-toggle="modal" data-target="#upload_prescription">Upload Prescription</button>
+                                                <button type="button" class="btn btn-dark " data-toggle="modal" data-target="#add_prescription">Add Prescription</button>
+                                            </div> -->
+                                            <!-- <button  class="btn btn-outline-danger" id="report_button" data-toggle="modal" data-target="#report_customer" {% if (appointment_details.reported_count == 0) or (appointment_details.reported_count == 1) %}style="display:block ;"{% else %}style="display:none;"{% endif %}>{#<em class="icon ni ni-arrow-left"></em>#}<span>Report Customer</span></button> -->
+                                            <!-- {#<button  class="btn btn-outline-danger" id="customer_reported" disabled {% if appointment_details.reported_count == 1 %}style="display:block ;"{% else %}style="display:none ;"{% endif %}>{#<em class="icon ni ni-arrow-left"></em>#}<span>Ban Customer</span></button>#} -->
+                                            <!-- <button  class="btn btn-outline-dark" id="customer_reported" disabled {% if appointment_details.reported_count == 2 %}style="display:block ;"{% else %}style="display:none ;"{% endif %}>{#<em class="icon ni ni-arrow-left"></em>#}<span> Customer Banned </span></button> -->
+                                            <div class="dropdown">
+                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-v-alt"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                    <ul class="link-list-plain">
+                                                        {#<li><a href="">View</a></li>#}
+                                                        <li><a data-toggle="modal" data-target="#edit_customer_info">Edit</a></li>
+                                                        {#<li><a href="#">Edit</a></li>#}
+                                                        {#<li><a href="#">Remove</a></li>#}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>   
+                                        <!-- <div class="row g-4">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="form-label text-soft" for="first_name"> NAME</label>
+                                                    <div class="form-control-wrap">
+                                                        <h4>
+                                                            {% if appointment_details.user_fname %}
+                                                    {{appointment_details.user_fname}} {{appointment_details.user_lname}}
+                                                {% else %}
+                                                    Name Not Available
+                                                    {#{{appointment_details.user_mail}}#}
+                                                {% endif %}
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                            
+                                        <!-- <div class="row g-4">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="form-label text-soft">DATE OF BIRTH</label>
+                                                    <div class="form-control-wrap">
+                                                        <h6>
+                                                            {% if appointment_details.cust_dob == none %}
+                                                                Not Available
+                                                                {% else %}
+                                                                {{appointment_details.cust_dob}}
+                                                                {% endif %}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="last_name">EMAIL</label>
+                                                    <div class="form-control-wrap">
+                                                        <h6>
+                                                            {{appointment_details.user_mail}}
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>      -->
+                                                <div class="profile-ud-list " {#style="margin-left: 5px;"#}>
+                                                    <!-- <div class="profile-ud-item">
+                                                    <div class="profile-ud wider">
+                                                        <span class="profile-ud-label">Title</span>
+                                                        <span class="profile-ud-value">Mr.</span>
+                                                    </div>
+                                                </div> -->
+                                                    <!-- <div class="profile-ud-item ">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Full Name :</span>
+                                                            <span
+                                                                class="profile-ud-value ">
+                                                                {% if appointment_details.user_fname %}
+                                                                    {{appointment_details.user_fname}} {{appointment_details.user_lname}}
+                                                                {% else %}
+                                                                    Not Available
+                                                                    {#{{appointment_details.user_mail}}#}
+                                                                {% endif %}
+                                                                
+                                                            </span>
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Date of Birth :</span>
+                                                            <span class="profile-ud-value">
+                                                                {% if appointment_details.cust_dob == none %}
+                                                                Not Available
+                                                                {% else %}
+                                                                {{appointment_details.cust_dob|date_format}}
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Email Address :</span>
+                                                            <span
+                                                                class="profile-ud-value">{{appointment_details.user_mail}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Status :</span>
+                                                            {% if appointment_details.appointment_status == 0 %}
+                                                            <span class="profile-ud-value">New</span>
+                                                            {% elif appointment_details.appointment_status == 1 %}
+                                                            <span class="profile-ud-value">Accepted</span>
+                                                            {% elif appointment_details.appointment_status == 2 %}
+                                                            <span class="profile-ud-value">Escalated</span>
+                                                            {% elif appointment_details.appointment_status == 3 %}
+                                                            <span class="profile-ud-value">Canceled</span>
+                                                            {% elif appointment_details.appointment_status == 4 %}
+                                                            <span class="profile-ud-value">Reschedule Requested by Doctor</span>
+                                                            {% elif appointment_details.appointment_status == 5 %}
+                                                            <span class="profile-ud-value">Reschedule Requested by Customer</span>
+                                                            {% elif appointment_details.appointment_status == 6 %}
+                                                            <span class="profile-ud-value">Closed</span>
+                                                            {% elif appointment_details.appointment_status == 7 %}
+                                                            <span class="profile-ud-value">Rescheduled</span>
+                                                            {% elif appointment_details.appointment_status==8 %}
+                                                            <span class="profile-ud-value">Follow up</span>
+                                                            {% elif appointment_details.appointment_status==9 %}
+                                                            <span class="profile-ud-value">No show</span>
+                                                            {% elif appointment_details.appointment_status==10 %}
+                                                            <span class="profile-ud-value">Transfered</span>
+                                                            {% elif appointment_details.appointment_status==11 %}
+                                                            <span class="profile-ud-value">Transfered</span>
+                                                            {% elif appointment_details.appointment_status==12 %}
+                                                            <span class="profile-ud-value">New Paid</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Mobile Number :</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.cust_mobile_num == none %}
+                                                                Not Available
+                                                                {% else %}
+                                                                {{appointment_details.cust_mobile_num}}
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Issue Category :</span>
+                                                            <span
+                                                                class="profile-ud-value">{{appointment_details.category|capitalize}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Preferred Doctor's Gender :</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.gender_pref %}
+                                                                {{appointment_details.gender_pref|capitalize}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Preferred Language :</span>
+                                                            <span
+                                                                class="profile-ud-value ">
+                                                                {% if appointment_details.language_pref %}
+                                                                {{appointment_details.language_pref|capitalize}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                </div>
+                                                    <div class="nk-divider divider md"></div>
+                                                    {% if appointment_details.type_booking == "new" %}
+                                                    <h6 class="title " {#style="margin-left:55px ;"#}>Preliminary Appointment</h6>
+                                                    {% elif appointment_details.type_booking == "regular" %}
+                                                    <h6 class="title" {#style="margin-left:55px ;"#}>Appointment with Specialist</h6>
+                                                    {% elif appointment_details.type_booking == "followup" %}
+                                                    <!-- {#<h6 class="title ml-5">Follow Up Appointment </h6>#} -->
+                                                    <h6 class="title" {#style="margin-left:55px ;"#}>Follow Up Appointment </h6>
+                                                    {% endif %}
+                                                    <div class="profile-ud-list " {#style="margin-left:5px ;"#}>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Appointment Date:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.appointment_date %}
+                                                                {{appointment_details.appointment_date|date_format}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Appointment Time:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.time_slot %}
+                                                                {{appointment_details.time_slot}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>
+                                                                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Preferred Gender of Doctor:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.gender_pref %}
+                                                                {{appointment_details.gender_pref|capitalize}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>                                                                                                        
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Preferred Language:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.language_pref %}
+                                                                {{appointment_details.language_pref|capitalize}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>                                                                                                        
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item" >
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Doctor:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.doc_name_junior %}
+                                                                {{appointment_details.doc_name_junior}}                                                            
+                                                                {% elif appointment_details.doc_name_senior %}
+                                                                {{appointment_details.doc_name_senior}}
+                                                                {% else %}
+                                                                Not Alloted
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+    
+                                                    {# Note : meeting link part is commented
+                                                    {% if (appointment_details.type_booking == "new") %}
+                                                    {% if appointment_details.meeting_link %}
+                                                    <div class="profile-ud-item" >
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Meeting Link:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.meeting_link %}
+                                                                <a href="{{appointment_details.meeting_link}}" target="_blank">{{appointment_details.meeting_link}}</a>
+                                                                {% else %}
+                                                                Not Alloted
+                                                                {% endif %}
+                                                                
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endif %}
+                                                    #}
+    
+                                                    {# Note : commented this part : meeting link
+                                                    {% if (appointment_details.type_booking == "regular") or (appointment_details.type_booking == "followup") %}
+                                                    {% if appointment_details.senior_meeting_link %}
+                                                    <div class="profile-ud-item" >
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Meeting Link:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.senior_meeting_link %}
+                                                                <a href="{{appointment_details.senior_meeting_link}}" target="_blank">{{appointment_details.senior_meeting_link}}</a>
+                                                                {% else %}
+                                                                Not Alloted
+                                                                {% endif %}
+                                                                
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    {% endif %}
+                                                    #}
+                                                </div>
+                                                
+    
+                                                    <!-- senior doctor appointment date and time -->
+    
+                                                    {% if appointment_details.escalated_date  %}
+                                                    <div class="nk-divider divider md"></div>
+                                                    <h6 class="title" {#style="margin-left:55px ;"#}>Appointment with Specialist</h6>
+                                                    
+                                                    <div class="profile-ud-list" {#style="margin-left:5px ;"#}>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Appointment Date:</span>
+                                                            <span
+                                                                class="profile-ud-value">{{appointment_details.escalated_date|date_format}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item" >
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Appointment Time Slot:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.escalated_time_slot %}
+                                                                {{appointment_details.escalated_time_slot}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Preferred Gender of Doctor:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.gender_pref %}
+                                                                {{appointment_details.gender_pref|capitalize}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>                                                                                                        
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Preferred Language:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.language_pref %}
+                                                                {{appointment_details.language_pref|capitalize}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>                                                                                                        
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item" >
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Doctor:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.doc_name_senior %}
+                                                                {{appointment_details.doc_name_senior}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+    
+                                                    {#{% if appointment_details.type_booking == "new" %}#}
+    
+                                                    {# Note: meeting link is commented here
+                                                    {% if appointment_details.senior_meeting_link %}
+                                                    <div class="profile-ud-item" >
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Meeting Link:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.senior_meeting_link %}
+                                                                <a href="{{appointment_details.senior_meeting_link}}" target="_blank">{{appointment_details.senior_meeting_link}}</a>
+                                                                {% else %}
+                                                                Not Alloted
+                                                                {% endif %}
+                                                                
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    #}
+    
+                                                    {#{% endif %}#}
+    
+                                                </div>
+                                                {% endif %}
+                                                <!-- senior doctor appointment -->
+    
+                                                    <!-- rescheduled date and time -->
+                                                    {% if appointment_details.rescheduled_date  %}
+                                                    <div class="nk-divider divider md"></div>
+                                                    <h6 class="title" {#style="margin-left:55px ;"#}>Rescheduled Date and Time</h6>
+                                                    
+                                                    
+                                                    <!-- <ul> -->
+                                                        <!-- <li><span> Reschedule Details </span> -->
+                                                            <!-- <div class="dropdown">
+                                                                <a href="#" class="btn btn-sm btn-dark" data-toggle="dropdown" aria-expanded="false"><span>More</span><em class="icon ni ni-chevron-down"></em></a>
+                                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-auto mt-1" style="">
+                                                                    <ul class="link-list-plain">
+                                                                        <li><a href="#">Accept</a></li>
+                                                                        {% if appointment_details.rescheduled_count != 3 %}
+                                                                        <li><a data-toggle="modal" data-target="#reschedule">Reschedule </a></li>
+                                                                        {% endif %}
+                                                                        {% if appointment_details.rescheduled_count == 3 %}
+                                                                        <li><a href="{{url_for('action_doctor',actions=3,appointment_id=appointment_details.appointment_id)}}">Cancel </a></li>
+                                                                        {% endif %}                                        
+                                                                    </ul>
+                                                                </div>
+                                                            </div>  -->
+                                                        <!-- </li> -->
+                                                    <!-- </ul> -->
+                                                    <div class="profile-ud-list" {#style="margin-left:5px ;"#}>
+                                                    <div class="profile-ud-item">
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Rescheduled Date:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.rescheduled_date %}
+                                                                {{appointment_details.rescheduled_date|date_format}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="profile-ud-item" >
+                                                        <div class="profile-ud wider">
+                                                            <span class="profile-ud-label">Rescheduled Time:</span>
+                                                            <span
+                                                                class="profile-ud-value">
+                                                                {% if appointment_details.rescheduled_time %}
+                                                                {{appointment_details.rescheduled_time}}
+                                                                {% else %}
+                                                                Not Available
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    {% if appointment_details.appointment_status==5 %}
+                                                    <div class="profile-ud-item" >
+                                                        <div class="profile-ud wider">
+                                                            <a type="button" href="{{url_for('action_doctor',actions=7,appointment_id=appointment_details.appointment_id)}}" class="btn btn-sm btn-outline-light bg-white d-none d-sm-inline-flex"><span>Accept</span></a>
+                                                            {% if appointment_details.rescheduled_count != appointment_details.reschedule_limit %}
+                                                            <button type="button" class="btn btn-sm btn-outline-light bg-white d-none d-sm-inline-flex" data-toggle="modal" data-target="#reschedule">Reschedule</button>
+                                                            {% endif %}
+                                                            {% if appointment_details.rescheduled_count == appointment_details.reschedule_limit %}
+                                                            <a href="{{url_for('action_doctor',actions=3,appointment_id=appointment_details.appointment_id)}}" class="btn btn-sm btn-outline-light bg-white d-none d-sm-inline-flex"><span>Cancel</span></a>
+                                                            {% endif %}
+                                                            
+                                                        </div>
+                                                    </div>  
+                                                    {% endif %}                                              
+                                                </div>
+                                                {% endif %}
+                                                <!-- .profile-ud-list -->
+    
+                                                {# Note: preliminary assessment is commented from patient info tab
+                                                {% if appointment_details.type_booking == "new" %}
+                                                <div class="nk-divider divider md"></div>
+                                                <h5 class="title ml-5">Preliminary Assessment</h5>
+                                                {% for question in appointment_details.questions %}
+                                        <div class="profile-ud-list ml-0">
+                                            <!-- <div class="profile-ud-item">
+                                                    <div class="profile-ud wider">
+                                                        <span class="profile-ud-label">Title</span>
+                                                        <span class="profile-ud-value">Mr.</span>
+                                                    </div>
+                                                </div> -->
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Question :</span>
+                                                    <span class="profile-ud-value">{{question.question}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Answer :</span>
+                                                    {% for answer in question.answers %}
+                                                    <span class="profile-ud-value">{{answer.answer}}</span>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            
+    
+                                        </div>
+                                        {% endfor %}
+                                        {% endif %}
+                                        #}
+                                    </div>
+                            </div>
+                            <!-- customer info tab content @e -->
+
+                            <!-- Online Assessment Tab Content @s -->
+                            <div class="tab-pane" id="online_assessment">
+                                {#<p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. </p>#}
+                                {#<div class="d-flex mb-3">#}
+                                {#<h5 class="title mr-auto">Assessment Details</h5>#}
+                                {#<div class="button-group">#}
+                                {#<button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#add_analysis">Add Assessment</button>#}
+                                {#<button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#file_upload">Upload Assessment</button>#}
+                            {#</div>#}
+                            {#</div>#}
+                                <!-- heading end -->
+
+                                <!-- preliminary assessment details @s -->
+                                {% if appointment_details.questions %}
+                                <div class="card {#border border-light#}">
+                                    <!-- <div class="card card-preview"> -->
+                                        <div class="card-title">
+                                        <div class="nk-block-des text-soft fw-medium fs-13px">
+                                            {#<ul class="list-inline ml-4 mt-3">#}
+                                                {#<li>Appointment: <span class="text-base">{{appointment_details.appointment_id}}</span></li>#}
+                                                {#<li>Added Date: <span class="text-base">{{appointment_details.booked_on}}</span></li>#}
+                                                {#<li>Time: <span class="text-base">{{appointment_details.booked_on_time}}</span></li>#}
+                                                {#<li>Added from: <span class="text-base">Inticure Analysis</span></li>#}
+                                                
+                                                {#<li>Appointment Type: <span class="text-base">#}
+                                                    {#{% if appointment_details.is_free == 1 %}#}
+                                                    {#Paid Appointment#}
+                                                    {#{% elif appointment_details.is_free == 0 %}#}
+                                                    {#Free Appointment#}
+                                                    {#{% endif %}#}
+                                                {#</span></li>#}
+                                            {#</ul>#}
+                                        </div>
+                                    </div>
+                                        <!-- <div class="card-inner"> -->
+                                            {#<h5 >Preliminary Analysis</h5>#}
+                                            <div style="margin-left:20px ;margin-right:20px;" {#style="margin-left:55px ;margin-right:55px"#}>
+                                            {% for question in appointment_details.questions %}
+                                            <p class="text-soft">{{question.question}}</p>
+                                            {% for answer in question.answers %}
+                                            <p class="fw-bold">{{answer.answer}}</p>
+                                            {% endfor %}
+                                            
+                                    <!-- <div class="profile-ud-list">
+                                        <div class="profile-ud-item">
+                                            <div class="profile-ud wider">
+                                                <span class="profile-ud-label">Question :</span>
+                                                <span class="profile-ud-value">{{question.question}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="profile-ud-item">
+                                            <div class="profile-ud wider">
+                                                <span class="profile-ud-label">Answer :</span>
+                                                {% for answer in question.answers %}
+                                                <span class="profile-ud-value">{{answer.answer}}</span>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    {% endfor %}
+                                        <!-- </div> -->
+                                    <!-- </div> -->
+                                </div>
+                                </div>   
+                                {% endif %}
+                                <!-- preliminary assessment details @e -->
+
+                                               
+                            </div>
+                            <!-- online assessment tab content @e -->
+
+                            <!-- analysis info tab content @s -->
+                            <div class="tab-pane" id="analysis_info">
+                                {#<p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. </p>#}
+                                <div class="d-flex mb-3">
+                                <h5 class="title">Analysis</h5>
+                                {#<button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#add_analysis">Add Analysis</button>#}
+                            </div>
+                                <!-- heading end -->
+                                
+                                <div class="card border border-light">
+                                    <div class="card card-preview">
+                                        <div class="card-title">
+                                        <div class="nk-block-des text-soft fw-medium fs-13px">
+                                            <ul class="list-inline ml-2 mt-3">
+                                                <li>Appointment: <span class="text-base">#{{appointment_details.appointment_id}}</span></li>
+                                                <li>Created Date: <span class="text-base">12 September 2022</span></li>
+                                                <li>Time: <span class="text-base">3.00 PM</span></li>
+                                                <li>Created by: <span class="text-base">Dr John RV</span></li>
+                                                
+                                                {#<li>Appointment Type: <span class="text-base">#}
+                                                    {#{% if appointment_details.is_free == 1 %}#}
+                                                    {#Paid Appointment#}
+                                                    {#{% elif appointment_details.is_free == 0 %}#}
+                                                    {#Free Appointment#}
+                                                    {#{% endif %}#}
+                                                {#</span></li>#}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                        <div class="card-inner">
+                                            {#<h5 class="card-title">Analysis</h5>#}
+                                            
+                                            <ul>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus laoreet odio,
+                                                    nec mollis lectus fringilla quis. Nam vehicula tellus eu mauris commodo, a porttitor tellus
+                                                    maximus. Donec purus neque, consectetur eu ante in, feugiat tincidunt tellus. Lorem ipsum dolor 
+                                                    sit amet, consectetur adipiscing elit. Vivamus semper, lorem elementum rhoncus sollicitudin, enim 
+                                                    ligula malesuada magna, eu mollis ante eros a neque. Cras id ipsum eget augue egestas volutpat et non quam. 
+                                                    Maecenas fermentum enim vitae malesuada auctor. Sed eu accumsan diam.</p>
+    
+                                                {#{% if appointment_details.observations != "" %}#}
+                                                {#<li>{{appointment_details.observations}}</li>#}
+                                                {#{% else %}#}
+                                                {#<li>No observations added</li>#}
+                                                {#{% endif %}#}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>                         
+                            </div>
+                            <!-- analysis info tab content @e -->
+
+                            <!-- observations tab content @s -->
+                            <div class="tab-pane" id="observations">
+                                {#<p>Culpa dolor voluptate do laboris laboris irure reprehenderit id incididunt duis pariatur mollit aute magna pariatur consectetur. </p>#}
+                                <div class="d-flex mb-3">
+                                    <h5 class="title">Observations</h5>
+                                    {#<button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#add_observation">Add Observation</button>#}
+                                </div>
+                                <!-- heading end -->
+                                {% for observation in observations %}
+                                {#{% if appointment_details.observations != "" %}#}
+                                <div class="card border border-light">
+                                <div class="card card-preview">
+                                    <div class="card-title">
+                                    <div class="nk-block-des text-soft fw-medium fs-13px">
+                                        <ul class="list-inline ml-2 mt-3">
+                                            <li>Appointment: <span class="text-base">#{{appointment_details.appointment_id}}</span></li>
+                                            <li>Created Date: <span class="text-base">12 September 2022</span></li>
+                                            <li>Time: <span class="text-base">3.00 PM</span></li>
+                                            <li>Created by: <span class="text-base">Dr John RV</span></li>
+                                            
+                                            {#<li>Appointment Type: <span class="text-base">#}
+                                                {#{% if appointment_details.is_free == 1 %}#}
+                                                {#Paid Appointment#}
+                                                {#{% elif appointment_details.is_free == 0 %}#}
+                                                {#Free Appointment#}
+                                                {#{% endif %}#}
+                                            {#</span></li>#}
+                                        </ul>
+                                    </div>
+                                </div>
+                                    <div class="card-inner">
+                                        {#<h5 class="card-title">Observations</h5>#}
+                                        <!-- <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="card">
+                                                    <div class="card-inner">
+                                                        <h5 class="card-title">Card title</h5>
+                                                        <h6 class="card-subtitle mb-2 ff-base">Card subtitle</h6>
+                                                       
+                                                        <a href="#" class="card-link">Card link</a>
+                                                        <a href="#" class="card-link">Another link</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="nk-block-des text-soft">
+                                            <ul class="list-inline">
+                                                <li>Created Date: <span class="text-base">{{appointment_details.booked_on}}</span></li>
+                                                <li>Time: <span class="text-base">{{appointment_details.booked_on}}</span></li>
+                                                <li>Created by: <span class="text-base">Dr John RV</span></li>
+                                                <li>Appointment: <span class="text-base">#{{appointment_details.appointment_id}}</span></li>
+                                                {#<li>Appointment Type: <span class="text-base">#}
+                                                    {#{% if appointment_details.is_free == 1 %}#}
+                                                    {#Paid Appointment#}
+                                                    {#{% elif appointment_details.is_free == 0 %}#}
+                                                    {#Free Appointment#}
+                                                    {#{% endif %}#}
+                                                {#</span></li>#}
+                                            </ul>
+                                        </div> -->
+                                        <ul>
+                                            <p>{{observation.observe}}</p>
+                                            <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus laoreet odio,
+                                                nec mollis lectus fringilla quis. Nam vehicula tellus eu mauris commodo, a porttitor tellus
+                                                maximus. Donec purus neque, consectetur eu ante in, feugiat tincidunt tellus. Lorem ipsum dolor 
+                                                sit amet, consectetur adipiscing elit. Vivamus semper, lorem elementum rhoncus sollicitudin, enim 
+                                                ligula malesuada magna, eu mollis ante eros a neque. Cras id ipsum eget augue egestas volutpat et non quam. 
+                                                Maecenas fermentum enim vitae malesuada auctor. Sed eu accumsan diam.</p> -->
+
+                                            {#{% if appointment_details.observations != "" %}#}
+                                            {#<li>{{appointment_details.observations}}</li>#}
+                                            {#{% else %}#}
+                                            {#<li>No observations added</li>#}
+                                            {#{% endif %}#}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                                <!-- old list view -->
+                               
+                                    {#{% if appointment_details.observations != "" %}#}
+                                    {#<li>{{appointment_details.observations}}</li>#}
+                                    {#{% else %}#}
+                                    <ul>
+                                    <!-- <li>No observations added</li> -->
+                                    
+                                </ul>
+                                    {#{% endif %}#}
+                                
+                            </div>
+                            <!-- observations tab content @e -->
+
+                            <!-- prescription tab content @s -->
+                            <div class="tab-pane" id="prescriptions">
+                                {#<p>Fugiat id quis dolor culpa eiusmod anim velit excepteur proident dolor aute qui magna.</p>#}
+                                <div class="d-flex mb-3">
+                                    <h5 class="title mr-auto">Prescriptions</h5>
+                                    {#<div class="button-group">#}
+                                        {#<button type="button" class="btn btn-dark " data-toggle="modal" data-target="#upload_prescription">Upload Prescription</button>#}
+                                        {#<button type="button" class="btn btn-dark " data-toggle="modal" data-target="#add_prescription">Add Prescription</button>#}
+                                    {#</div>#}
+                                </div>
+                                <!-- heading end -->
+                                
+                                <div class="card border border-light">
+                                <div class="card card-preview">
+                                    <div class="card-title">
+                                    <div class="nk-block-des text-soft fw-medium fs-13px">
+                                        <ul class="list-inline ml-2 mt-3">
+                                            <li>Appointment: <span class="text-base">#{{appointment_details.appointment_id}}</span></li>
+                                            <li>Created Date: <span class="text-base">12 September 2022</span></li>
+                                            <li>Time: <span class="text-base">3.00 PM</span></li>
+                                            <li>Created by: <span class="text-base">Dr John RV</span></li>
+                                            
+                                            {#<li>Appointment Type: <span class="text-base">#}
+                                                {#{% if appointment_details.is_free == 1 %}#}
+                                                {#Paid Appointment#}
+                                                {#{% elif appointment_details.is_free == 0 %}#}
+                                                {#Free Appointment#}
+                                                {#{% endif %}#}
+                                            {#</span></li>#}
+                                        </ul>
+                                    </div>
+                                </div>
+                                    <div class="card-inner">
+                                        {#<h5 class="card-title">Prescriptions</h5>#}
+                                        
+                                        <ul>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus laoreet odio,
+                                                nec mollis lectus fringilla quis. Nam vehicula tellus eu mauris commodo, a porttitor tellus
+                                                maximus. Donec purus neque, consectetur eu ante in, feugiat tincidunt tellus. Lorem ipsum dolor 
+                                                sit amet, consectetur adipiscing elit. Vivamus semper, lorem elementum rhoncus sollicitudin, enim 
+                                                ligula malesuada magna, eu mollis ante eros a neque. Cras id ipsum eget augue egestas volutpat et non quam. 
+                                                Maecenas fermentum enim vitae malesuada auctor. Sed eu accumsan diam.</p>
+
+                                            {#{% if appointment_details.observations != "" %}#}
+                                            {#<li>{{appointment_details.observations}}</li>#}
+                                            {#{% else %}#}
+                                            {#<li>No observations added</li>#}
+                                            {#{% endif %}#}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <!-- prescription tab content @e -->
+
+                            <!-- follow up tab content @s -->
+                            <div class="tab-pane" id="follow_up">
+                                {#<p>Eu dolore ea ullamco dolore Lorem  cupidatat officia. </p>#}
+                                <div class="d-flex mb-3">
+                                    <h5 class="title">Follow Up</h5>
+                                    {#<button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#add_follow_up">Add Follow Up</button>#}
+                                </div>
+                                 <!-- heading end -->
+                                 {% for follow_up in follow_ups %}
+                                 {% if follow_up.appointment_id  %}
+                                 <div class="card border border-light">
+                                 <div class="card card-preview">
+                                     <div class="card-title">
+                                        
+                                     <div class="nk-block-des text-soft fw-medium fs-13px">
+                                        <div class="d-flex mb-3 ">
+                                         <ul class="list-inline ml-2 mt-3">
+                                             <li>Appointment Date: <span class="text-base">{#12 September 2022#} {{follow_up.appointment_date}}</span></li>
+                                             <li>Time: <span class="text-base">{#3.00 PM#} {{follow_up.appointment_time}}</span></li>
+                                             <li>Created by: <span class="text-base">Dr John RV</span></li>
+                                             <li>Appointment: <span class="text-base">#{{follow_up.appointment_id}}</span></li>
+                                             {#<li>Appointment Type: <span class="text-base">#}
+                                                 {#{% if appointment_details.is_free == 1 %}#}
+                                                 {#Paid Appointment#}
+                                                 {#{% elif appointment_details.is_free == 0 %}#}
+                                                 {#Free Appointment#}
+                                                 {#{% endif %}#}
+                                             {#</span></li>#}
+                                             
+                                         </ul>
+                                         <ul class="list-inline ml-xl-5 mt-2 ">
+                                            <li class="ml-xl-5">Status: <span class="text-base">Not Paid</span></li>
+                                            <li class="ml-4">
+                                                <!-- dropdown button -->
+                                        <div class="dropdown ">
+                                            <a href="#" class="btn btn-sm btn-dark" data-toggle="dropdown" aria-expanded="false"><span>More Actions</span><em class="icon ni ni-chevron-down"></em></a>
+                                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-auto mt-1" style="">
+                                                <ul class="link-list-plain">   
+                                                    
+                                                </ul>
+                                                
+                                            </div>
+                                        </div>
+                                        <!-- dropdown button end -->
+                                            </li>
+                                        </ul>
+                                        </div>
+                                     </div>
+                                     
+                                 </div>
+                                     <div class="card-inner">
+                                        
+                                         <!-- <div class="row">
+                                             <div class="col-lg-4">
+                                                 <div class="card">
+                                                     <div class="card-inner">
+                                                         <h5 class="card-title">Card title</h5>
+                                                         <h6 class="card-subtitle mb-2 ff-base">Card subtitle</h6>
+                                                         
+                                                         <a href="#" class="card-link">Card link</a>
+                                                         <a href="#" class="card-link">Another link</a>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div> -->
+                                         <!-- <div class="nk-block-des text-soft">
+                                             <ul class="list-inline">
+                                                 <li>Created Date: <span class="text-base">{{appointment_details.booked_on}}</span></li>
+                                                 <li>Time: <span class="text-base">{{appointment_details.booked_on}}</span></li>
+                                                 <li>Created by: <span class="text-base">Dr John RV</span></li>
+                                                 <li>Appointment: <span class="text-base">#{{appointment_details.appointment_id}}</span></li>
+                                                 {#<li>Appointment Type: <span class="text-base">#}
+                                                     {#{% if appointment_details.is_free == 1 %}#}
+                                                     {#Paid Appointment#}
+                                                     {#{% elif appointment_details.is_free == 0 %}#}
+                                                     {#Free Appointment#}
+                                                     {#{% endif %}#}
+                                                 {#</span></li>#}
+                                             </ul>
+                                         </div> -->
+                                         <!-- <ul>
+                                             {#{% if appointment_details.observations != "" %}#}
+                                             <li>{{appointment_details.observations}}</li>
+                                             {#{% else %}#}
+                                             {#<li>No observations added</li>#}
+                                             {#{% endif %}#}
+                                         </ul> -->
+                                         <ul>
+                                            <li><h6 >Remarks</h6></li>
+                                            <li>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus laoreet odio,
+                                                    nec mollis lectus fringilla quis. Nam vehicula tellus eu mauris commodo, a porttitor tellus
+                                                    maximus. Donec purus neque, consectetur eu ante in, feugiat tincidunt tellus. Lorem ipsum dolor 
+                                                    sit amet, consectetur adipiscing elit. Vivamus semper, lorem elementum rhoncus sollicitudin, enim 
+                                                    ligula malesuada magna, eu mollis ante eros a neque. Cras id ipsum eget augue egestas volutpat et non quam. 
+                                                    Maecenas fermentum enim vitae malesuada auctor. Sed eu accumsan diam.</p>
+                                            </li>
+                                         </ul>
+                                     </div>
+                                 </div>
+                             </div>
+                             {% else %}
+                             <ul>
+                                <li>
+                                <p>No follow up calls registered</p>
+                                </li>
+                            </ul>
+                                {% endif %}
+                             {% endfor %}
+                                 <!-- old list view -->                                
+
+                                {#{% if appointment_details.type_booking == "followup" %}#}
+                                {#Follow up details here#}
+                                {#{% else %}#}
+                                {#No follow up calls registered#}
+                                {#{% endif %}#}
+                            </div>
+                            <!-- follow up tab content @e -->
+
+                        </div>
+                    </div>
+                </div>
+
+<!-- ##################################################################################################### -->
+                                <!-- TABS & TAB CONTENT END -->
+<!-- ##################################################################################################### -->
+
+                <!-- tab e-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+<!-- ##################################################################################################### -->
+                                <!-- ..CONTENT END..  
+                                    ..MODAL START..-->
+<!-- ##################################################################################################### -->
+
+<!-- ##################### ESCALATE MODAL @S ############################## -->
+
+<!-- escalate modal @ s -->
+<div class="modal fade" tabindex="-1" id="escalate" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Escalate Appointment </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="escalate">
+                    <!-- <ul>
+                        <li>Patient ID : <strong>#{{appointment_details.appointment_id}}</strong></li>
+
+                        <li>Patient Name : <strong>{{appointment_details.user_fname}}
+                            {{appointment_details.user_lname}}</strong></li>
+
+                        <li>Appointment Date : <strong>{{appointment_details.appointment_date}}</strong></li>
+                    </ul> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="observations">Observations</label>
+                        <div class="form-control-wrap">
+                            <textarea class="form-control form-control-simple no-resize" id="observations" name="observations" placeholder="Write your observations here"></textarea>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="form-label" for="doctor">Select Specialization</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="doctor" name="doctor">
+                                    <option value="">Select Option</option>
+                                    <option value="1">Sexologist</option>
+                                    <option value="2">Psychologist</option>
+                                    <option value="3">Dietitian </option>
+                                    <option value="4">Somnologist</option>
+                                    {#<option value="option_select_name">Option select name</option>#}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="doctor">Select Doctor</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="doctor">
+                                    <option value="">Default Option</option>
+                                    <option value="doctor_senior">Dr John RV</option>
+                                    {#<option value="option_select_name">Option select name</option>#}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="full_name">Full Name</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="full_name" name="full_name" {#required=""#}>
+                        </div>
+                    </div> -->
+                    
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="phone_number">Mobile Number</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="phone_number" name="phone_number">
+                        </div>
+                    </div> -->
+                   
+                    <div class="form-group">
+                        {#<button type="submit" class="btn btn-md btn-dark">Escalate</button>#}
+                        
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer bg-light">
+                <span class="sub-text">Modal Footer Text</span>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- escalate edit modal @e -->
+
+<!-- #################### ESCALATE MODAL @E ######################### -->
+
+<!-- ##################### EDIT CUSTOMER INFO MODAL @S ############################## -->
+<!-- customer info edit modal @ s -->
+<div class="modal fade" tabindex="-1" id="edit_customer_info" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Customer Info </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="edit_customer_info">
+                    <!-- <ul>
+                        <li>Patient ID : <strong>#{{appointment_details.appointment_id}}</strong></li>
+
+                        <li>Patient Name : <strong>{{appointment_details.user_fname}}
+                            {{appointment_details.user_lname}}</strong></li>
+
+                        <li>Appointment Date : <strong>{{appointment_details.appointment_date}}</strong></li>
+                    </ul> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="observations">Observations</label>
+                        <div class="form-control-wrap">
+                            <textarea class="form-control form-control-simple no-resize" id="observations" name="observations" placeholder="Write your observations here"></textarea>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="form-label" for="full_name">Full Name</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="full_name" name="full_name" {#required=""#}>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date Of Birth</label>
+                        <div class="form-control-wrap">
+                            {#<div class="form-icon form-icon-left">#}
+                                {#<em class="icon ni ni-calendar"></em>#}
+                            {#</div>#}
+                            <input type="date" class="form-control " id="date_of_birth" name="date_of_birth" data-date-format="yyyy-mm-dd">
+                        </div>
+                        <!-- <div class="form-note">Date format <code>yyyy-mm-dd</code></div> -->
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone_number">Mobile Number</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="phone_number" name="phone_number">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="email-address">Email address</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="email-address" required="">
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Save Informations</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer bg-light">
+                <span class="sub-text">Modal Footer Text</span>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- customer info edit modal @e -->
+
+<!-- #################### EDIT CUSTOMER INFO MODAL @E ######################### -->
+
+<!-- ################### ANALYSIS MODAL @S ############################## -->
+
+<!-- add analysis modal @s-->
+<div class="modal fade" tabindex="-1" id="add_analysis" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Analysis</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST"  class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="analysis">
+                    <ul>
+                        
+                        <li>Patient ID : <strong>#{{appointment_details.user_id}}</strong></li>
+
+                         <li>Appointment ID : <strong>#{{appointment_details.appointment_id}}</strong></li>
+                    
+                        <li>Patient Name : <strong>{{appointment_details.user_fname}}
+                            {{appointment_details.user_lname}}</strong></li>
+
+                        <li>Appointment Date : <strong>{{appointment_details.appointment_date}}</strong></li>
+                    </ul>
+                    <div class="nk-divider divider md"></div>
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="default-06">Choose File To Upload</label>
+                        <div class="form-control-wrap">
+                            <div class="custom-file">
+                                <input type="file" accept="image/png, .jpeg, .jpg, .pdf"  class="custom-file-input" id="customFile" name="customFile">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="form-label" for="analysis">Analysis</label>
+                        <div class="form-control-wrap">
+                            <textarea class="form-control form-control-simple no-resize" id="analysis" name="analysis" placeholder="Write analysis here"></textarea>
+                        </div>
+                    </div>   
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Save Informations</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer bg-light">
+                <span class="sub-text">Modal Footer Text</span>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- add analysis modal @e -->
+
+<!-- ################## ANALYSIS MODAL @E ############################### -->
+
+<!-- ################# OBSERVATION MODAL @s ############################ -->
+
+<!-- add observation modal @s-->
+<div class="modal fade" tabindex="-1" id="add_observation" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Observation</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="observation">
+                    <ul>
+                        <li>Patient ID : <strong>#{{appointment_details.appointment_id}}</strong></li>
+
+                        <li>Patient Name : <strong>{{appointment_details.user_fname}}
+                            {{appointment_details.user_lname}}</strong></li>
+
+                        <li>Appointment Date : <strong>{{appointment_details.appointment_date}}</strong></li>
+                    </ul>
+                    <div class="form-group">
+                        <label class="form-label" for="observations">Observations</label>
+                        <div class="form-control-wrap">
+                            <textarea class="form-control form-control-simple no-resize" id="observations" name="observations" placeholder="Write your observations here"></textarea>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="full-name">Full Name</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="full-name" required="">
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="email-address">Email address</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="email-address" required="">
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="phone-no">Phone No</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="phone-no">
+                        </div>
+                    </div> -->
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Save Informations</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer bg-light">
+                <span class="sub-text">Modal Footer Text</span>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- add observation modal @e -->
+
+<!-- ################# OBSERVATION MODAL @e ############################ -->
+
+<!-- ################# PRESCRIPTION MODAL @s ############################ -->
+
+<!-- upload prescription modal @s-->
+<div class="modal fade" tabindex="-1" id="upload_prescription" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Prescription</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" >
+                    <input type="hidden" id="form_type" name="form_type" value="upload_prescription">
+                    <ul>
+                        <li>Patient ID : <strong>#{{appointment_details.appointment_id}}</strong></li>
+                        
+                        <li>Patient Name : <strong>{{appointment_details.user_fname}}
+                            {{appointment_details.user_lname}}</strong></li>
+
+                        <li>Appointment Date : <strong>{{appointment_details.appointment_date}}</strong></li>
+                    </ul>
+                    <div class="form-group">
+                        <label class="form-label" for="default-06">Choose File To Upload</label>
+                        <div class="form-control-wrap">
+                            <div class="custom-file">
+                                <input type="file" accept="image/png, .jpeg, .jpg, .pdf"  class="custom-file-input" id="customFile" name="customFile">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="default-textarea">Prescription</label>
+                        <div class="form-control-wrap">
+                            <textarea class="form-control form-control-simple no-resize" id="prescription" name="prescription" placeholder="Write prescription here"></textarea>
+                        </div>
+                    </div> -->   
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Save Informations</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer bg-light">
+                <span class="sub-text">Modal Footer Text</span>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- upload prescription modal @e -->
+
+<!-- add prescription modal @s-->
+<div class="modal fade" tabindex="-1" id="add_prescription" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Prescription</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" >
+                    <input type="hidden" id="form_type" name="form_type" value="prescription">
+                    <ul>
+                        <li>Patient ID : <strong>#{{appointment_details.appointment_id}}</strong></li>
+                        
+                        <li>Patient Name : <strong>{{appointment_details.user_fname}}
+                            {{appointment_details.user_lname}}</strong></li>
+
+                        <li>Appointment Date : <strong>{{appointment_details.appointment_date}}</strong></li>
+                    </ul>
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="default-06">Choose File To Upload</label>
+                        <div class="form-control-wrap">
+                            <div class="custom-file">
+                                <input type="file" accept="image/png, .jpeg, .jpg, .pdf"  class="custom-file-input" id="customFile" name="customFile">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="form-label" for="prescription">Prescription</label>
+                        <div class="form-control-wrap">
+                            <textarea class="form-control form-control-simple no-resize" id="prescription" name="prescription" placeholder="Write prescription here"></textarea>
+                        </div>
+                    </div>   
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Save Informations</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer bg-light">
+                <span class="sub-text">Modal Footer Text</span>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- add prescription modal @e -->
+
+<!-- ################# PRESCRIPTION MODAL @e ############################ @e -->
+
+<!-- ################# RESCHEDULE MODAL @s ############################ -->
+
+<!-- reschedule modal @s-->
+<div class="modal fade" tabindex="-1" id="reschedule" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reschedule Appointment </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST">
+                    <input type="hidden" id="form_type" name="form_type" value="reschedule">
+                    <!-- <ul>
+                        <li>Patient ID : <strong>#{{appointment_details.appointment_id}}</strong></li>
+                        
+                        <li>Patient Name : <strong>{{appointment_details.user_fname}}
+                            {{appointment_details.user_lname}}</strong></li>
+
+                        <li>Date : <strong>{{appointment_details.appointment_date}}</strong></li>
+                    </ul> -->
+                    <div class="form-group">
+                        <label class="form-label">Reschedule Date</label>
+                        <div class="form-control-wrap">
+                            {#<div class="form-icon form-icon-left">#}
+                                {#<em class="icon ni ni-calendar"></em>#}
+                            {#</div>#}
+                            <input type="date" class="form-control " id="reschedule_date" name="reschedule_date" data-date-format="yyyy-mm-dd">
+                        </div>
+                        <!-- <div class="form-note">Date format <code>yyyy-mm-dd</code></div> -->
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Reschedule Time</label>
+                        <div class="form-control-wrap ">
+                            <input type="time" class="form-control " id="reschedule_time" name="reschedule_time" placeholder="Select Time">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="full-name">Full Name</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="full-name" required="">
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="email-address">Email address</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="email-address" required="">
+                        </div>
+                    </div> -->
+                    
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="pay-amount">Amount</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="pay-amount">
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Send Reschedule Request</button>
+                        
+                        
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer bg-light">
+                <span class="sub-text">Modal Footer Text</span>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- reschedule modal @e -->
+<!-- ################# RESCHEDULE MODAL @e ############################ -->
+
+<!-- ################# FOLLOW UP MODAL @s ############################ -->
+
+<!-- follow up modal @s-->
+<div class="modal fade" tabindex="-1" id="add_follow_up" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Follow Up Appointment </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST">
+                    <input type="hidden" id="form_type" name="form_type" value="follow_up">
+                    <!-- <ul>
+                        <li>Patient ID : <strong>#{{appointment_details.appointment_id}}</strong></li>
+                        
+                        <li>Patient Name : <strong>{{appointment_details.user_fname}}
+                            {{appointment_details.user_lname}}</strong></li>
+
+                        <li>Date : <strong>{{appointment_details.appointment_date}}</strong></li>
+                    </ul> -->
+                    <div class="form-group">
+                        <label class="form-label">Follow Up Appointment Date</label>
+                        <div class="form-control-wrap">
+                            {#<div class="form-icon form-icon-left">#}
+                                {#<em class="icon ni ni-calendar"></em>#}
+                            {#</div>#}
+                            <input type="date" class="form-control " id="follow_up_date" name="follow_up_date" data-date-format="yyyy-mm-dd">
+                        </div>
+                        <!-- <div class="form-note">Date format <code>yyyy-mm-dd</code></div> -->
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Follow Up Appointment Time</label>
+                        <div class="form-control-wrap ">
+                            <input type="time" class="form-control " id="follow_up_time" name="follow_up_time" placeholder="Select Time">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="full-name">Full Name</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="full-name" required="">
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="email-address">Email address</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="email-address" required="">
+                        </div>
+                    </div> -->
+                    
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="pay-amount">Amount</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="pay-amount">
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Add Follow Up</button>
+                        
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer bg-light">
+                <span class="sub-text">Modal Footer Text</span>
+            </div> -->
+        </div>
+    </div>
+</div>
+<!-- follow up modal @e -->
+<!-- ################# FOLLOW UP MODAL @e ############################ -->
+
+{% endblock %}

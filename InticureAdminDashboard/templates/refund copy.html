@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <div class="d-flex mb3">
+                                    <h4 class="nk-block-title mr-auto ">Refund</h4>
+                                    {#<a href="html/user-list-regular.html"
+                                        class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                            class="icon ni ni-arrow-left"></em><span>Back</span></a>#}
+                                    {#<button class="d-sm-inline-flex btn btn-dark btn-md ">Add </button>#}
+                                </div>
+                                <div class="nk-block-des">
+                                    {#<p>Using the most basic table markup, here’s how <code
+                                            class="code-class">.table</code> based tables look by default.</p>#}
+                                </div>
+                            </div>
+                        </div>
+                        {#
+                            <!-- Datatable -->
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <table class="datatable-init table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Tiger Nixon</td>
+                                            <td>System Architect</td>
+                                            <td>Edinburgh</td>
+                                            <td>61</td>
+                                            <td>2011/04/25</td>
+                                            <td>$320,800</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Garrett Winters</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>63</td>
+                                            <td>2011/07/25</td>
+                                            <td>$170,750</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ashton Cox</td>
+                                            <td>Junior Technical Author</td>
+                                            <td>San Francisco</td>
+                                            <td>66</td>
+                                            <td>2009/01/12</td>
+                                            <td>$86,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cedric Kelly</td>
+                                            <td>Senior Javascript Developer</td>
+                                            <td>Edinburgh</td>
+                                            <td>22</td>
+                                            <td>2012/03/29</td>
+                                            <td>$433,060</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Airi Satou</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>33</td>
+                                            <td>2008/11/28</td>
+                                            <td>$162,700</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Brielle Williamson</td>
+                                            <td>Integration Specialist</td>
+                                            <td>New York</td>
+                                            <td>61</td>
+                                            <td>2012/12/02</td>
+                                            <td>$372,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Herrod Chandler</td>
+                                            <td>Sales Assistant</td>
+                                            <td>San Francisco</td>
+                                            <td>59</td>
+                                            <td>2012/08/06</td>
+                                            <td>$137,500</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rhona Davidson</td>
+                                            <td>Integration Specialist</td>
+                                            <td>Tokyo</td>
+                                            <td>55</td>
+                                            <td>2010/10/14</td>
+                                            <td>$327,900</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Colleen Hurst</td>
+                                            <td>Javascript Developer</td>
+                                            <td>San Francisco</td>
+                                            <td>39</td>
+                                            <td>2009/09/15</td>
+                                            <td>$205,500</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sonya Frost</td>
+                                            <td>Software Engineer</td>
+                                            <td>Edinburgh</td>
+                                            <td>23</td>
+                                            <td>2008/12/13</td>
+                                            <td>$103,600</td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card-preview -->
+                        #}
+
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <ul class="list-inline mb-2">
+                                <li>
+                                <!-- <div class="form-group mb-2">
+                                    <button class=" btn btn-dark  ">Filter </button>
+                                                                   
+                                </div> -->
+
+                                <div class="dropdown">
+                                    <a href="#" class="btn btn-primary" data-toggle="dropdown"><span>Filter </span><em class="icon ni ni-chevron-down"></em></a>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-auto mt-1">
+                                        <ul class="link-list-plain">
+                                            <li><a href="#">All</a></li>
+                                            <li><a href="#">Paid</a></li>
+                                            <li><a href="#">Pending</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </li>
+
+                            <li>From:</li>
+
+                            <li>
+                                <div class="form-group" style="margin-top: 1px;">
+                                    <label class="form-label" style="font-family:Manrope ;font-weight:400;font: size 15px;"></label>
+                                    <div class="form-control-wrap">
+                                        {#<div class="form-icon form-icon-left">#}
+                                            {#<em class="icon ni ni-calendar"></em>#}
+                                        {#</div>#}
+                                        <input type="date" class="form-control " id="dob" name="dob" data-date-format="yyyy-mm-dd"  {#onchange="followupDoctorList('date')"#} required>
+                                    </div>
+                                    <!-- <div class="form-note">Date format <code>yyyy-mm-dd</code></div> -->
+                                </div>
+                            </li>
+
+                            <li>To:</li>
+
+                            <li>
+                                <div class="form-group" style="margin-top: 1px;">
+                                    <label class="form-label" style="font-family:Manrope ;font-weight:400;font: size 15px;"></label>
+                                    <div class="form-control-wrap">
+                                        {#<div class="form-icon form-icon-left">#}
+                                            {#<em class="icon ni ni-calendar"></em>#}
+                                        {#</div>#}
+                                        <input type="date" class="form-control " id="dob" name="dob" data-date-format="yyyy-mm-dd"  {#onchange="followupDoctorList('date')"#} required>
+                                    </div>
+                                    <!-- <div class="form-note">Date format <code>yyyy-mm-dd</code></div> -->
+                                </div>
+                            </li>
+                            </ul>
+
+                                <!-- <br> -->
+                                <table class="table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">App. No</th>
+                                            <th scope="col">Patient Name</th>
+                                            <th scope="col">Refund Amount</th>
+                                            <th>App. Date</th>
+                                            <th scope="col">Status</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row"></th>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                            <td></td>
+                                            <td></td>
+
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr> -->
+                                        <tr></tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- Pagination -->
+                                <nav>
+                                    <ul class="pagination justify-content-center mt-2">
+                                        <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Prev</a></li>
+                                        <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">2 <span class="sr-only">(current)</span></a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                    </ul>
+                                </nav>
+                                <!-- Pagination -->
+                            </div>
+                        </div><!-- .card-preview -->
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/2.3.4/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+
+function pdfFunc(pres_id){
+
+var element = document.getElementById('prescription_pdf'+pres_id);
+var opt = {
+margin:       1,
+filename:     'prescription.pdf',
+image:        { type: 'jpeg', quality: 0.98 },
+html2canvas:  { scale: 2 },
+};
+
+html2pdf().set(opt).from(element).save();
+
+html2pdf(element, opt);
+
+
+}
+
+</script>

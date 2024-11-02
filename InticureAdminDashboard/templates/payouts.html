@@ -1,0 +1,959 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content ">
+    <!-- SWEET ALERTS @S -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<script>
+   
+Swal.fire({
+
+       title:"{{ category.title() }}!",
+       // success , error , warning ,info
+
+       text: "{{ message }}",
+       // Custom message flashed from your flask routes
+
+       icon: "{{ category }}"
+       // success , error , warning ,info
+
+})
+
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<!-- SWEET ALERTS @E -->
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <div class="d-flex mb3">
+                                    <h4 class="nk-block-title mr-auto ">Payouts</h4>
+                                    <div class="button-group">
+                                        <a class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" href="{{url_for('payouts',currency='inr')}}">
+                                            </em><span>India</span></a>
+                                        <a class="d-sm-inline-flex btn btn-outline-light bg-white btn-md"  href="{{url_for('payouts',currency='usd')}}">
+                                            <span>US</span></a>
+                                        {#<a href="html/user-list-regular.html"
+                                            class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                                class="icon ni ni-arrow-left"></em><span>Back</span></a>#}
+                                                <!-- filter button -->
+                                                {#<button class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" data-toggle="modal"
+                                            data-target="#filter"><em class="icon ni ni-filter"></em><span>Filter</span></button>#}
+                                            <!-- add doctor button -->
+                                        {#<button class="d-sm-inline-flex btn btn-dark btn-md" data-toggle="modal"
+                                            data-target="#add_plan">Create A Plan</button>#}
+                                        {#<a class="d-sm-inline-flex btn btn-dark btn-md" 
+                                             href="{{url_for('add_plan')}}">Create A Plan</a>#}
+                                        </div>
+                                </div>
+                                <div class="nk-block-des">
+                                    {#<p>Using the most basic table markup, here’s how <code
+                                            class="code-class">.table</code> based tables look by default.</p>#}
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                            {% for earnings in inticure_earnings %}
+                        <div class="row g-gs">
+                        <!-- 1ST CARD @S -->
+                        <div class="col-md-3" style="margin-bottom:30px ;">
+                            <div class="card card-bordered card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0" style="display: none;">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Net Profit in {{earnings.currency|upper}}</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Deposited"></em>
+                                        </div> -->
+                                    </div>
+                                    
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> 
+                                            {% if earnings.currency == 'inr' %}
+                                            {{earnings.net_profit}} 
+                                            {% else %}
+                                            {{earnings.net_profit_usd}} 
+                                            {% endif %}
+                                        </h3> 
+                                            {#<span class="currency currency-usd">New Appointments</span>#}
+                                        </span>
+                                        <span class="change up text-danger ml-auto ">
+                                            {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                            <em class="bg-success-dim icon-circle icon ni ni-arrow-up-right" style="visibility:hidden;"></em>
+                                            {#1.93%#}</span>
+                                            
+                                            <!-- <div class="user-avatar md bg-blue-dim ml-auto">
+                                                <span {#class="change up text-danger  "#}>
+                                                    {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                                    {#<em class="bg-success-dim icon-circle icon ni ni-arrow-down-left"></em>#}
+                                                    {#<div class="user-avatar sm bg-blue"><span>N</span></div>#}
+                                                    1.93%</span>
+                                                </div> -->
+                                    </div>
+                                    <!-- <div class="invest-data">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title">This Month</div>
+                                                <div class="amount">2,940.59 <span class="currency currency-usd">USD</span></div>
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">This Week</div>
+                                                <div class="amount">1,259.28 <span class="currency currency-usd">USD</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="invest-data-ck"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                                            <canvas class="iv-data-chart chartjs-render-monitor" id="totalDeposit" style="display: block; height: 68px; width: 97px;" width="194" height="136"></canvas>
+                                        </div>
+                                    </div> -->
+                                    
+                                </div>
+                                <!-- <div class="fake-class"> -->
+                                    {#
+                                    <div class="progress">
+                                        <div class="progress-bar" data-progress="100" style="width: 100%;"></div>
+                                    </div>
+                                    #}
+                                <!-- </div> -->
+                            </div><!-- .card -->
+                            
+                        </div>
+
+                         <!-- 2ND CARD @S -->
+                        <div class="col-md-3" style="margin-bottom:30px ;">
+                            <div class="card card-bordered card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0" style="display: none;">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Net Income in {{earnings.currency|upper}}</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Deposited"></em>
+                                        </div> -->
+                                    </div>
+                                    
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> 
+                                            {% if earnings.currency == 'inr' %}
+                                            {{earnings.net_income}}  
+                                            {% else %}
+                                            {{earnings.net_income_usd}} 
+                                            {% endif %}
+                                        </h3> {#<span class="currency currency-usd">New Appointments</span>#}
+                                        </span>
+                                        <span class="change up text-danger ml-auto ">
+                                            {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                            <em class="bg-success-dim icon-circle icon ni ni-arrow-up-right" style="visibility:hidden;"></em>
+                                            {#1.93%#}</span>
+                                            
+                                            <!-- <div class="user-avatar md bg-blue-dim ml-auto">
+                                                <span {#class="change up text-danger  "#}>
+                                                    {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                                    {#<em class="bg-success-dim icon-circle icon ni ni-arrow-down-left"></em>#}
+                                                    {#<div class="user-avatar sm bg-blue"><span>N</span></div>#}
+                                                    1.93%</span>
+                                                </div> -->
+                                    </div>
+                                    <!-- <div class="invest-data">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title">This Month</div>
+                                                <div class="amount">2,940.59 <span class="currency currency-usd">USD</span></div>
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">This Week</div>
+                                                <div class="amount">1,259.28 <span class="currency currency-usd">USD</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="invest-data-ck"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                                            <canvas class="iv-data-chart chartjs-render-monitor" id="totalDeposit" style="display: block; height: 68px; width: 97px;" width="194" height="136"></canvas>
+                                        </div>
+                                    </div> -->
+                                    
+                                </div>
+                                <!-- <div class="fake-class"> -->
+                                    {#
+                                    <div class="progress">
+                                        <div class="progress-bar" data-progress="100" style="width: 100%;"></div>
+                                    </div>
+                                    #}
+                                <!-- </div> -->
+                            </div><!-- .card -->
+                            
+                        </div>
+
+                        <!-- 3RD CARD @S -->
+                        <div class="col-md-3" style="margin-bottom:30px ;">
+                            <div class="card card-bordered card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0" style="display: none;">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Net Expenses in {{earnings.currency|upper}}</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Deposited"></em>
+                                        </div> -->
+                                    </div>
+                                    
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> 
+                                            {% if earnings.currency == 'inr' %}
+                                            {{earnings.net_expense}}
+                                            {% else %}
+                                            {{earnings.net_expense_usd}}
+                                            {% endif %}
+                                        </h3> {#<span class="currency currency-usd">New Appointments</span>#}
+                                        </span>
+                                        <span class="change up text-danger ml-auto ">
+                                            {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                            <em class="bg-success-dim icon-circle icon ni ni-arrow-up-right" style="visibility:hidden;"></em>
+                                            {#1.93%#}</span>
+                                            
+                                            <!-- <div class="user-avatar md bg-blue-dim ml-auto">
+                                                <span {#class="change up text-danger  "#}>
+                                                    {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                                    {#<em class="bg-success-dim icon-circle icon ni ni-arrow-down-left"></em>#}
+                                                    {#<div class="user-avatar sm bg-blue"><span>N</span></div>#}
+                                                    1.93%</span>
+                                                </div> -->
+                                    </div>
+                                    <!-- <div class="invest-data">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title">This Month</div>
+                                                <div class="amount">2,940.59 <span class="currency currency-usd">USD</span></div>
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">This Week</div>
+                                                <div class="amount">1,259.28 <span class="currency currency-usd">USD</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="invest-data-ck"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                                            <canvas class="iv-data-chart chartjs-render-monitor" id="totalDeposit" style="display: block; height: 68px; width: 97px;" width="194" height="136"></canvas>
+                                        </div>
+                                    </div> -->
+                                    
+                                </div>
+                                <!-- <div class="fake-class"> -->
+                                    {#
+                                    <div class="progress">
+                                        <div class="progress-bar" data-progress="100" style="width: 100%;"></div>
+                                    </div>
+                                    #}
+                                <!-- </div> -->
+                            </div><!-- .card -->
+                            
+                        </div>
+
+                        <!-- 4TH CARD @S -->
+                        <div class="col-md-3" style="margin-bottom:30px ;">
+                            <div class="card card-bordered card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0" style="display: none;">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Net Amount in {{earnings.currency|upper}}</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Deposited"></em>
+                                        </div> -->
+                                    </div>
+                                    
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2">
+                                            <h3> 
+                                                
+                                            {% if earnings.net_amount %}
+                                                {% if earnings.currency == 'inr' %}
+                                                    {{earnings.net_amount}} 
+                                                {% else %}
+                                                    {{earnings.net_amount_usd}} 
+                                                {% endif %}
+                                            {% else %}
+                                            0.0
+                                            {% endif %}
+                                            
+                                        </h3> 
+                                            {#<span class="currency currency-usd">New Appointments</span>#}
+                                        </span>
+                                        <span class="change up text-danger ml-auto ">
+                                            {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                            <em class="bg-success-dim icon-circle icon ni ni-arrow-up-right" style="visibility:hidden;"></em>
+                                            {#1.93%#}</span>
+                                            
+                                            <!-- <div class="user-avatar md bg-blue-dim ml-auto">
+                                                <span {#class="change up text-danger  "#}>
+                                                    {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                                    {#<em class="bg-success-dim icon-circle icon ni ni-arrow-down-left"></em>#}
+                                                    {#<div class="user-avatar sm bg-blue"><span>N</span></div>#}
+                                                    1.93%</span>
+                                                </div> -->
+                                    </div>
+                                    <!-- <div class="invest-data">
+                                        <div class="invest-data-amount g-2">
+                                            <div class="invest-data-history">
+                                                <div class="title">This Month</div>
+                                                <div class="amount">2,940.59 <span class="currency currency-usd">USD</span></div>
+                                            </div>
+                                            <div class="invest-data-history">
+                                                <div class="title">This Week</div>
+                                                <div class="amount">1,259.28 <span class="currency currency-usd">USD</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="invest-data-ck"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                                            <canvas class="iv-data-chart chartjs-render-monitor" id="totalDeposit" style="display: block; height: 68px; width: 97px;" width="194" height="136"></canvas>
+                                        </div>
+                                    </div> -->
+                                    
+                                </div>
+                                <!-- <div class="fake-class"> -->
+                                    {#
+                                    <div class="progress">
+                                        <div class="progress-bar" data-progress="100" style="width: 100%;"></div>
+                                    </div>
+                                    #}
+                                <!-- </div> -->
+                            </div><!-- .card -->
+                            
+                        </div>
+
+                    </div>
+                    {% endfor %}
+                    
+
+<!-- ************** CARD & TABS ******************** -->
+                        <div class="card">
+                            {#<div class="card-aside-wrap">#}
+                                <div class="card-content">
+                                    <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="#new_payout_req">{#<em class="icon ni ni-repeat"></em>#}<span>Payout Requests</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#approved_payouts">{#<em class="icon ni ni-file-text"></em>#}<span>Approved Payouts</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#rejected_payouts">{#<em class="icon ni ni-file-text"></em>#}<span>Rejected Payouts</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link " data-toggle="tab" href="#all_payouts">{#<em class="icon ni ni-user-circle">#}</em><span>All Payouts</span></a>
+                                        </li>
+                                                                               
+                                        {#
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#"><em class="icon ni ni-bell"></em><span>Notifications</span></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#"><em class="icon ni ni-activity"></em><span>Activities</span></a>
+                                        </li>
+                                        #}
+                                        {#
+                                        <li class="nav-item nav-item-trigger d-xxl-none">
+                                            <a href="#" class="toggle btn btn-icon btn-trigger" data-target="userAside"><em class="icon ni ni-user-list-fill"></em></a>
+                                        </li>
+                                        #}
+                                    </ul><!-- .nav-tabs -->
+    
+                                   <!-- ################################### TAB CONTENT @S ############################################ -->
+                                   <div class="tab-content">
+
+
+                                    
+                                    <!-- * * * NEW PAYOUT REQUESTS TAB @S * * * -->
+                                    <div class="tab-pane active" id="new_payout_req">
+
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <table class="datatable-init table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Doctor</th>
+                                            <th>Appointment ID</th>
+                                            <th>Payout Date</th>
+                                            <th>Payout Time</th>
+                                            <th>Payout Status</th>
+                                            <th>Payout Amount</th>
+                                            <th>Inticure Fees</th>
+                                            <th></th>
+                                            <!-- <th>Start date</th>
+                                            <th>Salary</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for payout in new_payouts %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{payout.doctor_id}}</td>
+                                            <td>{{payout.appointment_id}}</td>
+                                            <td>{{payout.payout_date|date_format}}</td>
+                                            <td>{{payout.payout_time|time_format}}</td>
+                                            <td>
+                                                <!-- {{payout.payout_status}} -->
+                                                <!-- New payout request -->
+                                                {% if payout.payout_status == 0 %}
+                                                New payout request
+                                                {% elif payout.payout_status == 1 %}
+                                                Approved
+                                                {% elif payout.payout_status == 2 %}
+                                                Rejected
+                                                {% endif %}
+                                            </td>
+                                            <td>{{payout.payout_amount}} {{payout.currency|upper}}</td>    
+                                            <td>
+                                                {% if payout.inticure_fee %}
+                                                {{payout.inticure_fee}} 
+                                                {% else %}
+                                                0
+                                                {% endif %}
+                                                {{payout.currency|upper}}
+                                            </td>
+                                            <!-- <td>2011/04/25</td>
+                                            <td>$320,800</td> -->
+                                            <td class="tb-odr-action">
+                                                {#<div class="tb-odr-btns d-none d-md-inline">
+                                                    <a href="#" class="btn btn-sm btn-primary">View</a>
+                                                </div>#}
+                                                <div class="dropdown">
+                                                    <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" data-offset="-8,0"><em class="icon ni ni-more-h"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                        <ul class="link-list-plain">
+                                                            {#<li><a href="{{url_for('edit_plan',plan_id=plan.id)}}" class="text-primary">Edit</a></li>#}
+                                                            <li><a href="{{url_for('payout_details',payout_id=payout.payout_id)}}" class="text-primary">View</a></li>
+                                                            {% if payout.payout_status == 0  %}
+                                                            <li><a href="#approve_payout{{payout.payout_id}}" data-toggle="modal" class="text-primary">Approve Payout</a></li>
+                                                            <li><a href="#reject_payout{{payout.payout_id}}" data-toggle="modal" class="text-danger">Reject Payout</a></li>
+                                                            {% endif %}
+                                                            <!-- <li><a {#href="#remove{{plan.id}}"#} data-toggle="modal" class="text-danger">Remove</a></li> -->
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- --------------------- ACCEPT/APPROVE PAYOUT MODAL @S --------------------------------- -->
+
+<div class="modal fade" tabindex="-1" id="approve_payout{{payout.payout_id}}" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-info"></em>
+                    <h4 class="nk-modal-title">Confirm Payout</h4>
+                    <p class="lead">Dr {{payout.doctor_name}} will be paid {{payout.payout_amount}} {{payout.currency|upper}} for this appointment.</p>
+                    <!-- <div class="nk-modal-text">
+                        <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p>
+                        <p class="text-soft">If you need help please contact us at (855) 485-7373.</p>
+                    </div> -->
+                    <div class="nk-modal-action mt-5">
+                        <a href="{{url_for('payout_approval',doctor_id=payout.doctor_id,payout_id=payout.payout_id,payout_status=1)}}" type="button" class="btn btn-lg btn-mw btn-primary">Approve payout request</a>
+                        <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+
+<!-- --------------------- ACCEPT/APPROVE PAYOUT MODAL @E --------------------------------- -->
+
+<!-- --------------------- REJECT PAYOUT MODAL @S --------------------------------- -->
+
+    <div class="modal fade" tabindex="-1" id="reject_payout{{payout.payout_id}}" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-lg text-center">
+                    <div class="nk-modal">
+                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                        <h4 class="nk-modal-title">Are you sure ?</h4>
+                        <p class="lead">Dr {{payout.doctor_name}} will not be paid for this appointment.</p>
+                        <!-- <div class="nk-modal-text">
+                            <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p>
+                            <p class="text-soft">If you need help please contact us at (855) 485-7373.</p>
+                        </div> -->
+                        <div class="nk-modal-action mt-5">
+                            <a href="{{url_for('payout_approval',doctor_id=payout.doctor_id,payout_id=payout.payout_id,payout_status=2)}}" type="button" class="btn btn-lg btn-mw btn-primary">Reject payout request</a>
+                            <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- --------------------- REJECT PAYOUT MODAL @E --------------------------------- -->
+
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card-preview -->
+                    </div>
+                    <!-- * * * NEW PAYOUT REQUESTS TAB @E * * * -->
+
+<!-- * * * APPROVED PAYOUTS TAB @S * * * -->
+<div class="tab-pane " id="approved_payouts">
+
+    <div class="card card-preview">
+        <div class="card-inner">
+            <table class="datatable-init table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Doctor</th>
+                        <th>Appointment ID</th>
+                        <th>Payout Date</th>
+                        <th>Payout Time</th>
+                        <th>Payout Status</th>
+                        <th>Payout Amount</th>
+                        <th>Inticure Fees</th>
+                        <th></th>
+                        <!-- <th>Start date</th>
+                        <th>Salary</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payout in approved_payouts %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{payout.doctor_id}}</td>
+                        <td>{{payout.appointment_id}}</td>
+                        <td>{{payout.payout_date|date_format}}</td>
+                        <td>{{payout.payout_time|time_format}}</td>
+                        <td>
+                            <!-- {{payout.payout_status}} -->
+                            <!-- Approved -->
+                            {% if payout.payout_status == 0 %}
+                            New payout request
+                            {% elif payout.payout_status == 1 %}
+                            Approved
+                            {% elif payout.payout_status == 2 %}
+                            Rejected
+                            {% endif %}
+                        </td>
+                        <td>{{payout.payout_amount}} {{payout.currency|upper}}</td>    
+                        <td>
+                            {% if payout.inticure_fee %}
+                                {{payout.inticure_fee}} 
+                            {% else %}
+                                0
+                            {% endif %}
+                                {{payout.currency|upper}}
+                        </td>
+                        <!-- <td>2011/04/25</td>
+                        <td>$320,800</td> -->
+                        <td class="tb-odr-action">
+                            {#<div class="tb-odr-btns d-none d-md-inline">
+                                <a href="#" class="btn btn-sm btn-primary">View</a>
+                            </div>#}
+                            <div class="dropdown">
+                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" data-offset="-8,0"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                    <ul class="link-list-plain">
+                                        {#<li><a href="{{url_for('edit_plan',plan_id=plan.id)}}" class="text-primary">Edit</a></li>#}
+                                        <li><a href="{{url_for('payout_details',payout_id=payout.payout_id)}}" class="text-primary">View</a></li>                                        
+                                        <!-- <li><a {#href="#remove{{plan.id}}"#} data-toggle="modal" class="text-danger">Remove</a></li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div><!-- .card-preview -->
+</div>
+<!-- * * * APPROVED PAYOUTS  TAB @E * * * -->
+
+<!-- * * * REJECTED PAYOUTS TAB @S * * * -->
+<div class="tab-pane " id="rejected_payouts">
+
+    <div class="card card-preview">
+        <div class="card-inner">
+            <table class="datatable-init table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Doctor</th>
+                        <th>Appointment ID</th>
+                        <th>Payout Date</th>
+                        <th>Payout Time</th>
+                        <th>Payout Status</th>
+                        <th>Payout Amount</th>
+                        <th>Inticure Fees</th>
+                        <th></th>
+                        <!-- <th>Start date</th>
+                        <th>Salary</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payout in rejected_payouts %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{payout.doctor_id}}</td>
+                        <td>{{payout.appointment_id}}</td>
+                        <td>{{payout.payout_date|date_format}}</td>
+                        <td>{{payout.payout_time|time_format}}</td>
+                        <td>
+                            <!-- {{payout.payout_status}} -->
+                            <!-- Rejected -->
+                            {% if payout.payout_status == 0 %}
+                            New payout request
+                            {% elif payout.payout_status == 1 %}
+                            Approved
+                            {% elif payout.payout_status == 2 %}
+                            Rejected
+                            {% endif %}
+                        </td>
+                        <td>{{payout.payout_amount}} {{payout.currency|upper}}</td>    
+                        <td>
+                            {% if payout.inticure_fee %}
+                                {{payout.inticure_fee}} 
+                            {% else %}
+                                0
+                            {% endif %}
+                                {{payout.currency|upper}}
+                        </td>
+                        <!-- <td>2011/04/25</td>
+                        <td>$320,800</td> -->
+                        <td class="tb-odr-action">
+                            {#<div class="tb-odr-btns d-none d-md-inline">
+                                <a href="#" class="btn btn-sm btn-primary">View</a>
+                            </div>#}
+                            <div class="dropdown">
+                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" data-offset="-8,0"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                    <ul class="link-list-plain">
+                                        {#<li><a href="{{url_for('edit_plan',plan_id=plan.id)}}" class="text-primary">Edit</a></li>#}
+                                        <li><a href="{{url_for('payout_details',payout_id=payout.payout_id)}}" class="text-primary">View</a></li>
+                                        
+                                        <!-- <li><a {#href="#remove{{plan.id}}"#} data-toggle="modal" class="text-danger">Remove</a></li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div><!-- .card-preview -->
+</div>
+<!-- * * * REJECTED PAYOUTS  TAB @E * * * -->
+
+<!-- * * * ALL PAYOUTS TAB @S * * * -->
+<div class="tab-pane " id="all_payouts">
+
+    <div class="card card-preview">
+        <div class="card-inner">
+            <table class="datatable-init table">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Doctor</th>
+                        <th>Appointment ID</th>
+                        <th>Payout Date</th>
+                        <th>Payout Time</th>
+                        <th>Payout Status</th>
+                        <th>Payout Amount</th>
+                        <th>Inticure Fees</th>
+                        <th></th>
+                        <!-- <th>Start date</th>
+                        <th>Salary</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payout in payouts %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{payout.doctor_id}}</td>
+                        <td>{{payout.appointment_id}}</td>
+                        <td>{{payout.payout_date|date_format}}</td>
+                        <td>{{payout.payout_time|time_format}}</td>
+                        <td>
+                            {% if payout.payout_status == 0 %}
+                            New payout request
+                            {% elif payout.payout_status == 1 %}
+                            Approved
+                            {% elif payout.payout_status == 2 %}
+                            Rejected
+                            {% endif %}
+                        </td>
+                        <td>{{payout.payout_amount}} {{payout.currency|upper}}</td>    
+                        <td>
+                            {% if payout.inticure_fee %}
+                                {{payout.inticure_fee}} 
+                            {% else %}
+                                0
+                            {% endif %}
+                                {{payout.currency|upper}}
+                        </td>
+                        <!-- <td>2011/04/25</td>
+                        <td>$320,800</td> -->
+                        <td class="tb-odr-action">
+                            {#<div class="tb-odr-btns d-none d-md-inline">
+                                <a href="#" class="btn btn-sm btn-primary">View</a>
+                            </div>#}
+                            <div class="dropdown">
+                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" data-offset="-8,0"><em class="icon ni ni-more-h"></em></a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                    <ul class="link-list-plain">
+                                        {#<li><a href="{{url_for('edit_plan',plan_id=plan.id)}}" class="text-primary">Edit</a></li>#}
+                                        <li><a href="{{url_for('payout_details',payout_id=payout.payout_id)}}" class="text-primary">View</a></li>
+                                        {% if payout.payout_status == 0  %}
+                                        <li><a href="#approve_payout{{payout.payout_id}}" data-toggle="modal" class="text-primary">Approve Payout</a></li>
+                                        <li><a href="#reject_payout{{payout.payout_id}}" data-toggle="modal" class="text-danger">Reject Payout</a></li>
+                                        {% endif %}
+                                        <!-- <li><a {#href="#remove{{plan.id}}"#} data-toggle="modal" class="text-danger">Remove</a></li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- --------------------- ACCEPT/APPROVE PAYOUT MODAL @S --------------------------------- -->
+
+<div class="modal fade" tabindex="-1" id="approve_payout{{payout.payout_id}}" style="display: none;" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body modal-body-lg text-center">
+<div class="nk-modal">
+<em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check bg-info"></em>
+<h4 class="nk-modal-title">Confirm Payout</h4>
+<p class="lead">Dr {{payout.doctor_name}} will be paid {{payout.payout_amount}} {{payout.currency|upper}} for this appointment.</p>
+<!-- <div class="nk-modal-text">
+    <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p>
+    <p class="text-soft">If you need help please contact us at (855) 485-7373.</p>
+</div> -->
+<div class="nk-modal-action mt-5">
+    <a href="{{url_for('payout_approval',doctor_id=payout.doctor_id,payout_id=payout.payout_id,payout_status=1)}}" type="button" class="btn btn-lg btn-mw btn-primary">Approve payout request</a>
+    <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+</div>
+</div>
+</div><!-- .modal-body -->
+</div>
+</div>
+</div>
+
+
+<!-- --------------------- ACCEPT/APPROVE PAYOUT MODAL @E --------------------------------- -->
+
+<!-- --------------------- REJECT PAYOUT MODAL @S --------------------------------- -->
+
+<div class="modal fade" tabindex="-1" id="reject_payout{{payout.payout_id}}" style="display: none;" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-body modal-body-lg text-center">
+<div class="nk-modal">
+    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+    <h4 class="nk-modal-title">Are you sure ?</h4>
+    <p class="lead">Dr {{payout.doctor_name}} will not be paid for this appointment.</p>
+    <!-- <div class="nk-modal-text">
+        <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p>
+        <p class="text-soft">If you need help please contact us at (855) 485-7373.</p>
+    </div> -->
+    <div class="nk-modal-action mt-5">
+        <a href="{{url_for('payout_approval',doctor_id=payout.doctor_id,payout_id=payout.payout_id,payout_status=2)}}" type="button" class="btn btn-lg btn-mw btn-primary">Reject payout request</a>
+        <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+    </div>
+</div>
+</div><!-- .modal-body -->
+</div>
+</div>
+</div>
+
+
+<!-- --------------------- REJECT PAYOUT MODAL @E --------------------------------- -->
+
+                    {% endfor %}
+                    
+
+
+                </tbody>
+            </table>
+        </div>
+    </div><!-- .card-preview -->
+</div>
+<!-- * * * ALL PAYOUTS  TAB @E * * * -->
+
+
+                                   </div>
+                                   <!-- * * * TAB CONTENT END * * * -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ########################## FILTER MODAL @S ################################## -->
+
+<div class="modal fade" tabindex="-1" id="filter" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="filter">
+                    
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="specialization">Specialization</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="specialization" name="specialization">
+                                    <option value="">Select Option</option>
+                                    <option value="sexologist">Sexologist</option>
+                                    <option value="psychologist">Psychologist</option>
+                                    <option value="dietitian">Dietitian</option>
+                                    <option value="somnologist">Somnologist</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="location" name="location">
+                                    <option value="">Select Option</option>
+                                    <option value="1">Trivandrum</option>
+                                    <option value="2">Kochi</option>
+                                    <option value="3">Kannur</option>
+                                    <option value="4">Thrissur</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Apply Filter</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- ########################## FILTER MODAL @E ################################## -->
+
+<!-- ########################## CREATE PLAN MODAL @S ################################## -->
+
+<div class="modal fade" tabindex="-1" id="add_plan" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Plan</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="create_plan">
+                    <div class="form-group">
+                        <label class="form-label" for="plan_name">Plan Name</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="plan_name" name="plan_name" required="">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="email-address">Email address</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="email-address" required="">
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="phone_no">Phone No</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="phone_no">
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="designation">Designation</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="designation" name="designation">
+                                    <option value="">Select Option</option>
+                                    <option value="1">Junior Doctor</option>
+                                    <option value="2">Senior Doctor</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label">Communication</label>
+                        <ul class="custom-control-group g-3 align-center">
+                            <li>
+                                <div class="custom-control custom-control-sm custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="com-email">
+                                    <label class="custom-control-label" for="com-email">Email</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-control custom-control-sm custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="com-sms">
+                                    <label class="custom-control-label" for="com-sms">SMS</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-control custom-control-sm custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="com-phone">
+                                    <label class="custom-control-label" for="com-phone">Phone</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="form-label" for="plan_price">Price</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="plan_price" name="plan_price">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="location" name="location">
+                                    <option value="">Select Option</option>
+                                    {% for location in locations %}
+                                    <option value="{{location.location_id}}">{{location.location}}</option>
+                                    
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Add New Plan</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- ########################## CREATE PLAN MODAL @E ################################## -->
+
+{% endblock %}

@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="components-preview">
+                    <div class="nk-block-head nk-block-head-lg wide-sm">
+                        <div class="nk-block-head-content">
+                            <!-- <div class="nk-block-head-sub"><a class="back-to" href="html/components.html"><em class="icon ni ni-arrow-left"></em><span>Components</span></a></div> -->
+                            <h2 class="nk-block-title fw-normal">Add Question</h2>
+                            <div class="nk-block-des">
+                                <!-- <p class="lead">Form is most esential part of your project. We styled out nicely so you can
+                                     build your form so quickly.</p> -->
+                            </div>
+                        </div>
+                    </div><!-- .nk-block -->
+                    <div class="nk-block nk-block-lg">
+                        <!-- <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <h4 class="title nk-block-title">Basic Form Style - S1</h4>
+                                <div class="nk-block-des">
+                                    <p>Below example helps you to build your own form nice way.</p>
+                                </div>
+                            </div>
+                        </div> -->
+                        <form action="" method="POST">
+                        <div class="card card-bordered">
+                            <div class="card-inner">
+                                <div class="card-head">
+                                    <h5 class="card-title">Add Question</h5>
+                                </div>
+                                <form action="#">
+                                    <div class="row g-4">
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="category_id">Category</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="category_id" name="category_id">
+                                                            <option value="">Select</option>
+                                                            {% for category in categories %}
+                                                            <option value="{{category.id}}">{{category.title}}</option>
+                                                            {% endfor %}
+                                                            <!-- <option value="1">Sexual Issues</option>
+                                                            <option value="2">Stress & Anxiety</option>
+                                                            <option value="3">Diet & Nutrition</option>
+                                                            <option value="4">Sleep Disorder</option> -->
+                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="gender">Gender</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="gender" name="gender">
+                                                            <option value="">Any</option>
+                                                            <option value="male">Male</option>
+                                                            <option value="female">Female</option>
+                                                            <option value="other">Other</option>
+                                                            <!-- <option value="dropdown-select">Any</option> -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="question">Question</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="question" name="question">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="answer_type">Answer Type</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="answer_type">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="answer_type">Answer Type</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="answer_type" name="answer_type">
+                                                            <option value="">Select</option>
+                                                            <option value="radio_select">Radio Select</option>
+                                                            <option value="textfield">Textfield</option>
+                                                            <option value="checkbox">Checkbox</option>
+                                                            <option value="dropdown_select">Drop down select</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="category_id">Category Id</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="category_id">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        
+                                        <div class="col-lg-6">
+                                            <div id="option_row1" style="margin-bottom:10px ;">
+                                                <input type="hidden" name="count" id="count" value="1">
+                                            <div class="form-group">
+                                                <label class="form-label" for="option1">Options</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="option1" name="option1">
+                                                </div>
+                                            </div>
+                                            {#
+                                            <div class="form-group">
+                                                <label class="form-label" for="option2">Options</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="option" name="option">
+                                                </div>
+                                            </div>
+                                            #}
+                                        </div>
+                                            <div class="form-group " style="display :flex;justify-content:flex-end;width:100%; padding:0px; margin-top: 10px; ">
+                                                <a type="button" id="remove_btn" class="btn btn-sm btn-outline-light" style="color:#854FFF;margin-right:2px ;">Remove</a>
+                                                <a type="button" id="add_more_btn" class="btn btn-sm btn-outline-light" style="color:#854FFF">+Add more</a>
+                                            </div>
+                                        
+                                        </div>
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Communication</label>
+                                                <ul class="custom-control-group g-3 align-center">
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-email-1">
+                                                            <label class="custom-control-label" for="com-email-1">Email</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-sms-1">
+                                                            <label class="custom-control-label" for="com-sms-1">SMS</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-phone-1">
+                                                            <label class="custom-control-label" for="com-phone-1">Phone</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Payment Methods</label>
+                                                <ul class="custom-control-group g-3 align-center">
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-card-1">
+                                                            <label class="custom-control-label" for="pay-card-1">Card</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-bitcoin-1">
+                                                            <label class="custom-control-label" for="pay-bitcoin-1">Bitcoin</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-cash-1">
+                                                            <label class="custom-control-label" for="pay-cash-1">Cash</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-lg btn-dark">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div><!-- card -->
+        </div><!-- .nk-block -->
+    </div><!-- .components-preview -->
+</div>
+</div>
+</div>
+</div>
+
+<!-- DYNAMIC QUESTION @S -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // var new_row="";
+        var x=1;
+        $('#remove_btn').hide();
+        // prescript_row=document.getElementByNames()
+        $('#add_more_btn').click(function () {
+            if(x>=1){
+                $('#remove_btn').show();
+            }
+            else{
+                $('#remove_btn').hide();
+            }
+            // if (x==1){
+                x++;
+
+                hidden_input='<input type="hidden" name="count" id="count" value="">';
+                options='<div class="form-group"><label class="form-label" for="option'+x+'">Options</label><div class="form-control-wrap"><input type="text" class="form-control" id="option'+x+'" name="option'+x+'"></div></div>'
+                $('#option_row'+(x-1)).closest('div').after('<div id="option_row'+x+'" style="margin-bottom:10px ;">'+hidden_input + options +'</div>');
+
+                // SETTING COUNT VALUE
+                var count_value=$('input[name*="count"]').length;
+                console.log("count",count_value)
+                $('input[name*="count"]').val(count_value);
+            });
+
+            $('#remove_btn').click(function () {
+            $('#option_row'+x+'').remove();
+            x--;
+            if(x==1){
+                $('#remove_btn').hide();
+            }
+            var count_value=$('input[name*="count"]').length;
+            console.log("count",count_value)
+            $('input[name*="count"]').val(count_value);
+        //     let count_value=$('#count').length
+        // console.log("count",count_value);
+        });
+
+        });
+</script>
+<!-- DYNAMIC QUESTION @E -->
+{% endblock %}

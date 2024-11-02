@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- content s -->
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <!-- <div class="components-preview"> -->
+                    {#<div class="nk-block-head nk-block-head-lg wide-sm">#}
+                        <div class="nk-block-head-content">
+                            <!-- <div class="nk-block-head-sub"><a class="back-to" href="html/components.html">
+                                <em class="icon ni ni-arrow-left"></em><span>Components</span></a></div> -->
+                            <h4 class="nk-block-title ">Questions List</h4>
+                            <!-- <div class="nk-block-des">
+                                <p class="lead">Examples for opt-in styling of tables with Bootstrap. 
+                                    Just add the base class <code class="code-class">.table</code> to any 
+                                    <code class="code-tag">&lt;table&gt;</code> tag, then extend with custom 
+                                    styles or our various included modifier classes.</p>    
+                            </div> -->
+                        </div>
+                    {#</div><!-- .nk-block-head -->#}
+                    <div class="d-flex justify-content-end">
+                    <a href="{{url_for('add_question')}}" type="button" class="btn btn-lg btn-dark">Add Question</a>
+                </div>
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <!-- <div class="nk-block-head-content">
+                                <h4 class="nk-block-title">Table Default</h4>
+                                <div class="nk-block-des">
+                                    <p>Using the most basic table markup, here’s how <code class="code-class">.table</code> based tables look by default.</p>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th>Category</th>
+                                            <th scope="col">Question</th>
+                                            <th>Options</th>
+                                            <th></th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for question in questionnaire_list %}
+                                        <tr>
+                                            <th scope="row">{{ loop.index }}</th>
+                                            <td>{{question['category_id']}}</td>
+                                            <td>{{question['question']}}
+                                                    {% for option in question['options'] %}
+                                                        {#<tr>#}
+                                                        {#<td></td>#}
+                                                        {#<td>{{ loop.index }}</td>#}
+                                                            <td>{{option['option']}}</td>
+                                                        {#</tr>#}
+                                                    {% endfor %}
+                                            </td>
+                                            <td class="tb-tnx-action">
+                                                <div class="dropdown">
+                                                    <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs" style="">
+                                                        <ul class="link-list-plain">
+                                                            {#<li><a href="#">View</a></li>#}
+                                                            <li><a href="{{url_for('edit_question',id_to_be_updated = question.id)}}">Edit</a></li>
+                                                            <li><a href="{{url_for('delete_question',id_to_delete = question.id)}}">Remove</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card-preview -->
+                        
+                    </div><!-- .components-preview -->
+                <!-- </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content e -->
+{% endblock %}

@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content ">
+    <!-- SWEET ALERTS @S -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<script>
+   
+Swal.fire({
+
+       title:"{{ category.title() }}!",
+       // success , error , warning ,info
+
+       text: "{{ message }}",
+       // Custom message flashed from your flask routes
+
+       icon: "{{ category }}"
+       // success , error , warning ,info
+
+})
+
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<!-- SWEET ALERTS @E -->
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <div class="d-flex mb3">
+                                    <h4 class="nk-block-title mr-auto ">Languages</h4>
+                                    <div class="button-group">
+                                        {#<a href="html/user-list-regular.html"
+                                            class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                                class="icon ni ni-arrow-left"></em><span>Back</span></a>#}
+                                                <!-- filter button -->
+                                                <button class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" data-toggle="modal"
+                                            data-target="#filter"><em class="icon ni ni-filter"></em><span>Filter</span></button>
+                                            <!-- add doctor button -->
+                                        <button class="d-sm-inline-flex btn btn-dark btn-md" data-toggle="modal"
+                                            data-target="#add_language">Add A Language</button>
+                                        {#<a class="d-sm-inline-flex btn btn-dark btn-md" 
+                                             href="{{url_for('add_language')}}">Add A Language</a>#}
+                                        </div>
+                                </div>
+                                <div class="nk-block-des">
+                                    {#<p>Using the most basic table markup, here’s how <code
+                                            class="code-class">.table</code> based tables look by default.</p>#}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <table class="datatable-init table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Language</th>
+                                            <th></th>
+                                            
+                                            <!-- <th>Start date</th>
+                                            <th>Salary</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for lang in languages %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                            <td>{{lang.language}}</td>
+                                            
+                                            <!-- <td>2011/04/25</td>
+                                            <td>$320,800</td> -->
+                                            <td class="tb-odr-action">
+                                                {#<div class="tb-odr-btns d-none d-md-inline">
+                                                    <a href="#" class="btn btn-sm btn-primary">View</a>
+                                                </div>#}
+                                                <div class="dropdown">
+                                                    <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" data-offset="-8,0"><em class="icon ni ni-more-h"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                        <ul class="link-list-plain">
+                                                            <li><a href="#update{{lang.language_id}}" data-toggle="modal" class="text-primary">Edit</a></li>
+                                                            {#<li><a href="{{url_for('edit_plan',plan_id=lang.language_id)}}" class="text-primary">Edit</a></li>#}
+                                                            {#<li><a href="#" class="text-primary">View</a></li>#}
+                                                            <li><a href="#remove{{lang.language_id}}" data-toggle="modal" class="text-danger">Remove</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+<!-- ########################## UPDATE LANGUAGE MODAL @S ################################## -->
+
+<div class="modal fade" tabindex="-1" id="update{{lang.language_id}}" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Update Language</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="update">
+                    <input type="hidden" id="lang_id" name="lang_id" value="{{lang.language_id}}">
+                    <div class="form-group">
+                        <label class="form-label" for="language">Language</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="language" name="language" value="{{lang.language}}" required="">
+                        </div>
+                    </div>                    
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Save </button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- ########################## UPDATE LANGUAGE MODAL @E ################################## -->
+
+                                        <!-- --------------------- DELETE/REMOVE MODAL @S --------------------------------- -->
+
+<div class="modal fade" tabindex="-1" id="remove{{lang.language_id}}" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                    <h4 class="nk-modal-title">Are you sure you want to delete?</h4>
+                    <p class="lead">This language will be permanently deleted.</p>
+                    <!-- <div class="nk-modal-text">
+                        <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p>
+                        <p class="text-soft">If you need help please contact us at (855) 485-7373.</p>
+                    </div> -->
+                    <div class="nk-modal-action mt-5">
+                        <a href="{{url_for('remove_language',lang_id=lang.language_id)}}" type="button" class="btn btn-lg btn-mw btn-primary">Remove</a>
+                        <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+
+<!-- --------------------- DELETE/REMOVE MODAL @E --------------------------------- -->
+                                        {% endfor %}
+                                        
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card-preview -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- ########################## ADD LANGUAGE MODAL @S ################################## -->
+
+<div class="modal fade" tabindex="-1" id="add_language" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Language</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="add">
+                    <div class="form-group">
+                        <label class="form-label" for="language">Language</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="language" name="language" required="">
+                        </div>
+                    </div>                    
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Save </button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- ########################## ADD LANGUAGE MODAL @E ################################## -->
+
+{% endblock %}

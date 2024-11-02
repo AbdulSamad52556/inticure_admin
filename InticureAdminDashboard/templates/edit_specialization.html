@@ -1,0 +1,307 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="nk-content ">
+
+    <!-- SWEET ALERTS @S -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<script>
+   
+Swal.fire({
+
+       title:"{{ category.title() }}!",
+       // success , error , warning ,info
+
+       text: "{{ message }}",
+       // Custom message flashed from your flask routes
+
+       icon: "{{ category }}"
+       // success , error , warning ,info
+
+})
+
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<!-- SWEET ALERTS @E -->
+
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block">
+                    <div class="card">
+                        <div class="card-aside-wrap">
+                            <div class="card-inner card-inner-lg">
+                                <div class="nk-block-head nk-block-head-lg">
+                                    <div class="nk-block-between">
+                                        <div class="nk-block-head-content">
+            <h4 class="title nk-block-title">Edit Specialization</h4>
+            <div class="nk-block-des">
+                <p></p>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-head">
+               {# <h5 class="card-title">Select Date and Time</h5>#}
+            </div>
+            <form action="" method="POST" class="gy-3" >
+                <!-- <div class="row g-3 align-center">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label" for="site-name">Appointment Date</label>
+                            <span class="form-note"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                {#<div class="form-icon form-icon-left">#}
+                                    {#<em class="icon ni ni-calendar"></em>#}
+                                {#</div>#}
+                                <input type="date" class="form-control " id="follow_up_date" name="follow_up_date" data-date-format="yyyy-mm-dd">
+                            </div>
+                    </div>
+                </div> -->
+                <div class="row g-3 align-center">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label">Specialization </label>
+                            <span class="form-note"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="form-group">
+                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="specialization" name="specialization" value="{{spec_to_edit}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 align-center">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <span class="form-note"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="form-group">
+                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
+                            <div class="form-control-wrap">
+                                <textarea class="form-control form-control-md" id="description" name="description" >{{description_to_edit}}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {#<div class="row g-3 align-center">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label">Slot duration in minutes</label>
+                            <span class="form-note"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="form-group">
+                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="slot_duration" name="slot_duration" value="{{slot_duration_to_edit}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>#}
+                
+                <!-- <div class="row g-3 align-center">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label">Remarks</label>
+                            <span class="form-note"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="form-group">
+                            <div class="form-control-wrap">                                
+                                <textarea class="form-control form-control-lg no-resize "  id="remarks" name="remarks" placeholder="Write remarks here"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>  -->
+                <!-- <div class="row g-3 align-center">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label">Site Copyright</label>
+                            <span class="form-note">Copyright information of your website.</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" id="site-copyright" value="© 2019, DashLite. All Rights Reserved.">
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="row g-3 align-center">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label">Allow Registration</label>
+                            <span class="form-note">Enable or disable registration from site.</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <ul class="custom-control-group g-3 align-center flex-wrap">
+                            <li>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" checked="" name="reg-public" id="reg-enable">
+                                    <label class="custom-control-label" for="reg-enable">Enable</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="reg-public" id="reg-disable">
+                                    <label class="custom-control-label" for="reg-disable">Disable</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="reg-public" id="reg-request">
+                                    <label class="custom-control-label" for="reg-request">On Request</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div> -->
+                <!-- <div class="row g-3 align-center">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label">Main Website</label>
+                            <span class="form-note">Specify the URL if your main website is external.</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="form-group">
+                            <div class="form-control-wrap">
+                                <input type="text" class="form-control" name="site-url" value="https://www.softnio.com">
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <div class="row g-3 align-center">
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label" for="site-off">Maintanance Mode</label>
+                            <span class="form-note">Enable to make website make offline.</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="form-group">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="reg-public" id="site-off">
+                                <label class="custom-control-label" for="site-off">Offline</label>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row g-3">
+                    <div class="col-lg-7 offset-lg-5">
+                        <div class="form-group mt-2">
+                            <button type="submit" class="btn btn-md btn-dark">Save Specialization</button>
+                            <!-- {#<a href="{{url_for('follow_up_preview')}}" type="submit" class="btn btn-md btn-dark" >Send Appointment Request</a>#} -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div><!-- card -->
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- <script>
+       function seniorDoctorList(){
+        console.log("doctor list")
+            var gender_pref = document.getElementById("doc_gender").value;
+            console.log(gender_pref);
+            var language_pref = document.getElementById("language").value;
+            // console.log(language_pref);
+            var specialization = document.getElementById("specialization").value;
+            // console.log(specialization);
+            var payload={};
+            payload.specialization=specialization,
+            payload.language_pref=language_pref,
+            payload.gender_pref=gender_pref
+
+       }
+       
+    </script> -->
+
+    <script>
+        const doctorList = async () => {
+            console.log("doctor list")
+            var gender_pref = document.getElementById("doc_gender").value;
+            console.log(gender_pref);
+            var language_pref = document.getElementById("language").value;
+            console.log(language_pref);
+            var specialization = document.getElementById("specialization").value;
+            console.log(specialization);
+            var appointment_date = document.getElementById("date").value;
+            console.log(appointment_date);
+            var appointment_time = document.getElementById("time").value;
+            console.log(appointment_time);
+            var doctor = 'senior';
+            var doctor_flag = 1;
+            var location ="";
+            var payload={};
+            payload.specialization=specialization,
+            payload.language_pref=language_pref,
+            payload.gender_pref=gender_pref,
+            payload.doctor=doctor,
+            payload.appointment_time=appointment_time,
+            payload.appointment_date=appointment_date,
+            payload.doctor_flag=doctor_flag,
+            payload.location=location
+            console.log(payload);
+            // var api_data=JSON.stringify(payload);
+            // console.log(api_data);
+    const response = await fetch("https://api.inticure.online/api/doctor/doctor_specialization", {
+    //const response = await fetch("http://localhost:8000/api/doctor/doctor_specialization", {
+    method: 'POST',
+    body: JSON.stringify(payload), // string or object
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin':'*',
+      'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+    }
+  });
+  
+  const myJson = await response.json();
+  console.log(myJson);
+  var senior_doctor=myJson['doctor']
+  console.log(senior_doctor);
+  var options="";
+  $('#doctor').empty();
+  $.each(senior_doctor,function(index,value){
+    console.log(index)
+    
+    options='<option value='+value.user_id+'>'+value.user_fname+value.user_lname+'</option>';
+    
+    $('#doctor').append(options);
+  });
+  return myJson;
+  
+   
+}
+    </script>
+{% endblock %}

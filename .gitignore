@@ -1,0 +1,40 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment files
+.env
+*.env
+
+# macOS system files
+.DS_Store
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Ignore node_modules (common in JavaScript projects)
+node_modules/
+
+# Static and media files (if generated and not needed in Git)
+static/
+media/
+
+# Flask cache and session files
+*.sqlite3
+
+# Editor and IDE settings (optional)
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# Ignore temp directories
+InticureAdminDashboardtemp/
+
+# Docker ignore files (optional if not using docker-compose.yml)
+docker-compose.yml
+.dockerignore

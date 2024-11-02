@@ -1,0 +1,418 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content ">
+    <!-- SWEET ALERTS @S -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<script>
+   
+Swal.fire({
+
+       title:"{{ category.title() }}!",
+       // success , error , warning ,info
+
+       text: "{{ message }}",
+       // Custom message flashed from your flask routes
+
+       icon: "{{ category }}"
+       // success , error , warning ,info
+
+})
+
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<!-- SWEET ALERTS @E -->
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <div class="d-flex mb3">
+                                    <h4 class="nk-block-title mr-auto ">Plans</h4>
+                                    <div class="button-group">
+                                        {#<a href="html/user-list-regular.html"
+                                            class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                                class="icon ni ni-arrow-left"></em><span>Back</span></a>#}
+                                                <!-- filter button -->
+                                               <!-- <button class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" data-toggle="modal"
+                                            data-target="#filter"><em class="icon ni ni-filter"></em><span>Filter</span></button> -->
+                                            <!-- add doctor button -->
+                                        {#<button class="d-sm-inline-flex btn btn-dark btn-md" data-toggle="modal"
+                                            data-target="#add_plan">Create A Plan</button>#}
+                                        <a class="d-sm-inline-flex btn btn-dark btn-md" 
+                                             href="{{url_for('add_plan')}}">Create A Plan</a>
+                                        </div>
+                                </div>
+                                <div class="nk-block-des">
+                                    {#<p>Using the most basic table markup, here’s how <code
+                                            class="code-class">.table</code> based tables look by default.</p>#}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <table class="datatable-init table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Doctor Name</th>
+                                            <th>Specialization</th>
+                                            <th>Currency</th>
+                                            <th>Price for single</th>
+                                            <th>Price for couple</th>
+                                            <th>Location</th>
+                                            <th>Duration (min)</th>
+                                            <!-- <th>Start date</th>
+                                            <th>Salary</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for plan in plans %}
+                                            <tr>
+                                                <td>{{ loop.index }}</td>
+                                                <td>{{ plan.doc_name }}</td>
+                                                <td>{{ plan.speciality|capitalize }}</td>
+                                                <td class="currency">--</td>
+                                                <td class="price-single">--</td>  <!-- Cell for single price -->
+                                                <td class="price-couple">--</td>  <!-- Cell for couple price -->
+                                                <td>
+                                                    <select class="form-control location-select" name="location" required>
+                                                        <option value="">Select Location</option>
+                                                        {% for location in locations %}
+                                                        <option value="{{ location.location_id }}|{{ plan.doctor_id }}">{{ location.location }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                   {{plan.duration}}
+                                                </td>
+                                                <td class="tb-odr-action">
+                                                    <div class="dropdown">
+                                                        <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" data-offset="-8,0">
+                                                            <em class="icon ni ni-more-h"></em>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                            <ul class="link-list-plain">
+                                                                <li><a href="#" data-doctor-id="{{ plan.doctor_id }}" class="text-primary edit-button">Edit</a></li>
+                                                                <li><a href="#remove{{ plan.id }}" data-doctor-id="{{ plan.doctor_id }}" class="text-danger remove-button">Remove</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        <!-- --------------------- DELETE/REMOVE MODAL @S --------------------------------- -->
+                                            <div class="modal fade" tabindex="-1" id="confirmationModal" style="display: none;" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body modal-body-lg text-center">
+                                                            <div class="nk-modal">
+                                                                <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                                                                <h4 class="nk-modal-title">Are you sure you want to delete?</h4>
+                                                                <p class="lead">This plan will be permanently deleted.</p>
+                                                                <div class="nk-modal-action mt-5">
+                                                                    <button class="btn btn-lg btn-mw btn-primary" id="confirmRemoveBtn">Remove</button>
+                                                                    <button class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+<!-- --------------------- DELETE/REMOVE MODAL @E --------------------------------- -->
+                                        {% endfor %}
+                                        
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card-preview -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ########################## FILTER MODAL @S ################################## -->
+
+<div class="modal fade" tabindex="-1" id="filter" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="filter">
+                    
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="specialization">Specialization</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="specialization" name="specialization">
+                                    <option value="">Select Option</option>
+                                    <option value="sexologist">Sexologist</option>
+                                    <option value="psychologist">Psychologist</option>
+                                    <option value="dietitian">Dietitian</option>
+                                    <option value="somnologist">Somnologist</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="location" name="location">
+                                    <option value="">Select Option</option>
+                                    <option value="1">Trivandrum</option>
+                                    <option value="2">Kochi</option>
+                                    <option value="3">Kannur</option>
+                                    <option value="4">Thrissur</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Apply Filter</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- ########################## FILTER MODAL @E ################################## -->
+
+<!-- ########################## CREATE PLAN MODAL @S ################################## -->
+
+<div class="modal fade" tabindex="-1" id="add_plan" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Plan</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="create_plan">
+                    <div class="form-group">
+                        <label class="form-label" for="plan_name">Plan Name</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="plan_name" name="plan_name" required="">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="email-address">Email address</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="email-address" required="">
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="phone_no">Phone No</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="phone_no">
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label" for="designation">Designation</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="designation" name="designation">
+                                    <option value="">Select Option</option>
+                                    <option value="1">Junior Doctor</option>
+                                    <option value="2">Senior Doctor</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label class="form-label">Communication</label>
+                        <ul class="custom-control-group g-3 align-center">
+                            <li>
+                                <div class="custom-control custom-control-sm custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="com-email">
+                                    <label class="custom-control-label" for="com-email">Email</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-control custom-control-sm custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="com-sms">
+                                    <label class="custom-control-label" for="com-sms">SMS</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-control custom-control-sm custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="com-phone">
+                                    <label class="custom-control-label" for="com-phone">Phone</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div> -->
+                    <div class="form-group">
+                        <label class="form-label" for="plan_price">Price</label>
+                        <div class="form-control-wrap">
+                            <input type="text" class="form-control" id="plan_price" name="plan_price">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="location" name="location">
+                                    <option value="">Select Option</option>
+                                    {% for location in locations %}
+                                    <option value="{{location.location_id}}">{{location.location}}</option>
+                                    
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Add New Plan</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- ########################## CREATE PLAN MODAL @E ################################## -->
+<script>
+    document.querySelectorAll('.location-select').forEach(select => {
+        select.addEventListener('change', function() {
+            const selectedValue = this.value;  // Get the combined value (e.g., "location_id|plan_id")
+
+            // Check if a valid option is selected
+            if (selectedValue) {
+                const [locationId, planId] = selectedValue.split('|');  // Split into array
+
+                console.log('Location ID:', locationId);
+                console.log('Plan ID:', planId);
+
+                // Construct the URL with parameters
+                const externalApiUrl = `https://api.inticure.online/api/administrator/get-price?location_id=${locationId}&plan_id=${planId}`;  // Replace with your actual URL
+
+                // Send GET request
+                fetch(externalApiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Assuming the API returns { price_for_single: ..., price_for_couple: ... }
+                    const priceForSingle = data.price_for_single || '--';  // Default to '--' if no value returned
+                    const priceForCouple = data.price_for_couple || '--';  // Same here
+                    const currency = data.currency || '--';
+                    // Find the closest row and update the price cells
+                    const row = this.closest('tr');  // Get the closest <tr> for the selected <select>
+                    row.querySelector('.price-single').textContent = priceForSingle;  // Update single price
+                    row.querySelector('.price-couple').textContent = priceForCouple;  // Update couple price
+                    row.querySelector('.currency').textContent = currency
+                })
+                .catch(error => {
+                    console.error('Error fetching data from external API:', error);
+                });
+            }
+        });
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Handle "Edit" button click
+    document.querySelectorAll('.edit-button').forEach(editButton => {
+        editButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Get the doctor_id from the data-doctor-id attribute
+            const doctorId = this.getAttribute('data-doctor-id');
+
+            // Find the parent <tr> of the clicked edit button
+            const parentRow = this.closest('tr');
+
+            // Find the selected location within the same row
+            const selectedLocation = parentRow.querySelector('.location-select').value.split('|')[0];
+
+            // Log the values
+            console.log('Edit Button Clicked:');
+            console.log('Doctor ID:', doctorId);
+            console.log('Selected Location ID:', selectedLocation);
+            const baseUrl = "{{ url_for('edit_plan') }}";
+            const editUrl = `${baseUrl}?doctor_id=${doctorId}&location_id=${selectedLocation}`;
+            window.location.href = editUrl;
+        });
+    });
+
+    // Handle "Remove" button click
+    document.querySelectorAll('.remove-button').forEach(removeButton => {
+        removeButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Get the doctor_id from the data-doctor-id attribute
+            const doctorId = this.getAttribute('data-doctor-id');
+
+            // Find the parent <tr> of the clicked remove button
+            const parentRow = this.closest('tr');
+
+            // Find the selected location within the same row
+            const selectedLocation = parentRow.querySelector('.location-select').value.split('|')[0];
+
+            // Show the confirmation modal
+            $('#confirmationModal').modal('show');
+
+            // Handle the remove confirmation
+            const confirmButton = document.querySelector('#confirmRemoveBtn');  // Get the remove button from the modal
+            confirmButton.onclick = function() {
+                console.log('Remove Confirmed');
+                console.log('Doctor ID:', doctorId);
+                console.log('Selected Location ID:', selectedLocation);
+
+                // Construct the remove URL dynamically using the base URL from Flask
+                const baseUrl2 = "{{ url_for('remove_plan') }}";  // Flask-generated base URL
+                const removeUrl = `${baseUrl2}?doctor_id=${doctorId}&location_id=${selectedLocation}`;
+                console.log('Redirecting to:', removeUrl);
+
+                // Redirect to the constructed URL
+                window.location.href = removeUrl;  
+            };
+        });
+    });
+
+
+});
+
+</script>
+
+{% endblock %}

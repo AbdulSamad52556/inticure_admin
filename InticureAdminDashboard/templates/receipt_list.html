@@ -1,0 +1,246 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- content @s -->
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between g-3">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Receipts List {#<strong class="text-primary small">Abu Bin#}
+                                    {#Ishtiyak</strong>#}</h3>
+                            <!-- <div class="nk-block-des text-soft">
+                                <ul class="list-inline">
+                                    <li>User ID: <span class="text-base">UD003054</span></li>
+                                    <li>Last Login: <span class="text-base">15 Feb, 2019 01:02 PM</span></li>
+                                </ul>
+                            </div> -->
+                        </div>
+                        <div class="nk-block-head-content">
+                            <a href="html/user-list-regular.html"
+                                class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                    class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                            <a href="html/user-list-regular.html"
+                                class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em
+                                    class="icon ni ni-arrow-left"></em></a>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-aside-wrap">
+                            <div class="card-content">
+                                <ul class="nav nav-tabs nav-tabs-mb-icon nav-tabs-card">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#pending" data-toggle="tab"><span>Pending</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#paid" data-toggle="tab"><span>Paid</span></a>
+                                    </li>
+                                    
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" href="#" data-toggle="tab"><span>Documents</span></a>
+                                    </li> -->
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" href="#" data-toggle="tab"><span>Notifications</span></a>
+                                    </li> -->
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" href="#" data-toggle="tab"><span>Activities</span></a>
+                                    </li> -->
+                                    <!-- <li class="nav-item nav-item-trigger d-xxl-none">
+                                        <a href="#" class="toggle btn btn-icon btn-trigger" data-target="userAside"><em class="icon ni ni-user-list-fill"></em></a>
+                                    </li> -->
+                                </ul><!-- .nav-tabs -->
+                                <div class="tab-content">
+                                    <!-- pending tab content @s -->
+                                    <div class="tab-pane active" id="pending">
+                                        <div class="card-inner">
+                                            <div class="nk-block">
+                                                <div class="nk-block-head">
+                                                    <h5 class="title ml-4">Appointments To Be Paid</h5>
+                                                    {#<p>Basic info, like your name and address, that you use on Nio
+                                                        Platform.</p>#}
+                                                </div><!-- .nk-block-head -->
+                                            </div><!-- .nk-block -->
+                                            
+                                            <!-- <div class="nk-block nk-block-lg">
+                                            <div class="nk-block-head">
+                                                <div class="nk-block-head-content">
+                                                    <h4 class="nk-block-title">Data Table</h4>
+                                                    <div class="nk-block-des">
+                                                        <p>Using the most basic table markup, here’s how <code class="code-class">.table</code> based tables look by default.</p>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="card card-preview">
+                                                <div class="card-inner">
+                                                    <table class="datatable-init table" data-ordering="false">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Appointment Id</th>
+                                                                <th>Appointment Date</th>
+                                                                <th>Service</th>
+                                                                <th>Due Date</th>
+                                                                <th>Status</th>
+                                                                <th>Total</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for invoice in unpaid_invoices %}
+                                                            <tr>
+                                                                <td><a href="{{url_for('receipt_details',invoice_id=invoice.invoice_id)}}">{{invoice.appointment_id}}</a></td>
+                                                                <td>
+                                                                    {% if invoice.appointment_date %}
+                                                                    {{invoice.appointment_date|date_format}}
+                                                                    {% else %}
+                                                                    Not Available
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>
+                                                                    {% if invoice.appointment_date %}
+                                                                    {{invoice.service}}
+                                                                    {% else %}
+                                                                    Not Available
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{invoice.due_date|date_format}}</td>
+                                                                <td>
+                                                                    {% if invoice.status == 1 %}
+                                                                    <span class="tb-status text-success">Paid</span>
+                                                                    {% elif invoice.status == 2 %}
+                                                                    <span class="tb-status text-warning">Pending</span>
+                                                                    {% elif invoice.status == 0 %}
+                                                                    Not Applicable
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{invoice.total}}</td>
+                                                                <td class="tb-tnx-action">
+                                                                    <div class="dropdown">
+                                                                        <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-v"></em></a>
+                                                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                                            <ul class="link-list-plain">
+                                                                                <li><a href="{{url_for('receipt_details',invoice_id=invoice.invoice_id)}}">Pay</a></li>
+                                                                                {#<li><a href="#">Edit</a></li>#}
+                                                                                {#<li><a href="#">Remove</a></li>#}
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                                
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div><!-- .card-preview -->
+                                        </div> <!-- nk-block -->
+                                            
+                                        </div>
+                                    
+                                    <!-- upcoming tab content @e -->
+
+                                    <!-- paid tab content @s -->
+                                    <div class="tab-pane" id="paid">
+                                        <div class="card-inner">
+                                            <div class="nk-block">
+                                                <div class="nk-block-head">
+                                                    <h5 class="title ml-4">Paid Appointments</h5>
+                                                    {#<p>Basic info, like your name and address, that you use on Nio
+                                                        Platform.</p>#}
+                                                </div><!-- .nk-block-head -->
+                                            </div><!-- .nk-block -->
+                                            
+                                            <!-- <div class="nk-block nk-block-lg">
+                                            <div class="nk-block-head">
+                                                <div class="nk-block-head-content">
+                                                    <h4 class="nk-block-title">Data Table</h4>
+                                                    <div class="nk-block-des">
+                                                        <p>Using the most basic table markup, here’s how <code class="code-class">.table</code> based tables look by default.</p>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="card card-preview">
+                                                <div class="card-inner">
+                                                    <table class="datatable-init table" data-ordering="false">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Appointment Id</th>
+                                                                <th>Appointment Date</th>
+                                                                <th>Service</th>
+                                                                <th>Due Date</th>
+                                                                <th>Status</th>
+                                                                <th>Total</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for invoice in paid_invoices %}
+                                                            <tr>
+                                                                <td><a href="{{url_for('receipt_details',invoice_id=invoice.invoice_id)}}">{{invoice.appointment_id}}</a></td>
+                                                                <td>
+                                                                    {% if invoice.appointment_date %}
+                                                                    {{invoice.appointment_date|date_format}}
+                                                                    {% else %}
+                                                                    Not Available
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>
+                                                                    {% if invoice.appointment_date %}
+                                                                    {{invoice.service}}
+                                                                    {% else %}
+                                                                    Not Available
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{invoice.due_date|date_format}}</td>
+                                                                <td>
+                                                                    {% if invoice.status == 1 %}
+                                                                    <span class="tb-status text-success">Paid</span>
+                                                                    {% elif invoice.status == 2 %}
+                                                                    <span class="tb-status text-warning">Pending</span>
+                                                                    {% elif invoice.status == 0 %}
+                                                                    Not Applicable
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{invoice.total}}</td>
+                                                                <td class="tb-tnx-action">
+                                                                    <div class="dropdown">
+                                                                        <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-v"></em></a>
+                                                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                                            <ul class="link-list-plain">
+                                                                                <li><a href="{{url_for('receipt_details',invoice_id=invoice.invoice_id)}}">View Invoice</a></li>
+                                                                                {#<li><a href="#">Edit</a></li>#}
+                                                                                {#<li><a href="#">Remove</a></li>#}
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                            
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div><!-- .card-preview -->
+                                        </div> <!-- nk-block -->
+                                        </div>
+                                    <!-- paid tab content @e -->
+
+                                    
+                                        </div>
+                                        <!-- tab content end -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+{% endblock %}

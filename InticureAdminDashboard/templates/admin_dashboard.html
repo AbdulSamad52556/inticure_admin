@@ -1,0 +1,540 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <!-- <div class="d-flex mb3"> -->
+                            <h3 class="nk-block-title page-title"> Dashboard</h3>
+                            <div class="button-group">
+                                <a class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" href="{{url_for('dashboard',country=1)}}">
+                                    </em><span>India</span></a>
+                                <a class="d-sm-inline-flex btn btn-outline-light bg-white btn-md"  href="{{url_for('dashboard',country=2)}}">
+                                    <span>US</span></a>
+                            </div>
+                        <!-- </div> -->
+                            <div class="nk-block-des text-soft">
+                                {#<p>Welcome to DashLite Dashboard Template.</p>#}
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            {#<div class="toggle-wrap nk-block-tools-toggle">#}
+                                {#<a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>#}
+                                {#<div class="toggle-expand-content" data-content="pageMenu">#}
+                                    {#<ul class="nk-block-tools g-3">#}
+                                        {#<li><a href="#" class="btn btn-white btn-dim btn-outline-dark"><em class="icon ni ni-setting"></em><span>Settings</span></a></li>#}
+                                        {#<li><a href="#" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-reports"></em><span>Reports</span></a></li>#}
+                                        {#<li class="nk-block-tools-opt">#}
+                                            {#<div class="drodown">#}
+                                                {#<a href="#" class="dropdown-toggle btn btn-icon btn-primary" data-toggle="dropdown"><em class="icon ni ni-plus"></em></a>#}
+                                                {#<div class="dropdown-menu dropdown-menu-right">#}
+                                                    {#<ul class="link-list-opt no-bdr">#}
+                                                        {#<li><a href="#"><em class="icon ni ni-user-add-fill"></em><span>Add User</span></a></li>#}
+                                                        {#<li><a href="#"><em class="icon ni ni-coin-alt-fill"></em><span>Add Order</span></a></li>#}
+                                                        {#<li><a href="#"><em class="icon ni ni-note-add-fill-c"></em><span>Add Page</span></a></li>#}
+                                                    {#</ul>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</li>#}
+                                    {#</ul>#}
+                                {#</div><!-- .toggle-expand-content -->#}
+                            {#</div><!-- .toggle-wrap -->#}
+                        </div><!-- .nk-block-head-content -->
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    <div class="row g-gs">
+                        <!-- test card -->
+                        
+                        <!-- test card -->
+                        <div class="col-md-3">
+                            <div class="card card-bordered card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0" style="display: none;">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Active Doctors</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Deposited"></em>
+                                        </div> -->
+                                    </div>
+                                    
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> {{dash.doctors_count}}</h3> {#<span class="currency currency-usd">New Appointments</span>#}
+                                        </span>
+                                        <span class="change up text-danger ml-auto ">
+                                            {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                            <em class="bg-success-dim icon-circle icon ni ni-arrow-up-right" style="visibility:hidden;"></em>
+                                            {#1.93%#}</span>
+                                            
+                                            <!-- <div class="user-avatar md bg-blue-dim ml-auto">
+                                                <span {#class="change up text-danger  "#}>
+                                                    {#<em class="icon ni ni-arrow-long-up">#}</em>
+                                                    {#<em class="bg-success-dim icon-circle icon ni ni-arrow-down-left"></em>#}
+                                                    {#<div class="user-avatar sm bg-blue"><span>N</span></div>#}
+                                                    1.93%</span>
+                                                </div> -->
+                                    </div>
+                                   
+                                    
+                                </div>
+                                <!-- <div class="fake-class"> -->
+                                    <div class="progress">
+                                        <div class="progress-bar" data-progress="100" style="width: 100%;"></div>
+                                    </div>
+                                <!-- </div> -->
+                            </div><!-- .card -->
+                            
+                        </div>
+                        <div class="col-md-3"  >
+                            <div class="card card-bordered card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">No. of Patients</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Withdraw"></em>
+                                        </div> -->
+                                    </div>
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> {{dash.customers_count}} </h3> {#<span class="currency currency-usd"> Appointments</span>#}
+                                        </span>
+                                        <span class="{#change up#} text-danger ml-auto">
+                                            {#<em class="icon ni ni-arrow-long-up">#}
+                                                <em class="bg-danger-dim icon-circle icon ni ni-arrow-down-left" style="visibility:hidden;"></em>    
+                                            </em>{#1.93%#}</span>
+                                        
+                                    </div>
+                                    <!-- <div class="info text-right"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><br><span>vs. last week</span></div> -->
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary-dim" data-progress="100" style="width: 100%;"></div>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+                        
+                        <div class="col-md-3"  style="display: none;">
+                            <div class="card card-bordered  card-full" style="width:300px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Completed</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Balance in Account"></em>
+                                        </div> -->
+                                    </div>
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> {#{{dashboard_data.completed_count}}#} </h3> {#<span class="currency currency-usd"> Appointments</span>#}
+                                        </span>
+                                        <span class="change up text-danger">
+                                            {#<em class="icon ni ni-arrow-long-up"></em>#}
+                                            <em class="bg-success-dim icon-circle icon ni ni-arrow-up-right ml-auto" style="visibility:hidden;"></em>
+                                            {#1.93%#}</span>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" data-progress="100" style="width: 100%;"></div>
+                                </div>
+                            </div><!-- .card -->                            
+                        </div><!-- .col -->
+
+                        <div class="col-md-3" >
+                            <div class="card card-bordered  card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Total No. of orders</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Balance in Account"></em>
+                                        </div> -->
+                                    </div>
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> {{dash.total_appointments}} </h3> {#<span class="currency currency-usd"> Appointments</span>#}
+                                        </span>
+                                        <span class="change up text-danger">
+                                            {#<em class="icon ni ni-arrow-long-up"></em>#}
+                                            <em class="bg-success-dim icon-circle icon ni ni-arrow-up-right ml-auto" style="visibility:hidden;"></em>
+                                            {#1.93%#}</span>
+                                    </div>
+                                    
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info" data-progress="100" style="width: 100%;"></div>
+                                </div>
+                            </div><!-- .card -->                            
+                        </div><!-- .col -->
+
+                        
+                        {% for earning in earnings %}
+                        <!-- Net profit -->
+                        <div class="col-md-3"  >
+                            <div class="card card-bordered card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Net Profit</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Withdraw"></em>
+                                        </div> -->
+                                    </div>
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> 
+                                            {% if earnings.currency == 'inr' %}
+                                            {{earning.net_profit}} 
+                                            {% else %}
+                                            {{earning.net_profit_usd}} 
+                                            {% endif %}
+                                        </h3> {#<span class="currency currency-usd"> Appointments</span>#}
+                                        </span>
+                                        <span class="{#change up#} text-danger ml-auto">
+                                            {#<em class="icon ni ni-arrow-long-up">#}
+                                                <em class="bg-danger-dim icon-circle icon ni ni-arrow-down-left" style="visibility:hidden;"></em>    
+                                            </em>{#1.93%#}</span>
+                                        
+                                    </div>
+                                    <!-- <div class="info text-right"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><br><span>vs. last week</span></div> -->
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" data-progress="100" style="width: 100%;"></div>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+
+                        <!-- Net expense / payout -->
+                        <div class="col-md-3"  >
+                            <div class="card card-bordered card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Net Payout</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Withdraw"></em>
+                                        </div> -->
+                                    </div>
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> 
+                                            {% if earnings.currency == 'inr' %}
+                                            {{earning.net_expense}} 
+                                            {% else %}
+                                            {{earning.net_expense_usd}} 
+                                            {% endif %}
+                                            
+                                        </h3> {#<span class="currency currency-usd"> Appointments</span>#}
+                                        </span>
+                                        <span class="{#change up#} text-danger ml-auto">
+                                            {#<em class="icon ni ni-arrow-long-up">#}
+                                                <em class="bg-danger-dim icon-circle icon ni ni-arrow-down-left" style="visibility:hidden;"></em>    
+                                            </em>{#1.93%#}</span>
+                                        
+                                    </div>
+                                    <!-- <div class="info text-right"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><br><span>vs. last week</span></div> -->
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success-dim" data-progress="100" style="width: 100%;"></div>
+                                </div>
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+
+                        {% endfor %}
+
+                                          
+                        <!-- upcoming or active orders -->
+                        <div class="col-12 ">
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner border-bottom">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Upcoming Appointments</h6>
+                                        </div>
+                                        <div class="card-tools">
+                                            <!-- {#<ul class="card-tools-nav">#} -->
+                                                <ul>
+                                                <li><a href="{{url_for('appointments')}}"><span>View All</span></a></li>
+                                                <!-- <li><a href="#"><span>Cancel</span></a></li>
+                                                <li class="active"><a href="#"><span>All</span></a></li> -->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="nk-tb-list">
+                                    <div class="nk-tb-item nk-tb-head tb-head-light">
+                                        <div class="nk-tb-col"><span>Date</span></div>
+                                        <div class="nk-tb-col "><span>Time</span></div>
+                                        <div class="nk-tb-col"><span>Patient Name</span></div>
+                                        <div class="nk-tb-col tb-col-sm"><span>Issue Category</span></div>
+                                        <div class="nk-tb-col tb-col-sm"><span>Doctor Preferred</span></div>
+                                        <div class="nk-tb-col "><span>Language Preferred</span></div>
+                                        <div class="nk-tb-col"><span>Status</span></div>
+                                        <!-- <div class="nk-tb-col tb-col-sm"><span>&nbsp;</span></div> -->
+                                        <div class="nk-tb-col"><span>&nbsp;</span></div>
+                                    </div>
+                                    
+                                    {% for order in upcoming_orders %}
+                                    
+                                    
+                                    <div class="nk-tb-item">
+                                        <div class="nk-tb-col">
+                                            <span class="tb-lead">{{order.appointment_date|date_format}}</span>
+                                        </div>
+                                        <div class="nk-tb-col ">
+                                            <div class="user-name">
+                                           <span class="tb-lead">{{order.time_slot}}</span>   
+                                        </div>
+                                        </div>
+                                        
+                                        <div class="nk-tb-col">
+                                            <div class="user-card">
+                                                <!-- <div class="user-avatar user-avatar-xs bg-azure-dim">
+                                                    <span>VA</span>
+                                                </div> -->
+                                                <div class="user-name">
+                                                    <span class="tb-lead">
+                                                        {% if order.user_fname %}
+                                                        {{order.user_fname|capitalize}} {{order.user_lname|capitalize}}
+                                                        {% else %}
+                                                        {{order.user_mail}}
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="nk-tb-col tb-col-sm">
+                                            <div class="user-name">
+                                                <span class="tb-lead">{{order.category}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="nk-tb-col tb-col-sm">
+                                            <div class="user-name">
+                                                <span class="tb-lead">{{order.gender_pref|capitalize}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="nk-tb-col tb-col">
+                                            <div class="user-name">
+                                                <span class="tb-lead">{{order.language_pref|capitalize}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="nk-tb-col tb-col-sm">
+                                            {% if order.appointment_status == 0 %}
+                                            <span class="badge  badge-info">New</span>
+                                            {% elif order.appointment_status==1 %}
+                                            <span class="badge  badge-success"> New</span>
+                                            {% elif order.appointment_status==2 %}
+                                            <span class="badge  badge-primary"> Referred</span>
+                                            {% elif order.appointment_status==3 %}
+                                            <span class="badge  badge-danger">Cancelled</span>
+                                            {% elif order.appointment_status==4 %}
+                                            <span class="badge  badge-gray">Reschedule requested by order</span>
+                                            {% elif order.appointment_status==5 %}
+                                            <span class="badge  badge-warning">Reschedule requested by patient</span>
+                                            {% elif order.appointment_status==6 %}
+                                            <span class="badge  badge-secondary">Closed</span>
+                                            {% elif order.appointment_status==7 %}
+                                            <span class="badge  badge-primary">Rescheduled</span>
+                                            {% elif order.appointment_status==8 %}
+                                            <span class="badge  badge-info">Follow up</span>
+                                            {% elif order.appointment_status==9 %}
+                                            <span class="badge  badge-danger">No show</span>
+                                            {% elif order.appointment_status==10 %}
+                                            <span class="badge  badge-danger">Transfered</span>
+                                            {% elif order.appointment_status==11 %}
+                                            <span class="badge  badge-danger">Transfered</span>
+                                            
+                                            {% elif order.appointment_status==12 %}
+                                            <span class="badge  badge-info">New</span>
+                                            {% endif %}  
+                                        </div>
+                                        <div class="nk-tb-col nk-tb-col-action">
+                                            <a href="{{url_for('appointment_details',appointment_id=order.appointment_id)}}" class="text-soft dropdown-toggle btn btn-sm btn-icon btn-trigger"><em class="icon ni ni-chevron-right"></em></a>
+                                            <!-- <div class="dropdown">
+                                                <a class="text-soft dropdown-toggle btn btn-sm btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-chevron-right"></em></a>
+                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                    <ul class="link-list-plain">
+                                                        <li><a href="#">View</a></li>
+                                                        <li><a href="#">Invoice</a></li>
+                                                        <li><a href="#">Print</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    
+                                    
+                                    
+
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                        
+
+                        <!-- recent activities -->
+                        <div class="col-md-6 col-xxl-4" style="display: none;">
+                            <div class="card card-bordered card-full">
+                                <div class="card-inner border-bottom">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Upcoming Appointments</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <ul class="card-tools-nav">
+                                                <li><a href="#"><span>Cancel</span></a></li>
+                                                <li class="active"><a href="#"><span>All</span></a></li>
+                                            </ul>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                
+
+                                <div class="nk-tb-list">
+                                    <div class="nk-tb-item nk-tb-head">
+                                        <div class="nk-tb-col"><span>Date</span></div>
+                                        <div class="nk-tb-col tb-col-sm"><span>Time</span></div>
+                                        <div class="nk-tb-col tb-col-lg"><span>Category</span></div>
+                                        <div class="nk-tb-col"><span>Customer</span></div>
+                                        <!-- <div class="nk-tb-col tb-col-sm"><span>&nbsp;</span></div> -->
+                                        <div class="nk-tb-col"><span>&nbsp;</span></div>
+                                    </div>
+                                    {% for order in upcoming_orders %}
+                                    <div class="nk-tb-item">
+                                        <div class="nk-tb-col">
+                                            <span class="tb-sub">{{order.appointment_date|date_format}}</span>
+                                        </div>
+                                        <div class="nk-tb-col tb-col-sm">
+                                           <span>{{order.time_slot}}</span>   
+                                        </div>
+                                        <div class="nk-tb-col tb-col-lg">
+                                            <div class="user-name">
+                                                <span class="tb-lead">{{order.category}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="nk-tb-col">
+                                            <div class="user-card">
+                                                <!-- <div class="user-avatar user-avatar-xs bg-azure-dim">
+                                                    <span>VA</span>
+                                                </div> -->
+                                                <div class="user-name">
+                                                    <span class="tb-lead">
+                                                        {% if order.user_fname %}
+                                                        {{order.user_fname}} {{order.user_lname}}
+                                                        {% else %}
+                                                        {{order.user_mail}}
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="nk-tb-col tb-col-sm">
+                                            <span class="tb-sub text-success">Completed</span>
+                                        </div> -->
+                                        <div class="nk-tb-col nk-tb-col-action">
+                                            <a href="{{url_for('appointment_details',appointment_id=order.appointment_id)}}" class="text-soft dropdown-toggle btn btn-sm btn-icon btn-trigger"><em class="icon ni ni-chevron-right"></em></a>
+                                            
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- notifications -->
+                        <div class="col-md-6 col-xxl-4" style="display: none;">
+                            <div class="card card-bordered h-100">
+                                <div class="card-inner border-bottom">
+                                    <div class="card-title-group">
+                                        <div class="card-title">
+                                            <h6 class="title">Upcoming Follow Ups</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <a href="html/subscription/tickets.html" class="link">View All</a>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                
+
+                                <div class="nk-tb-list">
+                                    <div class="nk-tb-item nk-tb-head">
+                                        <div class="nk-tb-col"><span>Date</span></div>
+                                        <div class="nk-tb-col tb-col-sm"><span>Time</span></div>
+                                        <div class="nk-tb-col tb-col-lg"><span>Category</span></div>
+                                        <div class="nk-tb-col"><span>Customer</span></div>
+                                        <!-- <div class="nk-tb-col tb-col-sm"><span>&nbsp;</span></div> -->
+                                        <div class="nk-tb-col"><span>&nbsp;</span></div>
+                                    </div>
+                                    {% for order in upcoming_orders %}
+                                    <div class="nk-tb-item clickable-row" data-href="{{url_for('appointment_details',appointment_id=order.appointment_id)}}">
+                                        <div class="nk-tb-col">
+                                            <span class="tb-sub">{{order.appointment_date}}</span>
+                                        </div>
+                                        <div class="nk-tb-col tb-col-sm">
+                                           <span>{{order.time_slot}}</span>   
+                                        </div>
+                                        <div class="nk-tb-col tb-col-lg">
+                                            <div class="user-name">
+                                                <span class="tb-lead">{{order.category}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="nk-tb-col">
+                                            <div class="user-card">
+                                                <!-- <div class="user-avatar user-avatar-xs bg-azure-dim">
+                                                    <span>VA</span>
+                                                </div> -->
+                                                <div class="user-name">
+                                                    <span class="tb-lead">
+                                                        {% if order.user_fname %}
+                                                        {{order.user_fname}} {{order.user_lname}}
+                                                        {% else %}
+                                                        {{order.user_mail}}
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="nk-tb-col nk-tb-col-action">
+                                            <a href="{{url_for('appointment_details',appointment_id=order.appointment_id)}}" class="text-soft dropdown-toggle btn btn-sm btn-icon btn-trigger"><em class="icon ni ni-chevron-right"></em></a>
+                                            
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+                                    
+                                </div>
+
+                            </div><!-- .card -->
+                        </div><!-- .col -->
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{url_for('static',filename='js/charts/chart-ecommerce.js')}}"></script>
+<script src="{{url_for('static',filename='js/charts/gd-invest.js')}}"></script>
+
+<script>
+    jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+});
+</script>
+
+{% endblock %}

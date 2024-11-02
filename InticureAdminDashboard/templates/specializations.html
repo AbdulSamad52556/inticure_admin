@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="nk-content ">
+
+<!-- SWEET ALERTS @S -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<script>
+   
+Swal.fire({
+
+       title:"{{ category.title() }}!",
+       // success , error , warning ,info
+
+       text: "{{ message }}",
+       // Custom message flashed from your flask routes
+
+       icon: "{{ category }}"
+       // success , error , warning ,info
+
+})
+
+</script>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<!-- SWEET ALERTS @E -->
+
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <div class="d-flex mb3">
+                                    <h4 class="nk-block-title mr-auto ">Specializations</h4>
+                                    {#<a href="html/user-list-regular.html"
+                                        class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                            class="icon ni ni-arrow-left"></em><span>Back</span></a>#}
+                                    <a href="{{url_for('add_specialization')}}" type="button" class="d-sm-inline-flex btn btn-dark btn-md ">Add Specialization</a>
+                                    {#<button class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" data-toggle="modal"
+                                        data-target="#filter"><em class="icon ni ni-filter"></em><span>Filter</span></button>#}
+                                </div>
+                                <div class="nk-block-des">
+                                    {#<p>Using the most basic table markup, here’s how <code
+                                            class="code-class">.table</code> based tables look by default.</p>#}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <table class="datatable-init table" data-ordering="false">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Specialization</th>
+                                            <th>Description</th>
+                                            <th></th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for spec in specializations %}
+                                        <tr>
+                                            <td>{{loop.index}}</td>
+                                                
+                                            <td>
+                                                {{spec.specialization|capitalize}}
+                                            </td>
+                                            
+                                            <td>
+                                                {{spec.description}}
+                                            </td>
+                                            <td class="tb-odr-action">
+                                                {#<div class="tb-odr-btns d-none d-md-inline">
+                                                    <a href="#" class="btn btn-sm btn-primary">View</a>
+                                                </div>#}
+                                                <div class="dropdown">
+                                                    <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" data-offset="-8,0"><em class="icon ni ni-more-h"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                                        <ul class="link-list-plain">
+                                                            <li><a href="{{url_for('edit_specialization',spec_id=spec.id)}}" class="text-primary">Edit</a></li>
+                                                            {#<li><a href="#" class="text-primary">View</a></li>#}
+                                                            <li><a href="#remove{{spec.id}}" data-toggle="modal" class="text-danger">Remove</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            
+                                        </tr>
+                                        <!-- --------------------- DELETE/REMOVE MODAL @S --------------------------------- -->
+
+<div class="modal fade" tabindex="-1" id="remove{{spec.id}}" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                    <h4 class="nk-modal-title">Are you sure you want to remove {{spec.specialization|capitalize}}?</h4>
+                    <!-- <div class="nk-modal-text">
+                        <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p>
+                        <p class="text-soft">If you need help please contact us at (855) 485-7373.</p>
+                    </div> -->
+                    <div class="nk-modal-action mt-5">
+                        <a href="{{url_for('remove_specialization',spec_id=spec.id)}}" type="button" class="btn btn-lg btn-mw btn-primary">Remove</a>
+                        <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+
+<!-- --------------------- DELETE/REMOVE MODAL @E --------------------------------- -->
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card-preview -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ########################## FILTER MODAL @S ################################## -->
+
+<div class="modal fade" tabindex="-1" id="filter" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                    <input type="hidden" id="form_type" name="form_type" value="filter">
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="specialization">Specialization</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="specialization" name="specialization">
+                                    <option value="">All Specializations</option>
+                                    <option value="sexologist">Sexologist</option>
+                                    <option value="psychologist">Psychologist</option>
+                                    <option value="dietitian">Dietitian</option>
+                                    <option value="somnologist">Somnologist</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location</label>
+                        <div class="form-control-wrap ">
+                            <div class="form-control-select">
+                                <select class="form-control" id="location" name="location">
+                                    <option value="">All Locations</option>
+                                    <option value="trivandrum">Trivandrum</option>
+                                    <option value="kochi">Kochi</option>
+                                    <option value="kannur">Kannur</option>
+                                    <option value="thrissur">Thrissur</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-md btn-dark">Apply Filter</button>
+                        <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<!-- ########################## FILTER MODAL @E ################################## -->
+{% endblock %}

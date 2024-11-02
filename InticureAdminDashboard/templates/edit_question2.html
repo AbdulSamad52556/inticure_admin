@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="components-preview">
+                    <div class="nk-block-head nk-block-head-lg wide-sm">
+                        <div class="nk-block-head-content">
+                            <!-- <div class="nk-block-head-sub"><a class="back-to" href="html/components.html"><em class="icon ni ni-arrow-left"></em><span>Components</span></a></div> -->
+                            <h2 class="nk-block-title fw-normal">Edit Question</h2>
+                            <div class="nk-block-des">
+                                <!-- <p class="lead">Form is most esential part of your project. We styled out nicely so you can
+                                     build your form so quickly.</p> -->
+                            </div>
+                        </div>
+                    </div><!-- .nk-block -->
+                    <div class="nk-block nk-block-lg">
+                        <!-- <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <h4 class="title nk-block-title">Basic Form Style - S1</h4>
+                                <div class="nk-block-des">
+                                    <p>Below example helps you to build your own form nice way.</p>
+                                </div>
+                            </div>
+                        </div> -->
+                        <form action="" method="POST">
+                        <div class="card card-bordered">
+                            <div class="card-inner">
+                                <div class="card-head">
+                                    <h5 class="card-title">Edit Question</h5>
+                                </div>
+                                <!-- <form action="#"> -->
+                                    <div class="row g-4">
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="answer_type">Answer Type</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="answer_type">
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="category_id">Category</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="category_id" name="category_id">
+                                                            <option value="">Select</option>
+                                                            {% for category in categories %}
+                                                            <option value="{{category.id}}"{% if question.category_id == category.id %}selected {% endif %}>{{category.title}}</option>
+                                                            {% endfor %}
+                                                            <!-- <option value="1"{% if question.category_id == 1 %} selected {% endif %}>
+                                                                Sexual Issues</option>
+                                                            <option value="2"{% if question.category_id == 2 %} selected {% endif %}>
+                                                                Stress & Anxiety</option>
+                                                            <option value="3"{% if question.category_id == 3 %} selected {% endif %}>
+                                                                Diet & Nutrition</option>
+                                                            <option value="4"{% if question.category_id == 4 %} selected {% endif %}>
+                                                                Sleep Disorder</option> -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="gender">Gender</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="gender" name="gender">
+                                                            <option value=""{% if question.customer_gender == "" %} selected {% endif %}>Any</option>
+                                                            <option value="male"{% if question.customer_gender == 'male' %} selected {% endif %}>Male</option>
+                                                            <option value="female"{% if question.customer_gender == 'female' %} selected {% endif %}>Female</option>
+                                                            <option value="other"{% if question.customer_gender == 'other' %} selected {% endif %}>Other</option>
+                                                            <!-- <option value="dropdown-select">Any</option> -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="question">Question</label>
+                                                    <div class="form-control-wrap">
+                                                        <input type="text" class="form-control" id="question" name="question" value="{{question.question}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="category_id">Category Id</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="category_id">
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label" for="answer_type">Answer Type</label>
+                                                <div class="form-control-wrap ">
+                                                    <div class="form-control-select">
+                                                        <select class="form-control" id="answer_type" name="answer_type">
+                                                            <option value="">Select</option>
+                                                            <option value="radio_select"{% if question.answer_type == "radio_select" %}selected{% endif %}>
+                                                                Radio Select</option>
+                                                            <option value="textfield"{% if question.answer_type == "textfield" %}selected{% endif %}>
+                                                                Textfield</option> 
+                                                            <option value="checkbox"{% if question.answer_type == "checkbox" %}selected{% endif %}>Checkbox</option>
+                                                            <option value="dropdown_select"{% if question.answer_type == "dropdown_select" %}selected{% endif %}>Drop down select</option>    
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-lg-6">
+                                            <div id="option_row0" style="margin-bottom:10px ;">
+                                                {#<input type="hidden" name="count" id="count" value="0">#}
+                                            <div class="form-group">
+                                                <label class="form-label" >Options</label>
+                                                {% for choice in question['options'] %}
+                                                <div class="form-control-wrap" style="margin-bottom:10px ;">
+                                                    <div class="d-flex justify-content-end">
+                                                    <input type="text" class="form-control" id="option{{choice.id}}" name="option{{choice.id}}" value="{{choice.option}}">
+                                                    {#<a href="{{url_for('edit_option',option_id=choice.id)}}" class="btn btn-outline-secondary ml-2" id="edit{{choice.id}}"><em class="icon ni ni-save"></em></a>#}
+                                                    <a  class="btn btn-outline-secondary ml-2" id="edit{{choice.id}}" onclick="editOption('{{choice.id}}','{{choice.question_id}}')"><em class="icon ni ni-save"></em></a>
+
+                                                    <a href="#delete_option{{choice.id}}" data-toggle="modal" href="{{url_for('delete_option',option_id=choice.id)}}" class="btn btn-outline-danger ml-2"><em class="icon ni ni-trash"></em></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+<!-- --------------------- DELETE OPTION MODAL @S --------------------------------- -->
+
+<div class="modal fade" tabindex="-1" id="delete_option{{choice.id}}" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                    <h4 class="nk-modal-title">Are you sure ?</h4>
+                    <p class="lead">This option will be permanently deleted.</p>
+                    <!-- <div class="nk-modal-text">
+                        <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p>
+                        <p class="text-soft">If you need help please contact us at (855) 485-7373.</p>
+                    </div> -->
+                    <div class="nk-modal-action mt-5">
+                        <a href="{{url_for('delete_option',option_id=choice.id)}}" type="button" class="btn btn-lg btn-mw btn-primary">Delete</a>
+                        <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+
+<!-- --------------------- DELETE OPTION MODAL @E --------------------------------- -->
+
+                                                {% endfor %}
+                                                <div class="form-group " style="display :flex;justify-content:flex-end;width:100%; padding:0px; margin-top: 10px; ">
+                                                    <a type="button" id="remove_btn" class="btn btn-sm btn-outline-light" style="color:#854FFF;margin-right:2px ;">Remove</a>
+                                                    <a type="button" id="add_more_btn" class="btn btn-sm btn-outline-light" style="color:#854FFF">+Add more</a>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- {#
+                                            <div class="form-group">
+                                                <label class="form-label" for="option2">Options</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="text" class="form-control" id="option2" name="option2" value="{{choice.option}}">
+                                                </div>
+                                            </div>
+                                            #} -->
+                                        </div>
+                                    <!-- </form> -->
+                                        <!-- <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Communication</label>
+                                                <ul class="custom-control-group g-3 align-center">
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-email-1">
+                                                            <label class="custom-control-label" for="com-email-1">Email</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-sms-1">
+                                                            <label class="custom-control-label" for="com-sms-1">SMS</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="com-phone-1">
+                                                            <label class="custom-control-label" for="com-phone-1">Phone</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Payment Methods</label>
+                                                <ul class="custom-control-group g-3 align-center">
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-card-1">
+                                                            <label class="custom-control-label" for="pay-card-1">Card</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-bitcoin-1">
+                                                            <label class="custom-control-label" for="pay-bitcoin-1">Bitcoin</label>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="custom-control custom-control-sm custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input" id="pay-cash-1">
+                                                            <label class="custom-control-label" for="pay-cash-1">Cash</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-lg btn-dark">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div><!-- card -->
+        </div><!-- .nk-block -->
+    </div><!-- .components-preview -->
+</div>
+</div>
+<!-- </div>
+</div> -->
+<script src="{{url_for('static',filename='js/vendors/jquery-steps/jquery.steps.js')}}"> </script>
+<script src="{{url_for('static',filename='js/vendors/jquery-steps/jquery.steps.min.js')}}"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+<!-- DYNAMIC QUESTION @S -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // var new_row="";
+        var x=0;
+        console.log(x);
+        $('#remove_btn').hide();
+        // prescript_row=document.getElementByNames()
+        $('#add_more_btn').click(function () {
+            if(x>=0){
+                $('#remove_btn').show();
+            }
+            else{
+                $('#remove_btn').hide();
+            }
+            // if (x==1){
+                x++;
+                console.log("++",x);
+                hidden_input='<input type="hidden" name="count" id="count" value="">';
+                options='<div class="form-group"><label class="form-label" for="option'+x+'">Options</label><div class="form-control-wrap"><input type="text" class="form-control" id="option'+x+'" name="option'+x+'"></div></div>'
+                $('#option_row'+(x-1)).closest('div').after('<div id="option_row'+x+'" style="margin-bottom:10px ;">'+hidden_input + options +'</div>');
+
+                // SETTING COUNT VALUE
+                var count_value=$('input[name*="count"]').length;
+                console.log("count",count_value)
+                $('input[name*="count"]').val(count_value);
+            });
+
+            $('#remove_btn').click(function () {
+            $('#option_row'+x+'').remove();
+            x--;
+            if(x==0){
+                $('#remove_btn').hide();
+            }
+            var count_value=$('input[name*="count"]').length;
+            console.log("count",count_value)
+            $('input[name*="count"]').val(count_value);
+        //     let count_value=$('#count').length
+        // console.log("count",count_value);
+        });
+
+        });
+</script>
+<!-- DYNAMIC QUESTION @E -->
+
+<!-- EDIT OPTION USING JAVASCRIPT -->
+<script>
+const editOption = async (option_id,question_id) => {
+    console.log("edit option")
+    console.log("option_id",option_id)
+    console.log("question_id",question_id)
+    var option_id=option_id
+    var question_id = question_id
+    var option = document.getElementById("option"+option_id).value;
+    console.log(option);
+    var payload={};
+    payload.option_id=option_id,
+    payload.question_id=question_id,
+    payload.option=option
+    console.log("payload",payload);
+    const response = await fetch("https://api.inticure.online/api/administrator/update_option", {
+    //const response = await fetch("http://localhost:8000/api/administrator/update_option", {
+    method: 'POST',
+    body: JSON.stringify(payload), // string or object
+    headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin':'*',
+    'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+    }
+    });
+    const myJson = await response.json();
+    console.log(myJson);
+    return myJson;
+}
+</script>
+
+<!-- OLD EDIT QUESTION SCRIPT -->
+<!-- <script>
+    jQuery(document).ready(function ($) {
+    console.log("hello");
+    function edit_option({{choice.id}}) {
+        console.log("hello2");
+        console.log({{choice.id}})
+        // $("#edit{{choice.id}}").on('click', function(option_id){
+        console.log("hello3");
+            var data = {
+                // "option_id" : {{choice.id}},
+                "question_id": {{id_to_be_updated}},
+                "option": document.getElementById("option{{choice.id}}").value,
+                                                
+            };
+            // console.log(option_id)
+            console.log(data);
+            
+            $.ajax({
+                cache: false,
+                url: '{{url_for("edit_option",option_id=choice.id)}}',
+                type: 'GET',
+                data: data,
+                // Accept:'application/json',
+                success: function () {
+                    {#$("#tab1").load(" #tab1 > *");#}
+                    {#$("#pref_terms").load(" #pref_terms > *");#}
+
+                    alert("updated")
+                }
+            });
+        // });
+        };
+        
+        console.log("test")
+        console.log(data);
+    });
+</script> -->
+
+<!-- ------------ DYNAMIC ROWS JS FUNCTION @S------------- -->
+<!-- ---------- ADD OPTIONS IN ADD QUESTION @S ------------- -->
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var new_row="";
+        var x=1;
+        $('#remove_btn').hide();
+        // prescript_row=document.getElementByNames()
+        $('#add_more_btn').click(function () {
+            if(x>=1){
+                $('#remove_btn').show();
+            }
+            else{
+                $('#remove_btn').hide();
+            }
+            // if (x==1){
+                x++;
+                hidden_input='<input type="hidden" name="count" id="count" value="">';
+            });
+        });
+
+</script> -->
+<!-- ---------- ADD OPTIONS IN ADD QUESTION @E ------------- -->     
+
+<!-- ---------- EDIT OPTIONS IN EDIT QUESTION @S ------------- -->   
+<script>
+    </script>
+<!-- ---------- EDIT OPTIONS IN EDIT QUESTION @E ------------- --> 
+
+<!-- ------------ DYNAMIC ROWS JS FUNCTION @E------------- -->         
+
+{% endblock %}

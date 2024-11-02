@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+
+                    <div class="nk-block nk-block-lg">
+                        <div class="nk-block-head">
+                            <div class="nk-block-head-content">
+                                <div class="d-flex mb3">
+                                    <h4 class="nk-block-title mr-auto ">Questions</h4>
+                                    {#<a href="html/user-list-regular.html"
+                                        class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                                            class="icon ni ni-arrow-left"></em><span>Back</span></a>#}
+                                    {#<button class="d-sm-inline-flex btn btn-dark btn-md ">Add </button>#}
+                                    <a href="{{url_for('add_question')}}" type="button" class="btn btn-lg btn-dark">Add Question</a>
+                                </div>
+                                <div class="nk-block-des">
+                                    {#<p>Using the most basic table markup, here’s how <code
+                                            class="code-class">.table</code> based tables look by default.</p>#}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card card-preview">
+                            <div class="card-inner">
+                                <table class="datatable-init table" data-ordering="false">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Category</th>
+                                            <th>Question & Options</th>
+                                             <th>Gender</th>
+                                            <th>Answer type</th>
+                                            <th></th>
+                                            
+                                            <!-- <th>Start date</th>
+                                            <th>Salary</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for question in questionnaire_list %}
+                                        <tr>
+                                            <td>{{ loop.index }}</td>
+                                            <td>{{question['category_id']}}</td>
+                                            <td>{{question['question']}}</td>
+                                            <td>{{question['customer_gender']}}</td>
+                                           <td>{{question["answer_type"]}}</td>
+                                            
+                                          <!-- <td>2011/04/25</td>
+                                            <td>$320,800</td> -->
+                                            <td class="tb-odr-action">
+                                                
+                                               <div class="dropdown">
+                                                    <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown" aria-expanded="false"><em class="icon ni ni-more-h"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs" style="">
+                                                        <ul class="link-list-plain">
+                                                            {#<li><a href="#">View</a></li>#}
+                                                            <li><a  href="{{url_for('edit_question',id_to_be_updated = question.id)}}">Edit</a></li>
+                                                            <li><a href="#delete_question{{question.id}}" data-toggle="modal">Remove</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% if question['options'] %}
+                                        {% for option in question['options'] %}
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{ loop.index }}.  {{option['option']}}</td>
+                                        <td> </td>
+                                        <td></td>
+                                        <td></td>                                                                                       
+                                        </tr>
+                                    {% endfor %}
+                                    {% endif %}
+
+
+                                    <!-- --------------------- DELETE QUESTION MODAL @S --------------------------------- -->
+
+    <div class="modal fade" tabindex="-1" id="delete_question{{question.id}}" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal-body-lg text-center">
+                    <div class="nk-modal">
+                        <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                        <h4 class="nk-modal-title">Are you sure ?</h4>
+                        <p class="lead">This question will be permanently deleted.</p>
+                        <!-- <div class="nk-modal-text">
+                            <p class="lead">We are sorry, we were unable to process your payment. Please try after sometimes.</p>
+                            <p class="text-soft">If you need help please contact us at (855) 485-7373.</p>
+                        </div> -->
+                        <div class="nk-modal-action mt-5">
+                            <a href="{{url_for('delete_question',id_to_delete = question.id)}}" type="button" class="btn btn-lg btn-mw btn-primary">Delete</a>
+                            <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                        </div>
+                    </div>
+                </div><!-- .modal-body -->
+            </div>
+        </div>
+    </div>
+    
+    
+    <!-- --------------------- DELETE QUESTION MODAL @E --------------------------------- -->
+                                        {% endfor %}
+
+                                
+                                        
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div><!-- .card-preview -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
