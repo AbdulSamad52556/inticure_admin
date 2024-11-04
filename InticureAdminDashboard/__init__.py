@@ -2299,15 +2299,24 @@ def edit_plan():
     locations=location_resp['data']
 
     if request.method == 'POST':
+        print(request.form)
         price=request.form['plan_price']
-        duration=request.form['duration']
-        payload={
-            "doc_id":doctor_id,
-            "price_for_single":price,
-            "price_for_couple": math.ceil(float(price)*1.75),
-            "location_id":location_id,
-            "duration":duration
-        }
+        if 'duration' in request.form:
+            duration=request.form['duration']
+            payload={
+                "doc_id":doctor_id,
+                "price_for_single":price,
+                "price_for_couple": math.ceil(float(price)*1.75),
+                "location_id":location_id,
+                "duration":duration
+            }
+        else:
+            payload={
+                "doc_id":doctor_id,
+                "price_for_single":price,
+                "price_for_couple": math.ceil(float(price)*1.75),
+                "location_id":location_id,
+            }
         print(payload)
         try:
             api_data=json.dumps(payload)
