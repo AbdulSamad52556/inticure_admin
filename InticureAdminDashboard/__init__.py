@@ -845,6 +845,7 @@ def doctors():
         doctor_list_response=json.loads(doctor_listing.text)
         print(doctor_listing.status_code)
         doctor_list = doctor_list_response['data']
+        print(doctor_list)
         print(len(doctor_list))
 
         # rejected doctors

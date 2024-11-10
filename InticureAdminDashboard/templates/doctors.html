@@ -121,6 +121,7 @@ Swal.fire({
                                         <tr>
                                             <th>Doctor Name</th>
                                             <th>Email</th>
+                                            <th>Phone Number</th>
                                             <!-- <th>Department</th> ///commented by jobin/// -->
                                             <th>Specialization</th>
                                             <th>Location</th>
@@ -136,6 +137,7 @@ Swal.fire({
                                                 <tr>
                                                     <td><a href="{{url_for('doctor_details',doctor_id=doctor.user_id)}}">{{doctor.user_fname}} {{doctor.user_lname}}</a></td>
                                                     <td>{{doctor.user_mail}}</td>
+                                                    <td>{{doctor.mobile_number}}</td>
                                                     <!-- <td>{{doctor.department|capitalize}}</td> ///commented by jobin/// -->
                                                     <td>{{doctor.specialization|capitalize}}</td>
                                                     <td>{{doctor.location|capitalize}}</td>
