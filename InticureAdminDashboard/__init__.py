@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 import os, math
 from urllib.parse import urlparse
 from pathlib import Path
+import tempfile
 # import pandas as pd
 # from bs4 import BeautifulSoup
 
@@ -663,81 +664,140 @@ def delete_question(id_to_delete):
 
     return redirect(url_for("questions"))
 
+# @app.route('/user_download/<int:doctor_id>')
+# def user_download(doctor_id):
+#     file_path = request.args.get('file_path')
+#     if file_path:
+#         try:
+#             # Download the file using requests
+#             response = requests.get(file_path, stream=True)
+#             response.raise_for_status()  # Ensure the request was successful
+            
+#             # Create a temporary file to save the downloaded content
+#             temp_file = tempfile.NamedTemporaryFile(delete=False)
+#             with open(temp_file.name, 'wb') as f:
+#                 for chunk in response.iter_content(chunk_size=8192):
+#                     f.write(chunk)
+
+#             # Serve the file using send_file
+#             return send_file(temp_file.name, as_attachment=True, download_name=os.path.basename(file_path))
+
+#         except requests.RequestException as e:
+#             print(f"Error downloading file: {e}")
+#             return 'File could not be downloaded.', 404
+#         finally:
+#             # Clean up the temporary file after the response is sent
+#             os.unlink(temp_file.name)  # Delete the temporary file after download
+
+#     else:
+#         return 'Missing file path parameter.', 400
+
+# @app.route('/user_download/<int:doctor_id>')
+# def user_download(doctor_id):
+#     try:
+#         print(request.args)
+#         file_path=request.args.get('file_path')
+#         print(file_path)
+#         print("download")
+#         print(file_path)
+#         print(doctor_id)
+#         url=file_path
+
+
+#         if file_path:  # Check if file path is provided
+#             print('get')
+#             try:
+#                 return send_file(file_path, as_attachment=True)
+#             except FileNotFoundError:
+#                 print('post')
+#                 return 'File not found.', 404  # Handle file not found error
+#         else:
+#             return 'Missing file path parameter.', 400  # Handle missing file path error
+
+#         # url="http://"+file_path 
+#         # print(url)
+#         # r = requests.get(url)
+#         # # r = requests.get(url)
+#         # # this removes http and website part from url
+#         # url_split_1 = urlparse(url)
+#         # print(url_split_1)
+#         # #this will split rest of the path from file name
+#         # file_name=os.path.basename(url_split_1.path)
+#         # print("filename",file_name)
+
+#         # # cwd = os.getcwd()+'/'
+#         # # print(cwd)
+#         # # if 'temp' not in os.listdir(cwd):
+#         # # os.mkdir(cwd + 'temp')
+#         # # #saving file in flask app
+#         # # file_temp_save=open(cwd + 'temp/'+ file_name, "wb").write(r.content)
+#         # # print("saved in temp")
+
+#         # print("Base dir: ", BASE_DIR)
+#         # if 'temp' not in os.listdir(BASE_DIR):
+#         #     os.mkdir(str(BASE_DIR) + 'temp')
+#         # # """""saving file in flask app"""""
+#         # file_temp_save=open(str(BASE_DIR) + '/' + 'temp/'+ file_name, "wb").write(r.content)
+#         # print("saved in temp")
+
+
+#         # #send file and as attachment downloads the file to desktop
+#         # # return send_file(f"{str(BASE_DIR) + '/' + 'temp/'+ file_name}", as_attachment=True)
+#         # file_path = os.path.join(BASE_DIR, 'temp', file_name)
+
+#         # response = send_file(file_path, as_attachment=True, download_name=file_name)
+
+#         # response.close()
+#         # if os.path.exists(file_path):
+#         #     try:
+#         #         os.remove(file_path)
+#         #         print(f"File '{file_path}' has been removed.")
+#         #     except OSError as e:
+#         #         print(f"Error: {e}.")
+           
+#         # flash("Downloaded Successfully","success")
+#         # return redirect(url_for("doctor_details",doctor_id=doctor_id))
+        
+#         # write to a file in the app's instance folder
+        
+#         # with app.open_instance_resource('downloaded_file', 'wb') as f:
+#         #     f.write(r.content)
+#         # return redirect(url_for('order_details',appointment_id=appointment_id))
+#     except Exception as e:
+#         print(e)
+#         flash("Sorry.. Could not download the file","error")
+#         return redirect(url_for("doctor_details",doctor_id=doctor_id))
+
 @app.route('/user_download/<int:doctor_id>')
 def user_download(doctor_id):
+    file_path = request.args.get('file_path')
+    
+    if not file_path:
+        return 'Missing file path parameter.', 400
+
     try:
-        print(request.args)
-        file_path=request.args.get('file_path')
-        print(file_path)
-        print("download")
-        print(file_path)
-        print(doctor_id)
-        url=file_path
+        # Fetch the file from the given URL
+        response = requests.get(file_path, stream=True)
+        print(f"Fetching file from URL: {file_path}, Status: {response.status_code}")
 
+        if response.status_code == 200:
+            # Write the content to a temporary file
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".jpeg") as temp_file:
+                for chunk in response.iter_content(chunk_size=8192):
+                    temp_file.write(chunk)
+                temp_file_path = temp_file.name
+            
+            # Send the file to the client
+            return send_file(temp_file_path, as_attachment=True, download_name="downloaded_file.jpeg")
 
-        if file_path:  # Check if file path is provided
-            print('get')
-            try:
-                return send_file(file_path, as_attachment=True)
-            except FileNotFoundError:
-                print('post')
-                return 'File not found.', 404  # Handle file not found error
         else:
-            return 'Missing file path parameter.', 400  # Handle missing file path error
+            print("File not found on external server.")
+            return 'File not found at the provided URL.', 404
 
-        # url="http://"+file_path 
-        # print(url)
-        # r = requests.get(url)
-        # # r = requests.get(url)
-        # # this removes http and website part from url
-        # url_split_1 = urlparse(url)
-        # print(url_split_1)
-        # #this will split rest of the path from file name
-        # file_name=os.path.basename(url_split_1.path)
-        # print("filename",file_name)
-
-        # # cwd = os.getcwd()+'/'
-        # # print(cwd)
-        # # if 'temp' not in os.listdir(cwd):
-        # # os.mkdir(cwd + 'temp')
-        # # #saving file in flask app
-        # # file_temp_save=open(cwd + 'temp/'+ file_name, "wb").write(r.content)
-        # # print("saved in temp")
-
-        # print("Base dir: ", BASE_DIR)
-        # if 'temp' not in os.listdir(BASE_DIR):
-        #     os.mkdir(str(BASE_DIR) + 'temp')
-        # # """""saving file in flask app"""""
-        # file_temp_save=open(str(BASE_DIR) + '/' + 'temp/'+ file_name, "wb").write(r.content)
-        # print("saved in temp")
-
-
-        # #send file and as attachment downloads the file to desktop
-        # # return send_file(f"{str(BASE_DIR) + '/' + 'temp/'+ file_name}", as_attachment=True)
-        # file_path = os.path.join(BASE_DIR, 'temp', file_name)
-
-        # response = send_file(file_path, as_attachment=True, download_name=file_name)
-
-        # response.close()
-        # if os.path.exists(file_path):
-        #     try:
-        #         os.remove(file_path)
-        #         print(f"File '{file_path}' has been removed.")
-        #     except OSError as e:
-        #         print(f"Error: {e}.")
-           
-        # flash("Downloaded Successfully","success")
-        # return redirect(url_for("doctor_details",doctor_id=doctor_id))
-        
-        # write to a file in the app's instance folder
-        
-        # with app.open_instance_resource('downloaded_file', 'wb') as f:
-        #     f.write(r.content)
-        # return redirect(url_for('order_details',appointment_id=appointment_id))
     except Exception as e:
-        print(e)
-        flash("Sorry.. Could not download the file","error")
-        return redirect(url_for("doctor_details",doctor_id=doctor_id))
+        print("Error downloading file:", e)
+        flash("Sorry.. Could not download the file", "error")
+        return redirect(url_for("doctor_details", doctor_id=doctor_id))
 
 # @app.after_request
 # def remove_file(response):
@@ -775,10 +835,10 @@ def doctors():
 
         # approved doctor listing
         payload={                    
-                    "specialization":"",
-                    "location":"",
-                    "is_accepted":1                    
-                }
+            "specialization":"",
+            "location":"",
+            "is_accepted":1                    
+        }
         json_data=json.dumps(payload)
         print(json_data)
         doctor_listing=requests.post(base_url+doctor_listing_api, data=json_data, headers=headers)

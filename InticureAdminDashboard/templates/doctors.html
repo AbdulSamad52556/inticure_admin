@@ -132,17 +132,19 @@ Swal.fire({
                                     </thead>
                                     <tbody>
                                         {% for doctor in doctors[::-1] %}
-                                        <tr>
-                                            <td><a href="{{url_for('doctor_details',doctor_id=doctor.user_id)}}">{{doctor.user_fname}} {{doctor.user_lname}}</a></td>
-                                            <td>{{doctor.user_mail}}</td>
-                                            <!-- <td>{{doctor.department|capitalize}}</td> ///commented by jobin/// -->
-                                            <td>{{doctor.specialization|capitalize}}</td>
-                                            <td>{{doctor.location|capitalize}}</td>
-                                            <td>{{doctor.gender|capitalize}}</td>
-                                            <td>{{doctor.language_known|capitalize}}</td>
-                                            <td>{{doctor.doctor_flag|capitalize}}</td>
-                                            <!-- <td>$320,800</td> -->
-                                        </tr>
+                                            {% if doctor.user_mail != 'junior@doctor.com' %}
+                                                <tr>
+                                                    <td><a href="{{url_for('doctor_details',doctor_id=doctor.user_id)}}">{{doctor.user_fname}} {{doctor.user_lname}}</a></td>
+                                                    <td>{{doctor.user_mail}}</td>
+                                                    <!-- <td>{{doctor.department|capitalize}}</td> ///commented by jobin/// -->
+                                                    <td>{{doctor.specialization|capitalize}}</td>
+                                                    <td>{{doctor.location|capitalize}}</td>
+                                                    <td>{{doctor.gender|capitalize}}</td>
+                                                    <td>{{doctor.language_known|capitalize}}</td>
+                                                    <td>{{doctor.doctor_flag|capitalize}}</td>
+                                                    <!-- <td>$320,800</td> -->
+                                                </tr>
+                                            {% endif %}
                                         {% endfor %}
                                     </tbody>
                                     
