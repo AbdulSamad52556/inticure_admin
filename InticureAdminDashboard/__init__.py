@@ -2275,7 +2275,7 @@ def plans():
     print(location_resp)
     print('plans',plans)
     locations=location_resp['data']
-
+    print(plans)
     return render_template("plans.html",plans=plans,locations=locations)
     
 @app.route("/add_plan", methods=['GET','POST'])
@@ -2311,7 +2311,7 @@ def add_plan():
         doctor_profile_id, doc_name, specialization = doctor.split('|')
         payload={
             "price_for_single": price,
-            "price_for_couple": math.ceil(float(price)*1.75),
+            "price_for_couple": math.ceil(float(price)*1.50),
             "doctor_id":str(doctor_profile_id),
             "location_id":location,
             "doc_name":doc_name,
@@ -2335,6 +2335,7 @@ def add_plan():
 
 @app.route("/edit_plan", methods=['GET','POST'])
 def edit_plan():
+    print(request.args)
     doctor_id = request.args.get('doctor_id')
     location_id = request.args.get('location_id')
    
@@ -2363,12 +2364,13 @@ def edit_plan():
     if request.method == 'POST':
         print(request.form)
         price=request.form['plan_price']
+        price2=request.form['plan_price2']
         if 'duration' in request.form:
             duration=request.form['duration']
             payload={
                 "doc_id":doctor_id,
                 "price_for_single":price,
-                "price_for_couple": math.ceil(float(price)*1.75),
+                "price_for_couple": price2,
                 "location_id":location_id,
                 "duration":duration
             }
@@ -2376,7 +2378,7 @@ def edit_plan():
             payload={
                 "doc_id":doctor_id,
                 "price_for_single":price,
-                "price_for_couple": math.ceil(float(price)*1.75),
+                "price_for_couple": price2,
                 "location_id":location_id,
             }
         print(payload)

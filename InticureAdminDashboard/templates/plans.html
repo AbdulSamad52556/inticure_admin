@@ -90,7 +90,7 @@ Swal.fire({
                                                     </select>
                                                 </td>
                                                 <td>
-                                                   {{plan.duration}}
+                                                    {{ plan.duration }}
                                                 </td>
                                                 <td class="tb-odr-action">
                                                     <div class="dropdown">
@@ -99,7 +99,7 @@ Swal.fire({
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
                                                             <ul class="link-list-plain">
-                                                                <li><a href="#" data-doctor-id="{{ plan.doctor_id }}" class="text-primary edit-button">Edit</a></li>
+                                                                <li><a href="#" data-doctor-id="{{ plan.doctor_id }}" data-plan-id="{{ plan.id }}" class="text-primary edit-button">Edit</a></li>
                                                                 <li><a href="#remove{{ plan.id }}" data-doctor-id="{{ plan.doctor_id }}" class="text-danger remove-button">Remove</a></li>
                                                             </ul>
                                                         </div>
@@ -358,6 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Get the doctor_id from the data-doctor-id attribute
             const doctorId = this.getAttribute('data-doctor-id');
+            const planId = this.getAttribute('data-plan-id');
 
             // Find the parent <tr> of the clicked edit button
             const parentRow = this.closest('tr');
@@ -369,8 +370,10 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log('Edit Button Clicked:');
             console.log('Doctor ID:', doctorId);
             console.log('Selected Location ID:', selectedLocation);
+            console.log('Plan ID:', planId);  // Added planId to the log
+
             const baseUrl = "{{ url_for('edit_plan') }}";
-            const editUrl = `${baseUrl}?doctor_id=${doctorId}&location_id=${selectedLocation}`;
+            const editUrl = `${baseUrl}?doctor_id=${doctorId}&location_id=${selectedLocation}&plan_id=${planId}`;
             window.location.href = editUrl;
         });
     });

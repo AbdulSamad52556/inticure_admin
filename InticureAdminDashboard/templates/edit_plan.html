@@ -31,9 +31,6 @@ Swal.fire({
         <div class="nk-content-inner">
             <div class="nk-content-body">
                 <div class="nk-block">
-
-
-
                     <div class="card">
                         <div class="card-aside-wrap">
                             <div class="card-inner card-inner-lg">
@@ -65,73 +62,33 @@ Swal.fire({
                                     <div class="card">
                                         <div class="card-inner">
                                             <div class="card-head">
-                                                {# <h5 class="card-title">Select Date and Time</h5>#}
                                             </div>
                                             <form action="" method="POST" class="gy-3">
-                                                <!-- <div class="row g-3 align-center">
-                    <div class="col-lg-5">
-                        <div class="form-group">
-                            <label class="form-label" for="site-name">Appointment Date</label>
-                            <span class="form-note"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                {#<div class="form-icon form-icon-left">#}
-                                    {#<em class="icon ni ni-calendar"></em>#}
-                                {#</div>#}
-                                <input type="date" class="form-control " id="follow_up_date" name="follow_up_date" data-date-format="yyyy-mm-dd">
-                            </div>
-                    </div>
-                </div> -->
-
-                
-                    <div id="toast" class="toast" style="display: none;">
-                        <div class="toast-content">
-                            <span id="toast-message"></span>
-                        </div>
-                    </div>
-
-                <div class="row g-3 align-center">
-                    <div class="col-lg-5">
-                        <div class="form-group">
-                            <label class="form-label">Doctor Name</label>
-                            <span class="form-note"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="form-group">
-                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
-                            <div class="form-control-wrap">
-                                <div class="form-control-select">
-                                    <div class="form-control-wrap">
-                                        <input type="text" class="form-control" id="doc_name" name="doc_name" disabled value="{{plans.doctor_name}}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                                                {#
+                                                                
+                                                <div id="toast" class="toast" style="display: none;">
+                                                    <div class="toast-content">
+                                                        <span id="toast-message"></span>
+                                                    </div>
+                                                </div>
                                                 <div class="row g-3 align-center">
                                                     <div class="col-lg-5">
                                                         <div class="form-group">
-                                                            <label class="form-label">Plan Name</label>
+                                                            <label class="form-label">Doctor Name</label>
                                                             <span class="form-note"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-7">
                                                         <div class="form-group">
-                                                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
                                                             <div class="form-control-wrap">
-                                                                <input type="text" class="form-control" id="plan_name" name="plan_name" value="{{edit_plan.specialization}}" required="">
+                                                                <div class="form-control-select">
+                                                                    <div class="form-control-wrap">
+                                                                        <input type="text" class="form-control" id="doc_name" name="doc_name" disabled value="{{plans.doctor_name}}">
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                #}
                                                 <div class="row g-3 align-center">
                                                     <div class="col-lg-5">
                                                         <div class="form-group">
@@ -141,15 +98,12 @@ Swal.fire({
                                                     </div>
                                                     <div class="col-lg-7">
                                                         <div class="form-group">
-                                                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
                                                             <div class="form-control-wrap">
                                                                 <input type="text" class="form-control" id="plan_specialization" disabled name="plan_specialization" value="{{plans.speciality}}">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                
                                                 <div class="row g-3 align-center">
                                                     <div class="col-lg-5">
                                                         <div class="form-group">
@@ -159,14 +113,12 @@ Swal.fire({
                                                     </div>
                                                     <div class="col-lg-7">
                                                         <div class="form-group">
-                                                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
                                                             <div class="form-control-wrap">
                                                                 <div class="form-control-select">
                                                                     <select class="form-control" id="location" name="location" disabled >
                                                                         <option value="">Select Option</option>
                                                                         {% for location in locations %}
                                                                         <option value="{{location.location}}"{% if plans.location_name == location.location %} selected {% endif %}>{{location.location}}</option>
-                                                                        
                                                                         {% endfor %}
                                                                     </select>
                                                                 </div>
@@ -174,122 +126,42 @@ Swal.fire({
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="row g-3 align-center">
                                                     <div class="col-lg-5">
                                                         <div class="form-group">
-                                                            <label class="form-label">Price</label>
+                                                            <label class="form-label">Price for individual</label>
                                                             <span class="form-note"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-7">
                                                         <div class="form-group">
-                                                            <!-- <label class="form-label" for="phone_no">Phone No</label> -->
                                                             <div class="form-control-wrap">
                                                                 <input type="text" class="form-control" id="plan_price" name="plan_price" value="{{plans.price_for_single}}">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
-
-                                                <!-- <div class="row g-3 align-center">
-                    <div class="col-lg-5">
-                        <div class="form-group">
-                            <label class="form-label">Remarks</label>
-                            <span class="form-note"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="form-group">
-                            <div class="form-control-wrap">                                
-                                <textarea class="form-control form-control-lg no-resize "  id="remarks" name="remarks" placeholder="Write remarks here"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>  -->
-                                                <!-- <div class="row g-3 align-center">
-                    <div class="col-lg-5">
-                        <div class="form-group">
-                            <label class="form-label">Site Copyright</label>
-                            <span class="form-note">Copyright information of your website.</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="site-copyright" value="© 2019, DashLite. All Rights Reserved.">
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                                                <!-- <div class="row g-3 align-center">
-                    <div class="col-lg-5">
-                        <div class="form-group">
-                            <label class="form-label">Allow Registration</label>
-                            <span class="form-note">Enable or disable registration from site.</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <ul class="custom-control-group g-3 align-center flex-wrap">
-                            <li>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" checked="" name="reg-public" id="reg-enable">
-                                    <label class="custom-control-label" for="reg-enable">Enable</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="reg-public" id="reg-disable">
-                                    <label class="custom-control-label" for="reg-disable">Disable</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="reg-public" id="reg-request">
-                                    <label class="custom-control-label" for="reg-request">On Request</label>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div> -->
-                                                <!-- <div class="row g-3 align-center">
-                    <div class="col-lg-5">
-                        <div class="form-group">
-                            <label class="form-label">Main Website</label>
-                            <span class="form-note">Specify the URL if your main website is external.</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control" name="site-url" value="https://www.softnio.com">
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                                                <!-- <div class="row g-3 align-center">
-                    <div class="col-lg-5">
-                        <div class="form-group">
-                            <label class="form-label" for="site-off">Maintanance Mode</label>
-                            <span class="form-note">Enable to make website make offline.</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-7">
-                        <div class="form-group">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" name="reg-public" id="site-off">
-                                <label class="custom-control-label" for="site-off">Offline</label>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                                                <div class="row g-3 align-center">
+                                                    <div class="col-lg-5">
+                                                        <div class="form-group">
+                                                            <label class="form-label">Price for couple</label>
+                                                            <span class="form-note"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div class="form-group">
+                                                            <div class="form-control-wrap">
+                                                                <input type="text" class="form-control" id="plan_price2" name="plan_price2" value="{{plans.price_for_couple}}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="row g-3">
                                                     <div class="col-lg-7 offset-lg-5">
                                                         <div class="form-group mt-2">
                                                             <button type="submit" class="btn btn-md btn-dark">Save
-                                                                Plan</button>
-                                                            <!-- {#<a href="{{url_for('follow_up_preview')}}" type="submit" class="btn btn-md btn-dark" >Send Appointment Request</a>#} -->
+                                                                Plan
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -301,46 +173,30 @@ Swal.fire({
                         </div>
                     </div>
                     <!-- Modal -->
-<div id="myModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Invalid Duration</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>The duration must be greater than 15 minutes.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+                    <div id="myModal" class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Invalid Duration</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>The duration must be greater than 15 minutes.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    <!-- <script>
-       function seniorDoctorList(){
-        console.log("doctor list")
-            var gender_pref = document.getElementById("doc_gender").value;
-            console.log(gender_pref);
-            var language_pref = document.getElementById("language").value;
-            // console.log(language_pref);
-            var specialization = document.getElementById("specialization").value;
-            // console.log(specialization);
-            var payload={};
-            payload.specialization=specialization,
-            payload.language_pref=language_pref,
-            payload.gender_pref=gender_pref
-
-       }
-       
-    </script> -->
+   
 
     <script>
         const doctorList = async () => {
