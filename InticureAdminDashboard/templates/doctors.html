@@ -117,7 +117,7 @@ Swal.fire({
                                     
                                     {#<button class="d-sm-inline-flex btn btn-dark btn-md" data-toggle="modal"
                                         data-target="#add_doctor">Add Doctor</button>#}
-                                    <thead class="thead-light">
+                                    <thead class="thead-light text-center">
                                         <tr>
                                             <th>Doctor Name</th>
                                             <th>Email</th>
@@ -128,10 +128,11 @@ Swal.fire({
                                             <th>Gender</th>
                                             <th>Language</th>
                                             <th>Designation</th>
+                                            <th>Action</th>
                                             <!-- <th>Salary</th> -->
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="text-center">
                                         {% for doctor in doctors[::-1] %}
                                             {% if doctor.user_mail != 'junior@doctor.com' %}
                                                 <tr>
@@ -144,7 +145,13 @@ Swal.fire({
                                                     <td>{{doctor.gender|capitalize}}</td>
                                                     <td>{{doctor.language_known|capitalize}}</td>
                                                     <td>{{doctor.doctor_flag|capitalize}}</td>
-                                                    <!-- <td>$320,800</td> -->
+                                                    <td>
+                                                        {% if doctor.is_blocked == false %}
+                                                            <button class="btn btn-danger rounded-lg" onclick="confirmAction('block', {{ doctor.doctor_profile_id }})">Block</button>
+                                                        {% else %}
+                                                            <button class="btn btn-primary rounded-lg" onclick="confirmAction('unblock', {{ doctor.doctor_profile_id }})">Unblock</button>
+                                                        {% endif %}
+                                                    </td>
                                                 </tr>
                                             {% endif %}
                                         {% endfor %}
@@ -164,7 +171,7 @@ Swal.fire({
                                 <table class="datatable-init table" data-ordering="false">
                                     {#<button class="d-sm-inline-flex btn btn-dark btn-md" data-toggle="modal"
                                         data-target="#add_doctor">Add Doctor</button>#}
-                                    <thead class="thead-light">
+                                    <thead class="thead-light text-center">
                                         <tr>
                                             <th>Doctor Name</th>
                                             <th>Email</th>
@@ -174,7 +181,7 @@ Swal.fire({
                                             <!-- <th>Salary</th> -->
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="text-center">
                                         {% for doctor in new_doctors[::-1] %}
                                         <tr>
                                             <td>
@@ -205,7 +212,7 @@ Swal.fire({
                                 <table class="datatable-init table" data-ordering="false">
                                     {#<button class="d-sm-inline-flex btn btn-dark btn-md" data-toggle="modal"
                                         data-target="#add_doctor">Add Doctor</button>#}
-                                    <thead class="thead-light">
+                                    <thead class="thead-light text-center">
                                         <tr>
                                             <th>Doctor Name</th>
                                             <th>Email</th>
@@ -215,7 +222,7 @@ Swal.fire({
                                             <!-- <th>Salary</th> -->
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody class="text-center">
                                         {% for doctor in rejected_doctors %}
                                         <tr>
                                             <td><a href="{{url_for('doctor_details',doctor_id=doctor.user_id)}}">{{doctor.user_fname}} {{doctor.user_lname}}</a></td>
@@ -246,6 +253,24 @@ Swal.fire({
 </div>
 <!-- content @e --> 
 
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirm Action</h5>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to <span id="actionText"></span> this doctor?
+            </div>
+            <div class="modal-footer">
+                <!-- Cancel button that hides the modal -->
+                <button type="button" class="btn btn-secondary" id="cancelButton" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmActionBtn">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- ########################## ADD DOCTOR MODAL @S ################################## -->
 
 <div class="modal fade" tabindex="-1" id="add_doctor" aria-hidden="true" style="display: none;">
@@ -365,6 +390,7 @@ Swal.fire({
 
 <!-- ########################## ADD DOCTOR MODAL @E ################################## -->
 
+<!-- Toast Container -->
 <!-- ########################## FILTER MODAL @S ################################## -->
 
 <div class="modal fade" tabindex="-1" id="filter" aria-hidden="true" style="display: none;">
@@ -459,6 +485,85 @@ Swal.fire({
     </div>
 </div>
 
+<script>
+    function getCSRFToken() {
+        return document.cookie.split('; ')
+            .find(row => row.startsWith('csrftoken='))
+            .split('=')[1];
+    }
+
+    function confirmAction(action, doctorId) {
+        // Set the action text and doctor ID for the modal
+        document.getElementById('actionText').textContent = action === 'block' ? 'block' : 'unblock';
+        const confirmButton = document.getElementById('confirmActionBtn');
+
+        // Remove previous event listeners to avoid stacking
+        confirmButton.onclick = null;
+
+        // Add a new event listener to call the right function when "Yes" is clicked
+        confirmButton.onclick = function() {
+            if (action === 'block') {
+                blockDoctor(doctorId);
+            } else {
+                unblockDoctor(doctorId);
+            }
+            // Close the modal after action
+            const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+            confirmModal.hide();
+        };
+
+        // Show the modal
+        new bootstrap.Modal(document.getElementById('confirmModal')).show();
+    }
+
+    function blockDoctor(doctorId) {
+        const csrfToken = getCSRFToken();
+        fetch(`https://api.inticure.online/api/doctor/block_doctor/${doctorId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({ action: 'block' }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            window.location.reload();
+        })
+        .catch(error => console.error('Error blocking doctor:', error));
+    }
+
+    function unblockDoctor(doctorId) {
+        const csrfToken = getCSRFToken();
+        fetch(`https://api.inticure.online/api/doctor/unblock_doctor/${doctorId}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
+            },
+            body: JSON.stringify({ action: 'block' }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            window.location.reload();
+        })
+        .catch(error => console.error('Error unblocking doctor:', error));
+    }
+
+</script>
+<script>
+    // JavaScript to handle the Cancel button click event and hide the modal.
+    document.getElementById('cancelButton').addEventListener('click', function () {
+        // Select the modal element and manually remove the 'show' class
+        document.getElementById('confirmModal').classList.remove('show');
+        // Optionally, set 'aria-hidden' to true to simulate closing
+        document.getElementById('confirmModal').setAttribute('aria-hidden', 'true');
+        // Hide the backdrop as well (remove the 'modal-backdrop' class)
+        document.querySelector('.modal-backdrop').classList.remove('show');
+    });
+</script>
+<!-- Bootstrap JavaScript Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- ########################## FILTER MODAL @E ################################## -->
 {% endblock %}

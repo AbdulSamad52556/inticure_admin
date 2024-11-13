@@ -938,8 +938,9 @@ def doctors():
         #     doctor_list_response=json.loads(doctor_listing.text)
         #     print(doctor_listing.status_code)
         #     doctor_list = doctor_list_response['data']
-
             return render_template("doctors.html",doctors=doctor_list, specializations=specializations, languages=languages,rejected_doctors=rejected_doctors,new_doctors=new_doctors)
+        for i,j in enumerate(doctor_list):
+            print(i,j)
         return render_template("doctors.html",doctors=doctor_list, specializations=specializations, languages=languages,rejected_doctors=rejected_doctors,new_doctors=new_doctors)
     except Exception as e:
         print(e)
