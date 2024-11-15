@@ -44,7 +44,7 @@
                                     </thead>
                                     <tbody>
                                         {% for customer in customers[::-1] %}
-                                        <tr class="clickable-row" onclick="window.location='{{url_for('customer_details', user_id=customer.user_id)}}';">
+                                        <tr class="clickable-row">
                                             <td>
                                                 <a href="{{url_for('customer_details', user_id=customer.user_id)}}">
                                                     {{loop.index}}

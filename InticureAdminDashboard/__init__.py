@@ -1581,10 +1581,10 @@ def customers():
 
 @app.route("/customers/customer_details/<int:user_id>")
 def customer_details(user_id):
-    if 'doctor_flag' in session:
-        doctor_flag=session['doctor_flag']
-    else:
-        return redirect(url_for('admin_login'))
+    # if 'doctor_flag' in session:
+    doctor_flag=session['doctor_flag']
+    # else:
+    #     return redirect(url_for('admin_login'))
     headers={
         "Content-Type":"application/json"
         }
