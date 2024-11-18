@@ -36,7 +36,7 @@
                                             <th>Email</th>
                                             <th>Residence Location</th>
                                             <th>Confirmation Choice</th>
-                                            <th>WhatsApp Contact</th>
+                                            <th>Confirmation Contact</th>
                                             <!-- <th>Age</th>
                                             <th>Start date</th>
                                             <th>Salary</th> -->
@@ -88,7 +88,7 @@
                                                 {% if customer.whatsapp_contact %}
                                                 {{customer.whatsapp_contact}}
                                                 {% else %}
-                                                Not Available
+                                                {{ customer.confirmation_email }}
                                                 {% endif %}
                                             </td>
                                         </tr>

@@ -1567,12 +1567,16 @@ def customers():
             "operation_flag":"view"
         }
         api_data=json.dumps(payload)
-        customer_listing=requests.post(base_url+customer_listing_api, data=api_data, headers=headers)
-        customer_list_response=json.loads(customer_listing.text)
-        print(customer_listing.status_code)
-        customer_list = customer_list_response['data']
-        for i in customer_list:
-            print(i)
+        try:
+            customer_listing=requests.post(base_url+customer_listing_api, data=api_data, headers=headers)
+            customer_list_response=json.loads(customer_listing.text)
+            print(customer_list_response)
+            customer_list = customer_list_response['data']
+            for i in customer_list:
+                print(i)
+        except Exception as e:
+            print(e)
+            customer_list = []
         return render_template("customers.html",customers=customer_list)
     except Exception as e:
         print(e)

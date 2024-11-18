@@ -129,6 +129,7 @@ Swal.fire({
                                             <th>Language</th>
                                             <th>Designation</th>
                                             <th>Action</th>
+                                            <th>Doctor's dashboard</th>
                                             <!-- <th>Salary</th> -->
                                         </tr>
                                     </thead>
@@ -152,6 +153,12 @@ Swal.fire({
                                                             <button class="btn btn-primary rounded-lg" onclick="confirmAction('unblock', {{ doctor.doctor_profile_id }})">Unblock</button>
                                                         {% endif %}
                                                     </td>
+                                                    <td>
+                                                        <i class="fas fa-arrow-right"></i>  <!-- Font Awesome right arrow -->
+                                                    </td>
+
+
+
                                                 </tr>
                                             {% endif %}
                                         {% endfor %}
@@ -487,10 +494,14 @@ Swal.fire({
 
 <script>
     function getCSRFToken() {
-        return document.cookie.split('; ')
-            .find(row => row.startsWith('csrftoken='))
-            .split('=')[1];
+    const csrfCookie = document.cookie.split('; ').find(row => row.startsWith('csrftoken='));
+    if (!csrfCookie) {
+        console.error('CSRF token not found in cookies.');
+        return null; // Or throw an error if required
     }
+    return csrfCookie.split('=')[1];
+}
+
 
     function confirmAction(action, doctorId) {
         // Set the action text and doctor ID for the modal
@@ -517,29 +528,28 @@ Swal.fire({
     }
 
     function blockDoctor(doctorId) {
-        const csrfToken = getCSRFToken();
-        fetch(`https://api.inticure.online/api/doctor/block_doctor/${doctorId}/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken,
-            },
-            body: JSON.stringify({ action: 'block' }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            window.location.reload();
-        })
-        .catch(error => console.error('Error blocking doctor:', error));
-    }
+    const csrfToken = getCSRFToken();
+
+    fetch(`https://api.inticure.online/api/doctor/block_doctor/${doctorId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: 'block' }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        window.location.reload();
+    })
+    .catch(error => console.error('Error blocking doctor:', error));
+}
 
     function unblockDoctor(doctorId) {
-        const csrfToken = getCSRFToken();
+      
         fetch(`https://api.inticure.online/api/doctor/unblock_doctor/${doctorId}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken,
             },
             body: JSON.stringify({ action: 'block' }),
         })
