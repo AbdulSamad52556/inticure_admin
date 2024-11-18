@@ -163,6 +163,7 @@ def logout():
         print(e)
     return redirect(url_for('admin_login'))
 
+
 # function
 def appointment_listing(api_data):
     print(api_data)

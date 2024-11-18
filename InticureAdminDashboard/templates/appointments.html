@@ -37,6 +37,8 @@
                                             <th>Date</th>
                                             <th>Time</th>
                                             <th>Meet Link</th>
+                                            <th>Confirmation choice</th>
+                                            <th>Confirmation contact</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -124,11 +126,22 @@
 
                                     {% endif %}
                                             </td>
+                                            
                                             <td>
                                             {% if appointment.senior_meeting_link %}
                                                 {{appointment.senior_meeting_link}}
                                             {% else %}
                                                 {{appointment.meeting_link}} 
+                                            {% endif %}
+                                            </td>
+                                            <td>
+                                            {{appointment.customer_details.confirmation_choice}}
+                                            </td>
+                                            <td>
+                                            {% if appointment.customer_details.confirmation_choice == 'Whats App' %}
+                                            {{appointment.customer_details.whatsapp_contact}}
+                                            {% else %}
+                                            {{appointment.customer_details.confirmation_email}}
                                             {% endif %}
                                             </td>
                                             <td> 
