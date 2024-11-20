@@ -3,7 +3,7 @@ import time
 from flask import Flask
 from flask import redirect,url_for,render_template, request, flash,session,jsonify,send_file,send_from_directory
 import json, requests
-from datetime import datetime,date
+from datetime import datetime,date, timedelta
 from werkzeug.utils import secure_filename
 import os, math
 from urllib.parse import urlparse
@@ -13,6 +13,8 @@ import tempfile
 # from bs4 import BeautifulSoup
 
 app = Flask(__name__)
+app.config["SECRET_KEY"]='3e15976f74727374875a04f995324cc214fa3723ded4d9fee5ab6dc4d35e5206'
+app.permanent_session_lifetime = timedelta(days=90)
 
 admin_webapp_url = "admin.inticure.com"
 

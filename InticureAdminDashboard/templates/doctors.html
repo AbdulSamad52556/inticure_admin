@@ -119,6 +119,7 @@ Swal.fire({
                                         data-target="#add_doctor">Add Doctor</button>#}
                                     <thead class="thead-light text-center">
                                         <tr>
+                                            <th>Id</th>
                                             <th>Doctor Name</th>
                                             <th>Email</th>
                                             <th>Phone Number</th>
@@ -137,7 +138,8 @@ Swal.fire({
                                         {% for doctor in doctors[::-1] %}
                                             {% if doctor.user_mail != 'junior@doctor.com' %}
                                                 <tr>
-                                                    <td><a href="{{url_for('doctor_details',doctor_id=doctor.user_id)}}">{{doctor.user_fname}} {{doctor.user_lname}}</a></td>
+                                                    <td><a href="{{url_for('doctor_details',doctor_id=doctor.user_id)}}">{{doctor.user_id}}</a></td>
+                                                    <td>{{doctor.user_fname}} {{doctor.user_lname}}</td>
                                                     <td>{{doctor.user_mail}}</td>
                                                     <td>{{doctor.mobile_number}}</td>
                                                     <!-- <td>{{doctor.department|capitalize}}</td> ///commented by jobin/// -->
