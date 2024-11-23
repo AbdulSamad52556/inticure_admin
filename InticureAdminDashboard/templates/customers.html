@@ -36,6 +36,7 @@
                                             <th>Email</th>
                                             <th>Residence Location</th>
                                             <th>Confirmation Choice</th>
+                                            <th>Confirmation Email</th>
                                             <th>Confirmation Contact</th>
                                             <!-- <th>Age</th>
                                             <th>Start date</th>
@@ -88,9 +89,17 @@
                                                 {% if customer.whatsapp_contact %}
                                                 {{customer.whatsapp_contact}}
                                                 {% else %}
-                                                {{ customer.confirmation_email }}
+                                                Not Available
                                                 {% endif %}
                                             </td>
+                                            <td>
+                                                {% if customer.confirmation_email %}
+                                                {{customer.confirmation_email}}
+                                                {% else %}
+                                                Not Available
+                                                {% endif %}
+                                            </td>
+
                                         </tr>
                                         {% endfor %}
                                     </tbody>

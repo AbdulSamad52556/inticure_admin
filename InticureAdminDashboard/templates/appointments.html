@@ -38,7 +38,10 @@
                                             <th>Time</th>
                                             <th>Meet Link</th>
                                             <th>Confirmation choice</th>
-                                            <th>Confirmation contact</th>
+                                            <th>Confirmation Email</th>
+                                            <th>Confirmation Contact</th>
+                                            <th>Rescheduled date</th>
+                                            <th>Rescheduled time</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -137,11 +140,33 @@
                                             <td>
                                             {{appointment.customer_details.confirmation_choice}}
                                             </td>
+                                            
                                             <td>
-                                            {% if appointment.customer_details.confirmation_choice == 'Whats App' %}
+                                            {% if appointment.customer_details.confirmation_email %}
+                                            {{appointment.customer_details.confirmation_email}}
+                                            {% else %}
+                                            Not Available
+                                            {% endif %}
+                                            </td>
+                                            <td>
+                                            {% if appointment.customer_details.whatsapp_contact %}
                                             {{appointment.customer_details.whatsapp_contact}}
                                             {% else %}
-                                            {{appointment.customer_details.confirmation_email}}
+                                            Not Available
+                                            {% endif %}
+                                            </td>
+                                            <td>
+                                            {% if appointment.rescheduled_date %}
+                                                {{appointment.rescheduled_date}}
+                                            {% else %}
+                                                Not Available
+                                            {% endif %}
+                                            </td>
+                                            <td>
+                                            {% if appointment.rescheduled_time %}
+                                                {{appointment.rescheduled_time}}
+                                            {% else %}
+                                                Not Available
                                             {% endif %}
                                             </td>
                                             <td> 
