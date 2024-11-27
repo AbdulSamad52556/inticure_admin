@@ -42,6 +42,7 @@
                                             <th>Confirmation Contact</th>
                                             <th>Rescheduled date</th>
                                             <th>Rescheduled time</th>
+                                            <th>Payment Gateway</th>
                                             <th>Status</th>
                                         </tr>
                                     </thead>
@@ -169,6 +170,14 @@
                                                 Not Available
                                             {% endif %}
                                             </td>
+                                            <td>
+                                            {% if appointment.payment_gateway %}
+                                                {{appointment.payment_gateway}}
+                                            {% else %}
+                                                Not Available
+                                            {% endif %}
+                                            </td>
+                                            
                                             <td> 
                                                 {% if appointment.appointment_status == 0 %}
                                                 <span class="tb-status text-info">New</span>
@@ -178,6 +187,11 @@
                                                 <span class="tb-status text-primary">Refered</span>
                                                 {% elif appointment.appointment_status==3 %}
                                                 <span class="tb-status text-danger">Cancelled</span>
+                                                 <span>
+                                                 {% if appointment.refund != '0' %}
+                                                 {{appointment.refund}}
+                                                 {% endif %}
+                                                  </span>
                                                 {% elif appointment.appointment_status==4 %}
                                                 <span class="tb-status text-warning">Reschedule requested by doctor</span>
                                                 {% elif appointment.appointment_status==5 %}
@@ -197,6 +211,7 @@
                                                 {% elif appointment.appointment_status==12 %}
                                                 <span class="tb-status text-danger">New</span>
                                                 {% endif %}    
+                                                
                                             </td>
                                         </tr>
                                         {% endfor %}

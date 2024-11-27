@@ -69,7 +69,8 @@ edit_plan_api = "/api/administrator/edit-plan"
 remove_plan_api = "/api/administrator/remove-plan"
 app.config["SECRET_KEY"]='fd4ceef3e778a8588dc1d31cdd30f163d4b305e11a2733e938b70c94b83a2be9'
 doctor_time_slots='/api/doctor/doctor_time_slots'
-
+can_reschedule_api = '/api/administrator/can_reschedule'
+block_reschedule_api = '/api/administrator/block_reschedule'
 #doctor_flag=3
 
 # """"""" BASE DIRECTORY """"""""
@@ -131,6 +132,7 @@ def admin_login():
         #storing user id in session 
         admin_user_id=admin_login['user_id']
         session['admin_user_id']=admin_user_id
+        session.permanent = True
         print("admin user id",admin_user_id)
 
         if admin_login_response.status_code == 200:
@@ -278,6 +280,46 @@ def dashboard(country):
     except Exception as e:
         print(e)
         return render_template('dashboard.html')
+    
+@app.route('/can_reschedule/<int:appointment_id>')
+def can_reschedule(appointment_id):
+    print(appointment_id)
+    headers={   
+        "Content-Type":"application/json"
+        }
+    data={
+    "appointment_id":appointment_id,
+    }
+    api_data=json.dumps(data)
+    try:
+        can_reschedule_request=requests.post(base_url+can_reschedule_api,data=api_data,headers=headers)
+        can_reschedule_response=json.loads(can_reschedule_request.text)
+        if can_reschedule_response['response_code'] == 200:
+            flash('Allowed Reschedule')
+        return redirect(url_for('appointment_details',appointment_id = appointment_id))
+    except Exception as e:
+        print(e)
+        return redirect(url_for('appointment_details',appointment_id = appointment_id))
+
+@app.route('/block_reschedule/<int:appointment_id>')
+def block_reschedule(appointment_id):
+    print(appointment_id)
+    headers={   
+        "Content-Type":"application/json"
+        }
+    data={
+    "appointment_id":appointment_id,
+    }
+    api_data=json.dumps(data)
+    try:
+        block_reschedule_request=requests.post(base_url+block_reschedule_api,data=api_data,headers=headers)
+        block_reschedule_response=json.loads(block_reschedule_request.text)
+        if block_reschedule_response['response_code'] == 200:
+            flash('Blocked Reschedule')
+    except Exception as e:
+        print(e)
+    return redirect(url_for('appointment_details',appointment_id = appointment_id))
+
 
 @app.route("/answer_types")
 def answer_types():
@@ -1760,7 +1802,6 @@ def appointment_details(appointment_id):
     headers={
             "Content-type":"application/json"
     }
-    print(id)
     payload={
         "appointment_id":appointment_id,
         "user_id":"",
@@ -1870,6 +1911,7 @@ def appointment_details(appointment_id):
             print(follow_up_submit.status_code)
             print(follow_up_response)
         return redirect(url_for('customers'))
+    
     return render_template("appointment_details2.html",appointment_details=appointment_details)
 
 @app.route("/appointments" , methods=['GET','POST'])
@@ -1907,7 +1949,7 @@ def appointments():
         'ss'
         print('appointment api status code',appointment_response.status_code)
         appointment_data=json.loads(appointment_response.text)
-        for i in appointment_data['data']:
+        for i in appointment_data['data'][::-1]:
             print(i)
             break
         appointment_list=appointment_data['data']

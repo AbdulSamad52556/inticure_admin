@@ -211,6 +211,13 @@ Swal.fire({
                                         {% endif %}
 
                                         <li><a data-toggle="modal" data-target="#cancel">Cancel </a></li>
+                                        <li>
+                                            {% if appointment_details.can_reschedule %}
+                                                <a data-toggle="modal" data-target="#blockRescheduleModal">Block Reschedule</a>
+                                            {% else %}
+                                                <a data-toggle="modal" data-target="#confirmRescheduleModal">Can Reschedule</a>
+                                            {% endif %}
+                                            </li>
                                         
                                     </ul>
                                     
@@ -222,6 +229,49 @@ Swal.fire({
                         </div>
                     </div>
                 </div><!-- .nk-block-head -->
+
+   <div class="modal fade" id="confirmRescheduleModal" tabindex="-1" role="dialog" aria-labelledby="confirmRescheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmRescheduleModalLabel">Allow Reschedule</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                This will allow user to reschedule the appointment even before 24 hour from the appointment time. <br/>
+                Are you sure you want to allow this?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary text-white" href="{{url_for('can_reschedule', appointment_id = appointment_details.appointment_id)}}">Yes</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <div class="modal fade" id="blockRescheduleModal" tabindex="-1" role="dialog" aria-labelledby="blockRescheduleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="blockRescheduleModalLabel">Allow Reschedule</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                This will block user to reschedule the appointment even before 24 hour from the appointment time. <br/>
+                Are you sure you want to block this?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary text-white" href="{{url_for('block_reschedule', appointment_id = appointment_details.appointment_id)}}">Yes</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                 <div class="nk-block">
                     <div class="card">
                         <div class="card-aside-wrap">
