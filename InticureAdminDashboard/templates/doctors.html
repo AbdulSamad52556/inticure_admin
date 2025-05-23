@@ -129,6 +129,7 @@ Swal.fire({
                                             <th>Gender</th>
                                             <th>Language</th>
                                             <th>Designation</th>
+                                            <th>Password</th>
                                             <th>Action</th>
                                             <th>Doctor's dashboard</th>
                                             <!-- <th>Salary</th> -->
@@ -148,6 +149,7 @@ Swal.fire({
                                                     <td>{{doctor.gender|capitalize}}</td>
                                                     <td>{{doctor.language_known|capitalize}}</td>
                                                     <td>{{doctor.doctor_flag|capitalize}}</td>
+                                                    <td>{{doctor.password}}</td>
                                                     <td>
                                                         {% if doctor.is_blocked == false %}
                                                             <button class="btn btn-danger rounded-lg" onclick="confirmAction('block', {{ doctor.doctor_profile_id }})">Block</button>

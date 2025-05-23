@@ -217,12 +217,17 @@ Swal.fire({
                                                     <span class="profile-ud-label">Location</span>
                                                     <span class="profile-ud-value">
                                                         {% if doctor_profile2.location %}
-                                                            {% if doctor_profile2.location == '1' %}
-                                                                India 
-                                                            {% elif doctor_profile2.location == '2' %}
-                                                                Outside India
-                                                            {% endif %}
+                                                            {{doctor_profile2.location}}
                                                         {% endif %}
+                                                        
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="profile-ud-item">
+                                                <div class="profile-ud wider">
+                                                    <span class="profile-ud-label">Reschedule Request Count</span>
+                                                    <span class="profile-ud-value">
+                                                            {{doctor_profile2.reschedule_count}}
                                                         
                                                     </span>
                                                 </div>
@@ -256,7 +261,7 @@ Swal.fire({
                                                 {% if doctor_profile2.registration_certificate %}
                                                 
                                                 <li>
-                                                <a href="{{url_for('user_download',file_path=doctor_profile2.registration_certificate,doctor_id=doctor_profile2.user_id)}}" >
+                                                <a href="{{doctor_profile2.registration_certificate}}" >
                                                     <em class="icon ni ni-file-download" style="font-size:xxx-large;"></em></a>
                                                 </li>
                                                 <li>Certificate</li>
@@ -265,7 +270,7 @@ Swal.fire({
                                                 {% if doctor_profile2.address_proof %}
                                                 
                                                 <li>
-                                                    <a href="{{url_for('user_download',file_path=doctor_profile2.address_proof,doctor_id=doctor_profile2.user_id)}}" >
+                                                    <a href="{{doctor_profile2.address_proof}}" >
                                                         <em class="icon ni ni-file-download" style="font-size:xxx-large;"></em></a>
                                                     </li>
                                                 <li>Address Proof</li>
@@ -274,7 +279,8 @@ Swal.fire({
                                                 {% if doctor_profile2.signature %}
                                                 
                                                 <li>
-                                                    <a href="{{url_for('user_download',file_path=doctor_profile2.signature,doctor_id=doctor_profile2.user_id)}}" >
+                                                    {#<a href="{{url_for('user_download',file_path=doctor_profile2.signature,doctor_id=doctor_profile2.user_id)}}" >#}
+                                                    <a href="{{doctor_profile2.signature}}" >
                                                         <em class="icon ni ni-file-download" style="font-size:xxx-large;"></em></a>
                                                     </li>
                                                 <li>Signature</li>
@@ -283,7 +289,7 @@ Swal.fire({
 
                                                 {% if doctor_profile2.profile_pic %}                                                
                                                 <li>
-                                                    <a href="{{url_for('user_download',file_path=doctor_profile2.profile_pic,doctor_id=doctor_profile2.user_id)}}" >
+                                                    <a href="{{doctor_profile2.profile_pic}}" >
                                                         <em class="icon ni ni-file-download" style="font-size:xxx-large;"></em></a>
                                                     </li>
                                                 <li>Photo</li>

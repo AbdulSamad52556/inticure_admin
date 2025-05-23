@@ -12,7 +12,7 @@
                             <div class="button-group">
                                 <a class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" href="{{url_for('dashboard',country=1)}}">
                                     </em><span>India</span></a>
-                                <a class="d-sm-inline-flex btn btn-outline-light bg-white btn-md"  href="{{url_for('dashboard',country=2)}}">
+                                <a class="d-sm-inline-flex btn btn-outline-light bg-white btn-md"  href="{{url_for('dashboard',country=8)}}">
                                     <span>US</span></a>
                             </div>
                         <!-- </div> -->
@@ -150,7 +150,7 @@
                                 <div class="card-inner m-auto">
                                     <div class="card-title-group align-start mb-0">
                                         <div class="card-title">
-                                            <h6 class="subtitle">Total No. of orders</h6>
+                                            <h6 class="subtitle">Total No. of Upcoming Appointments</h6>
                                         </div>
                                         <!-- <div class="card-tools">
                                             <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Balance in Account"></em>
@@ -158,6 +158,33 @@
                                     </div>
                                     <div class="card-amount d-flex">
                                         <span class="amount ml-5 mt-2"><h3> {{dash.total_appointments}} </h3> {#<span class="currency currency-usd"> Appointments</span>#}
+                                        </span>
+                                        <span class="change up text-danger">
+                                            {#<em class="icon ni ni-arrow-long-up"></em>#}
+                                            <em class="bg-success-dim icon-circle icon ni ni-arrow-up-right ml-auto" style="visibility:hidden;"></em>
+                                            {#1.93%#}</span>
+                                    </div>
+                                    
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar bg-secondary" data-progress="100" style="width: 100%;"></div>
+                                </div>
+                            </div><!-- .card -->                            
+                        </div>
+
+                        <div class="col-md-3" >
+                            <div class="card card-bordered  card-full" style="width:250px">
+                                <div class="card-inner m-auto">
+                                    <div class="card-title-group align-start mb-0">
+                                        <div class="card-title">
+                                            <h6 class="subtitle">Total No. of Appointments</h6>
+                                        </div>
+                                        <!-- <div class="card-tools">
+                                            <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="" data-original-title="Total Balance in Account"></em>
+                                        </div> -->
+                                    </div>
+                                    <div class="card-amount d-flex">
+                                        <span class="amount ml-5 mt-2"><h3> {{dash.total_orders}} </h3> {#<span class="currency currency-usd"> Appointments</span>#}
                                         </span>
                                         <span class="change up text-danger">
                                             {#<em class="icon ni ni-arrow-long-up"></em>#}

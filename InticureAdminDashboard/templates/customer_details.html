@@ -47,6 +47,13 @@
                                         <a class="nav-link" data-toggle="tab" href="#invoices"><em
                                                 class="icon ni ni-file-text"></em><span>Invoices</span></a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#appointmentscreate">
+                                            <em class="icon ni ni-calendar-check"></em>
+                                            <span>Appointments</span>
+                                        </a>
+                                    </li>
+
                                     {#<li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#payment_status"><em
                                                 class="icon ni ni-money"></em><span>Payment
@@ -229,6 +236,169 @@
 
                                     </div>
                                     <!-- ##################### CUSTOMER INFO TAB END ####################### -->
+                                    <div class="tab-pane fade" id="appointmentscreate">
+
+                                        <div >
+                                            <div role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Book a Senior Specialist </h5>
+                                                        
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="" method="POST" class="form-validate is-alter" novalidate="novalidate">
+                                                            <input type="hidden" id="form_type" name="form_type" value="escalate">
+                                                            
+                                                            <div class="container">
+                                                                <div class="row">
+                                                            
+                                                            <div class="container col-sm-6">
+                                                                <!-- <div class="row g-4"> -->
+
+                                                            <input type = "hidden" id = "doctor_user_id" name = "doctor_user_id" value="" />
+
+                                                                    <!-- <div class="col-md-6"> -->
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="category">Select Category</label>
+                                                                <div class="form-control-wrap ">
+                                                                    <div class="form-control-select">
+                                                                        <select class="form-control" id="category" name="category" onchange="doctorList('category')" required>
+                                                                            <option value="">Select Category</option>
+                                                                            {% for category in categories %}
+                                                                            <option value="{{category.id}}">{{category.title}} </option>
+                                                                            {% endfor %}
+
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="specialization">Select Specialization</label>
+                                                                <div class="form-control-wrap ">
+                                                                    <div class="form-control-select">
+                                                                        <select class="form-control" id="specialization" name="specialization" onchange="doctorList('specialization')" required>
+                                                                            <option value="">Select Specialization</option>
+                                                                            {% for specialization in specializations %}
+                                                                            <option value="{{specialization.specialization}}">{{specialization.specialization|capitalize}} </option>
+                                                                            {% endfor %}
+
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <label class="form-label">Select preferred gender</label>  
+                                                            <div class="g-4 align-center flex-wrap" style="padding-bottom:15px ;">
+                                                                    
+                                                                <div class="g">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" name="doc_gender" id="male" value="male" onchange="doctorList('gender')">
+                                                                        <label class="custom-control-label lead" for="male">Male</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="g">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" name="doc_gender" id="female" value="female" onchange="doctorList('gender')">
+                                                                        <label class="custom-control-label lead" for="female">Female</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="g">
+                                                                    <div class="custom-control custom-radio">
+                                                                        <input type="radio" class="custom-control-input" name="doc_gender" id="any_gender" value="" onchange="doctorList('gender')">
+                                                                        <label class="custom-control-label lead" for="any_gender">Any Gender</label>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        
+                                                        <div class="form-group">
+                                                                <label class="form-label">Session Type</label>
+                                                                <div class="form-control-wrap">
+                                                                    <select class="form-select form-control " id="session_type" name="session_type" onchange="doctorList('session_type')" required>
+                                                                        <option value="">Select</option>
+                                                                        <option value="individual">Individual</option>                                                                              
+                                                                        <option value="couple">Couple</option>                                                                              
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="form-label">Language Preferred</label>
+                                                                <div class="form-control-wrap">
+                                                                    <select class="form-select form-control" id="language" name="language" onchange="doctorList('language')" required>
+                                                                        <option value="">Select</option>
+                                                                        {% for language in languages %}
+                                                                        <option value="{{language.language}}">{{language.language}}</option>                                                                              
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        
+                                                        </div>   
+                                                        <div>
+                                                            <p id="no_time_slot">
+                                                            </p>
+                                                        </div>
+                                                        <!-- second column s -->
+                                                        <div class="container col-lg-6">
+                                                    
+                                                            <label class="form-label" style="margin-left:35px ; display: none;" id="time_label">Select preferred time</label>  
+                                                            <div class="boxed" style="overflow-y:scroll; height: 300px;padding-top:5px;" >
+                                                                <div class="g-4 " style="margin-top: 0px;" id="time_box" >
+                                                                    <div class="g m-auto">
+                                                                        <p style="margin-top:100px ;">
+                                                                            Available time slots will appear here
+                                                                        </p>
+                                                                    </div>
+                                                                
+                                                                </div>
+                                                                <table class="table custom-table" style="border: none !important;border-collapse: collapse;">
+                                                                    <input type="hidden" id="appointment_date" name="appointment_date" value="">
+                                                                    <thead style="border: 0 !important">
+                                                                        <tr id="t_head" class="text-center" style="color:black;font-family:Manrope ;font-weight:400;font-size: 13px;border: 0 !important">
+                                                                            <th></th>
+                                                                        </tr>
+                                                                    </thead> 
+                                                                    <tbody style="border: 0 !important">
+                                                                        <tr id="t_row" class="text-center" style="color:black;font-family:Manrope ;font-weight:400;font-size: 13px;border: 0 !important">
+                                                                            <td>
+                                                                                
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+                                            <!-- second column e -->
+                                                                </div>
+                                                                <div style="margin-top:20px ;">
+                                                                <div class="form-group">
+                                                                    <button type="submit" class="btn btn-md btn-mw btn-primary" id="refer_btn">Refer</button>
+                                                                    {#<a type="button" href="{{url_for('action_doctor',actions=2,appointment_id=appointment_details.appointment_id)}}" class="btn btn-md btn-dark">Escalate </a>#}
+                                                                    <button class="btn btn-md btn-mw btn-outline-primary" data-dismiss="modal">Cancel</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+
+                                                
+                                            </div>
+                                                    <div id="doctorCardContainer" class="card-container rounded-lg" style="color:black;font-family:Manrope ;background-color:white; font-size:15px;width:400px;"></div>
+                                        </div>
+                                        </div>
+
+
+                                    </div>
 
                                     <!-- ##################### APPOINTMENTS TAB @S   ####################### -->
                                     <div class="tab-pane " id="appointments">
@@ -292,23 +462,14 @@
                                                                             </td>
                                                                             <td>                                                
                                                                                 <span>
-                                                                                    {% if order.category_id==1 %}
-                                                                                    Sexual Issues
-                                                                                    {% elif order.category_id==2 %}
-                                                                                    Stress & Anxiety  
-                                                                                    {% elif order.category_id==3 %}
-                                                                                    Diet & Nutrition  
-                                                                                    {% elif order.category_id==4 %}
-                                                                                    Sleep Disorder  
-                                                                                    {% else %}
-                                                                                    {% endif %}                                                        
+                                                                                    {{order.category}}                                                       
                                                                                 </span>
                                                                             </td>
                                                                             <td>                                                                                                    
                                                                                     <span >{{order.appointment_date}}</span>                                                
                                                                             </td>
                                                                             <td>                                                
-                                                                                <span >{{order.appointment_time}}</span>                                            
+                                                                                <span >{{order.appointment_time_slot_id}}</span>                                            
                                                                             </td>
                                                                             <!-- <td>    
                                                                                     <span >{#{{order.consulting_doctor}}#}</span>                                                
@@ -642,6 +803,10 @@
                                     </div>
                                     <!-- ############################### INVOICES TAB @E #########################  -->
 
+                                    
+
+
+
                                     <!-- ############################### PAYMENT STATUS TAB @S #########################  -->
                                     <div class="tab-pane " id="payment_status">
                                         <div class="card-inner">
@@ -657,176 +822,274 @@
                                     <!-- ############################### PAYMENT STATUS TAB @E #########################  -->
 
                                     <!-- ################################### TAB CONTENT @E ############################################ -->
+                                    
+
+
+
                                 </div><!-- .card-content -->
 
-                                <!-- ###################################################### TABS END ################################################################# -->
-
-                                <!-- side slider not in use -->
-                                <!-- <div class="card-aside card-aside-right user-aside toggle-slide toggle-slide-right toggle-break-xxl toggle-screen-xxl"
-                                    data-content="userAside" data-toggle-screen="xxl" data-toggle-overlay="true"
-                                    data-toggle-body="true">
-                                    <div class="card-inner-group" data-simplebar="init">
-                                        <div class="simplebar-wrapper" style="margin: 0px;">
-                                            <div class="simplebar-height-auto-observer-wrapper">
-                                                <div class="simplebar-height-auto-observer"></div>
-                                            </div>
-                                            <div class="simplebar-mask">
-                                                <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-                                                    <div class="simplebar-content-wrapper"
-                                                        style="height: auto; overflow: hidden scroll;">
-                                                        <div class="simplebar-content" style="padding: 0px;">
-                                                            <div class="card-inner">
-                                                                <div class="user-card user-card-s2">
-                                                                    <div class="user-avatar lg bg-primary">
-                                                                        <span>AB</span>
-                                                                    </div>
-                                                                    <div class="user-info">
-                                                                        <div
-                                                                            class="badge badge-outline-light badge-pill ucap">
-                                                                            Investor</div>
-                                                                        <h5>Abu Bin Ishtiyak</h5>
-                                                                        <span class="sub-text">info@softnio.com</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-inner card-inner-sm">
-                                                                <ul class="btn-toolbar justify-center gx-1">
-                                                                    <li><a href="#" class="btn btn-trigger btn-icon"><em
-                                                                                class="icon ni ni-shield-off"></em></a>
-                                                                    </li>
-                                                                    <li><a href="#" class="btn btn-trigger btn-icon"><em
-                                                                                class="icon ni ni-mail"></em></a></li>
-                                                                    <li><a href="#" class="btn btn-trigger btn-icon"><em
-                                                                                class="icon ni ni-download-cloud"></em></a>
-                                                                    </li>
-                                                                    <li><a href="#" class="btn btn-trigger btn-icon"><em
-                                                                                class="icon ni ni-bookmark"></em></a>
-                                                                    </li>
-                                                                    <li><a href="#"
-                                                                            class="btn btn-trigger btn-icon text-danger"><em
-                                                                                class="icon ni ni-na"></em></a></li>
-                                                                </ul>
-                                                            </div>
-                                                            <div class="card-inner">
-                                                                <div class="overline-title-alt mb-2">In Account</div>
-                                                                <div class="profile-balance">
-                                                                    <div class="profile-balance-group gx-4">
-                                                                        <div class="profile-balance-sub">
-                                                                            <div class="profile-balance-amount">
-                                                                                <div class="number">2,500.00 <small
-                                                                                        class="currency currency-usd">USD</small>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="profile-balance-subtitle">
-                                                                                Invested
-                                                                                Amount</div>
-                                                                        </div>
-                                                                        <div class="profile-balance-sub">
-                                                                            <span
-                                                                                class="profile-balance-plus text-soft"><em
-                                                                                    class="icon ni ni-plus"></em></span>
-                                                                            <div class="profile-balance-amount">
-                                                                                <div class="number">1,643.76</div>
-                                                                            </div>
-                                                                            <div class="profile-balance-subtitle">Profit
-                                                                                Earned</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-inner">
-                                                                <div class="row text-center">
-                                                                    <div class="col-4">
-                                                                        <div class="profile-stats">
-                                                                            <span class="amount">23</span>
-                                                                            <span class="sub-text">Total Order</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-4">
-                                                                        <div class="profile-stats">
-                                                                            <span class="amount">20</span>
-                                                                            <span class="sub-text">Complete</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-4">
-                                                                        <div class="profile-stats">
-                                                                            <span class="amount">3</span>
-                                                                            <span class="sub-text">Progress</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-inner">
-                                                                <h6 class="overline-title-alt mb-2">Additional</h6>
-                                                                <div class="row g-3">
-                                                                    <div class="col-6">
-                                                                        <span class="sub-text">User ID:</span>
-                                                                        <span>UD003054</span>
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <span class="sub-text">Last Login:</span>
-                                                                        <span>15 Feb, 2019 01:02 PM</span>
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <span class="sub-text">KYC Status:</span>
-                                                                        <span
-                                                                            class="lead-text text-success">Approved</span>
-                                                                    </div>
-                                                                    <div class="col-6">
-                                                                        <span class="sub-text">Register At:</span>
-                                                                        <span>Nov 24, 2019</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-inner">
-                                                                <h6 class="overline-title-alt mb-3">Groups</h6>
-                                                                <ul class="g-1">
-                                                                    <li class="btn-group">
-                                                                        <a class="btn btn-xs btn-light btn-dim"
-                                                                            href="#">investor</a>
-                                                                        <a class="btn btn-xs btn-icon btn-light btn-dim"
-                                                                            href="#"><em
-                                                                                class="icon ni ni-cross"></em></a>
-                                                                    </li>
-                                                                    <li class="btn-group">
-                                                                        <a class="btn btn-xs btn-light btn-dim"
-                                                                            href="#">support</a>
-                                                                        <a class="btn btn-xs btn-icon btn-light btn-dim"
-                                                                            href="#"><em
-                                                                                class="icon ni ni-cross"></em></a>
-                                                                    </li>
-                                                                    <li class="btn-group">
-                                                                        <a class="btn btn-xs btn-light btn-dim"
-                                                                            href="#">another tag</a>
-                                                                        <a class="btn btn-xs btn-icon btn-light btn-dim"
-                                                                            href="#"><em
-                                                                                class="icon ni ni-cross"></em></a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="simplebar-placeholder" style="width: auto; height: 890px;">
-                                            </div>
-                                        </div>
-                                        <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
-                                            <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
-                                        </div>
-                                        <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
-                                            <div class="simplebar-scrollbar"
-                                                style="height: 757px; transform: translate3d(0px, 0px, 0px); display: block;">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
+                               
                                 
                             </div><!-- .card-aside-wrap -->
                         </div><!-- .card -->
                     </div><!-- .nk-block -->
+                    
                 </div>
             </div>
         </div>
+        
     </div>
-    {% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script>src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+$(document).ready(function(){
+  $("#refer_btn").click(function(){
+    var timeElement = $("input[name='appointment_time_1']:checked");
+    var hid_el = timeElement.closest('div').find('input[type="hidden"]');
+    console.log(hid_el);
+    
+    if (hid_el.length > 0) {
+    var date = hid_el.val();
+    console.log(date);
+    $("input[name='appointment_date']").val(date);
+    } else {
+        console.log("No hidden input found.");
+    }
+  });
+});
+</script>
+    <script>
+const handleTimeSlotClick = async (radio) => {
+
+    // Get the selected time slot value
+    var selectedTimeSlot = radio.value;
+
+    // Optionally, get the associated date value
+    var dateId = radio.id.replace('time', 'date'); // Derive the ID of the hidden input
+    var selectedDate = document.getElementById(dateId).value;
+    var session_type = document.getElementById('session_type').value
+    var language = document.getElementById('language').value
+    var gender_pref = document.querySelector('input[name = "doc_gender"]:checked').value
+    var specialization = document.getElementById('specialization').value;
+    // Perform your custom action
+    console.log("Selected Time Slot:", selectedTimeSlot);
+    console.log("Selected Date:", selectedDate);
+    let [startTime, endTime] = selectedTimeSlot.split(" - ");
+    const payload = {   
+        date: selectedDate,
+        time_slot: startTime,
+        end_time: endTime,
+        user_email: "{{profile1.user_mail}}",
+        specialization: specialization,
+        session_type: session_type,
+        language: language,
+        gender: gender_pref,
+        country:"{{profile2.residence_location}}",
+    };
+
+    await fetch("https://api.inticure.online/api/doctor/timeslots", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token if you're using Django
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const doctorCardContainer = document.getElementById('doctorCardContainer');
+            doctorCardContainer.innerHTML = createDoctorCard(data['data']);
+            console.log('Response from the new request:', data['data']);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    
+    }
+    function createDoctorCard(doctor) {
+        console.log(doctor)
+        document.getElementById('doctor_user_id').value = doctor.doctor_user_id;
+        return `
+            <div class="card p-5 rounded-lg" style="width:300px;background-color: transparent">
+                <h4>${doctor.fullname}</h4>
+                <p class="price">${doctor.price} <span class="currency">${doctor.currency}</span></p>
+                <p><strong>Specialization:</strong> ${doctor.specialization}</p>
+                <p><strong>Bio:</strong> ${doctor.bio}</p>
+            </div>
+        `;
+    }
+</script>
+<script>
+
+const doctorList= async(dat) =>{
+    console.log(dat)
+    var load={}; 
+   
+        var specialization = document.getElementById('specialization').value
+        load.specialization=specialization
+       
+    
+        var language_pref = document.getElementById('language').value
+        load.language_pref=language_pref
+        var gender_pref = document.querySelector('input[name = "doc_gender"]:checked').value;
+        load.gender=gender_pref
+        var session_type = document.getElementById('session_type').value;
+        load.session_type=session_type
+        var location = "{{profile2.residence_location}}"
+        load.location=location
+        let elements = document.getElementsByName("appointment_time_1");
+        if (elements.length){
+            console.log("appointment time element exists")
+            time_label=document.getElementById("time_label")
+            time_label.style.display = "block";
+            if(document.querySelectorAll('input[name = "appointment_time_1"]:checked').length == 0){
+            console.log('None of the checkboxes are checked');
+            }else{
+            var appointment_time = document.querySelector('input[name = "appointment_time_1"]:checked').value;
+            }
+        }
+        else{
+            console.log("appointment time element not exist")
+            appointment_time="";
+        }
+    console.log(specialization, language_pref, gender_pref,location)
+    var doctor = 'senior';
+    var appointment_id=""
+    load.doctor_flag=doctor,
+    load.appointment_id=appointment_id,
+    console.log(load)
+
+    const resp = await fetch("https://api.inticure.online/api/doctor/specialization_time_slot", {
+        method: 'POST',
+        body: JSON.stringify(load), // string or object
+        headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,PATCH,OPTIONS'
+    }
+    })
+    const myTimeslot = await resp.json();
+    console.log('myTimeslot2',myTimeslot);
+    var time_slots=myTimeslot['slots']
+    console.log(time_slots);
+    var options="";
+
+    if(myTimeslot.language_preferred === false && myTimeslot.gender_preferred === true){
+        $('#no_time_slot').empty();
+        no_time_slot = '<br></br><br></br><div class="g m-auto text-center"><p class="text-center">Unfortunately a doctor that matches your language preference is currently unavailable. But here are the time slots for another excellent doctor.</div>'
+        $('#no_time_slot').append(no_time_slot);
+    }else if(myTimeslot.language_preferred === true && myTimeslot.gender_preferred === false){
+        $('#no_time_slot').empty();
+        no_time_slot = '<br></br><br></br><div class="g m-auto text-center"><p class="text-center">Unfortunately a doctor that matches your gender preference is currently unavailable. But here are the time slots for another excellent doctor.</div>'
+        $('#no_time_slot').append(no_time_slot);
+    }else if(myTimeslot.language_preferred === false && myTimeslot.gender_preferred === false){
+        $('#no_time_slot').empty();
+        no_time_slot = '<br></br><br></br><div class="g m-auto text-center"><p class="text-center">Unfortunately a doctor that matches your preferences is currently unavailable. But here are the time slots for another excellent doctor.</div>'
+        $('#no_time_slot').append(no_time_slot);
+    }
+    else{
+        $('#no_time_slot').empty();
+        no_time_slot = ''
+        $('#no_time_slot').append(no_time_slot);
+    }
+
+
+    if (myTimeslot['message'] === 'No Doctors Available'){
+        console.log("no time")
+        var time_label=document.getElementById("time_label")
+            time_label.style.display = "none";
+        var no_time_slot="";
+        var message=myTimeslot['message'];
+        $('#time_box').empty();
+        no_time_slot = '<br></br><br></br><div class="g m-auto"><p style="padding-top:50px;">Sorry.. No time slots available.</p><p>Please select a different date.</p></div>'
+        $('#time_box').append(no_time_slot);
+    }
+    else{
+
+    $('#time_box').empty();
+    $('#t_head').empty();
+    $('#t_row').empty();
+    
+    $.each(time_slots,function(index,value){    
+    console.log(value);
+    timeslots = value.timeslot;
+    var input="";
+    
+    $.each(timeslots, function(i, ts) {
+    var radioId = 'time' + index + '_' + i;
+    var label = '<label for="' + radioId + '">' + ts.time_slot + " - " + ts.end_time + '</label>';
+    var radioBtn = '<input type="radio" id="' + radioId + '" name="appointment_time_1" value="' + ts.time_slot + " - " + ts.end_time + '" onclick="handleTimeSlotClick(this)">';
+    var hid = '<input type="hidden" id="date' + index + '_' + i + '" name="date" value="' + value.date + '">';
+    var div = '<div><div class="custom-control custom-radio" style="margin-bottom:8px;">' + radioBtn + label + hid + '</div>' + '</div>';
+    input += div;
+});
+
+    var input1='<th>'+ moment(value.date).format('DD MMM YYYY')+'</th>';
+    $('#t_head').append(input1);
+    var t=' <td>'+ input+'</td>';
+    $('#t_row').append(t)
+});
+
+}
+    console.log("My Time Slot",myTimeslot);
+    return myTimeslot;
+
+}
+
+</script>
+<style>
+    .boxed label {
+  display: inline-block;
+  width: 150px;
+  padding: 10px;
+  font-size: 13px;
+  /* border: solid 1px #ccc; */
+  border: solid 1px #DBDFEA;
+  transition: all 0.3s;
+}
+
+.boxed input[type="radio"] {
+  display: none;
+}
+
+.boxed input[type="radio"]:checked + label {
+  border: solid 2px #854FFF;
+}
+</style>
+
+<style>
+    table.custom-table {
+        border-collapse: collapse;
+    }
+
+    table.custom-table td,
+    table.custom-table th {
+        border: none !important;
+    }
+
+    table.custom-table thead tr:first-child th {
+        border-top: none !important;
+    }
+
+    table.custom-table thead tr:first-child th:last-child {
+        border-right: none !important;
+    }
+
+    table.custom-table thead th:first-child {
+        border-left: none !important;
+    }
+
+    table.custom-table thead th:last-child {
+        border-right: none !important;
+    }
+
+    table.custom-table tbody td:first-child {
+        border-left: none !important;
+    }
+
+    table.custom-table tbody td:last-child {
+        border-right: none !important;
+    }
+</style>
+{% endblock %}

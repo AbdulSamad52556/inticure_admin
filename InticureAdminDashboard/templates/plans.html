@@ -63,6 +63,8 @@ Swal.fire({
                                             <th>#</th>
                                             <th>Doctor Name</th>
                                             <th>Specialization</th>
+                                            <th>Unit Price for Single</th>
+                                            <th>Unit Price for Couple</th>
                                             <th>Currency</th>
                                             <th>Price for single</th>
                                             <th>Price for couple</th>
@@ -78,6 +80,8 @@ Swal.fire({
                                                 <td>{{ loop.index }}</td>
                                                 <td>{{ plan.doc_name }}</td>
                                                 <td>{{ plan.speciality|capitalize }}</td>
+                                                <td>{{ plan.single_unit_price}}</td>
+                                                <td>{{plan.couple_unit_price}}</td>
                                                 <td class="currency">--</td>
                                                 <td class="price-single">--</td>  <!-- Cell for single price -->
                                                 <td class="price-couple">--</td>  <!-- Cell for couple price -->

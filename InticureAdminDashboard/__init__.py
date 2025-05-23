@@ -71,6 +71,9 @@ app.config["SECRET_KEY"]='fd4ceef3e778a8588dc1d31cdd30f163d4b305e11a2733e938b70c
 doctor_time_slots='/api/doctor/doctor_time_slots'
 can_reschedule_api = '/api/administrator/can_reschedule'
 block_reschedule_api = '/api/administrator/block_reschedule'
+escalate_api="api/doctor/escalate_appointment"
+follow_up_api="api/analysis/followup_booking"
+make_accept_api="api/administrator/make-accept"
 #doctor_flag=3
 
 # """"""" BASE DIRECTORY """"""""
@@ -202,9 +205,11 @@ def dashboard(country):
         }
         #dashboard api call
         dash_payload={
-            "appointment_status":[2,8,12],
-            "location":country
+            "appointment_status":[1,2,4,8,12],
+            "location":country,
+            "upcoming":True
         }
+    
         dash_json=json.dumps(dash_payload)
         print(dash_json)
         dashboard_request=requests.post(base_url+admin_dashboard_api,data=dash_json,headers=headers)
@@ -280,6 +285,26 @@ def dashboard(country):
     except Exception as e:
         print(e)
         return render_template('dashboard.html')
+
+@app.route('/make_accept/<int:appointment_id>')
+def make_accept(appointment_id):
+    print(appointment_id)
+    headers={   
+        "Content-Type":"application/json"
+        }
+    data={
+    "appointment_id":appointment_id,
+    }
+    api_data=json.dumps(data)
+    try:
+        make_accept_request=requests.post(base_url+make_accept_api,data=api_data,headers=headers)
+        make_accept_response=json.loads(make_accept_request.text)
+        if make_accept_response['response_code'] == 200:
+            flash('Accepted')
+        return redirect(url_for('appointment_details',appointment_id = appointment_id))
+    except Exception as e:
+        print(e)
+        return redirect(url_for('appointment_details',appointment_id = appointment_id))
     
 @app.route('/can_reschedule/<int:appointment_id>')
 def can_reschedule(appointment_id):
@@ -813,10 +838,46 @@ def delete_question(id_to_delete):
 #         flash("Sorry.. Could not download the file","error")
 #         return redirect(url_for("doctor_details",doctor_id=doctor_id))
 
+@app.route('/user_download/<int:appointment_id>')
+def user_download2(appointment_id):
+    try:
+        file_path=request.args.get('file_path')
+        print(file_path)
+        print("download")
+        print(file_path)
+        print(appointment_id)
+        url=file_path
+        r = requests.get(url)
+        print("error")
+        url_split_1 = urlparse(url)
+        print(url_split_1)
+
+        file_name=os.path.basename(url_split_1.path)
+        print("filename",file_name)
+
+        print("Base dir: ", BASE_DIR)
+        if 'temp' not in os.listdir(BASE_DIR):
+            os.mkdir(str(BASE_DIR) + 'temp')
+
+        file_temp_save=open(str(BASE_DIR) + '/' + 'temp/'+ file_name, "wb").write(r.content)
+        print("saved in temp")
+        response=send_file(f"{str(BASE_DIR) + '/' + 'temp/'+ file_name}", as_attachment=True)
+ 
+        file_path = f"{str(BASE_DIR)}/temp/{file_name}"
+        if os.path.exists(file_path):
+            os.remove(file_path)
+        return response
+   
+    except Exception as e:
+        print(e)
+        flash("Sorry.. Could not download the file","error")
+        return redirect(url_for("appointment_details",appointment_id=appointment_id))
+
 @app.route('/user_download/<int:doctor_id>')
 def user_download(doctor_id):
     file_path = request.args.get('file_path')
-    
+    print('user_download')
+    print(file_path)
     if not file_path:
         return 'Missing file path parameter.', 400
 
@@ -949,7 +1010,7 @@ def doctors():
                 print(api_data)
                 add_doctor=requests.post(base_url+add_doctor_api,data=api_data, headers=headers)
                 add_doctor_response=json.loads(add_doctor.text)
-                print(add_doctor_response)
+                # print(add_doctor_response)
                 return redirect(url_for('doctors'))
 
             if request.form['form_type'] == "filter":
@@ -984,8 +1045,7 @@ def doctors():
         #     print(doctor_listing.status_code)
         #     doctor_list = doctor_list_response['data']
             return render_template("doctors.html",doctors=doctor_list, specializations=specializations, languages=languages,rejected_doctors=rejected_doctors,new_doctors=new_doctors)
-        for i,j in enumerate(doctor_list):
-            print(i,j)
+     
         return render_template("doctors.html",doctors=doctor_list, specializations=specializations, languages=languages,rejected_doctors=rejected_doctors,new_doctors=new_doctors)
     except Exception as e:
         print(e)
@@ -1471,6 +1531,7 @@ def doctor_details(doctor_id):
         doctor_profile1=doctor_profile_response['data1']
         doctor_profile2=doctor_profile_response['data2']
         locations=doctor_profile_response['locations']
+        print(doctor_profile2)
         # * Languages from list are converted to string with comma *
         language=doctor_profile2['language_known']
         language_known=", ".join(language)
@@ -1586,14 +1647,68 @@ def action_doctor(actions,appointment_id):
     print(actions)
     payload={
         'appointment_id':appointment_id,
-        'appointment_status':actions
+        'appointment_status':int(actions)
     }
     api_data=json.dumps(payload)
     action=requests.post(base_url+appointent_status_api,data=api_data,headers=headers)
     action_button_response=json.loads(action.text)
     print(action.status_code)
     print(action_button_response)
-    return redirect(url_for("customers"))
+    flash('Cancelled Successfully')
+    return redirect(url_for("appointments"))
+
+@app.route("/add_customers", methods=['GET','POST'])
+def add_customers():
+    try:
+        data = request.get_json()
+        headers={
+            "Content-Type":"application/json"
+            }
+        print(data)
+        try:
+            patient_name = data['patientName']
+            name_parts = patient_name.split(' ', 1)
+
+            first_name = name_parts[0]
+            last_name = name_parts[1] if len(name_parts) > 1 else ''
+            email = data['email']
+            confirmation_method = data['confirmationChoice']
+            country = data['residenceLocation']
+            mobile_num = data['phoneNumber']
+            whatsapp_contact = data['phoneNumber']
+            email_contact = data['email']
+            dateOfBirth = data['dateOfBirth']
+            gender = data['gender']
+
+            if data['confirmationContact'] != "":
+                whatsapp_contact = data['confirmationContact']
+            if data['confirmationEmail'] != "":
+                email_contact = data['confirmationEmail']
+                
+            user_api_data = {
+                'first_name':first_name,
+                'last_name': last_name,
+                'email':email,
+                'confirmation_method':confirmation_method,
+                'country':country,
+                'mobile_num':mobile_num,
+                'whatsapp_contact':whatsapp_contact,
+                'email_contact':email_contact,
+                'dateOfBirth':dateOfBirth,
+                'gender': gender
+            }
+            create_user = "api/analysis/create_user"
+            api_data=json.dumps(user_api_data)
+            user_req = requests.post(base_url+create_user,data=api_data,headers=headers)
+            if user_req.status_code == 200:
+                print(api_data) 
+                return jsonify({"status": "success", "message": "Customer data received."}), 200
+
+        except Exception as e:
+            print(e)
+
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 400
 
 @app.route("/customers", methods=['GET','POST'])
 def customers():
@@ -1615,23 +1730,23 @@ def customers():
         try:
             customer_listing=requests.post(base_url+customer_listing_api, data=api_data, headers=headers)
             customer_list_response=json.loads(customer_listing.text)
-            print(customer_list_response)
             customer_list = customer_list_response['data']
-            for i in customer_list:
-                print(i)
+            
         except Exception as e:
             print(e)
             customer_list = []
+        
         return render_template("customers.html",customers=customer_list)
     except Exception as e:
         print(e)
         flash("Error","error")
     return render_template("customers.html")
 
-@app.route("/customers/customer_details/<int:user_id>")
+@app.route("/customers/customer_details/<int:user_id>",methods=['POST','GET'])
 def customer_details(user_id):
-    # if 'doctor_flag' in session:
-    doctor_flag=session['doctor_flag']
+    doctor_flag = 0
+    if 'doctor_flag' in session:
+        doctor_flag=session['doctor_flag']
     # else:
     #     return redirect(url_for('admin_login'))
     headers={
@@ -1667,6 +1782,16 @@ def customer_details(user_id):
     appointment_data=json.loads(appointment_response.text)
     appointment_list=appointment_data['data']
 
+    language_api_request=requests.get(base_url+language_api,headers=headers)
+    # print("language api",language_api_request.status_code)
+    language_api_response=json.loads(language_api_request.text)
+    languages=language_api_response['data']
+    #specializations list api call
+    specialization_request=requests.get(base_url+specialization_list_api, headers=headers)
+    specialization_response=json.loads(specialization_request.text)
+    # print("specialization list api",specialization_request.status_code)
+    specializations=specialization_response['data']
+
     if 'user_id' in session:
         user_id=session['user_id']
     headers={
@@ -1688,12 +1813,62 @@ def customer_details(user_id):
     invoices_request=requests.post(base_url+invoice_list_api,data=api_data2,headers=headers)
     invoice_response=json.loads(invoices_request.text)
     unpaid_invoices=invoice_response['data']
-    # return render_template('invoices.html',paid_invoices=paid_invoices,unpaid_invoices=unpaid_invoices)
+
+    category_req=requests.post(base_url+category_api,headers=headers)
+    print("category api:",category_req.status_code)
+    category_resp=json.loads(category_req.text)
+    print(category_resp)
+
+    if request.method == 'POST':
+        if request.form['form_type'] == 'escalate': 
+            print("escalate")       
+
+            specialization=request.form['specialization']
+            # doctor=request.form['doctor']
+            appointment_date=request.form['appointment_date']
+            appointment_time=request.form['appointment_time_1']
+            # print(appointment_time)
+            language=request.form['language']
+            doc_gender=request.form['doc_gender']
+            session_type=request.form['session_type']
+            doctor_user_id = request.form['doctor_user_id']
+            category = request.form['category']
+
+            data={
+                # "doctor_id":doctor,
+                "appointment_id":'',
+                "appointment_status":2,
+                "appointment_date":appointment_date,
+                "time_slot":appointment_time,
+                "language_pref":language,
+                "gender_pref":doc_gender,
+                "user_id":user_id,
+                "specialization":specialization,
+                "session_type":session_type,
+                "doctor_user_id":doctor_user_id,
+                "type_booking":"regular",
+                "payment_gateway":'QR code',
+                "category_id":int(category),
+                "new_user":0,
+                "doctor_flag":1,
+                "appointment_time":appointment_time.split(' - ')[0]
+            }
+            print(data)
+            json_data=json.dumps(data)
+            print(json_data)
+            escalate_submit=requests.post(base_url+follow_up_api, data=json_data, headers=headers)
+            escalate_submit_response=json.loads(escalate_submit.text)
+            if escalate_submit_response['message'] == 'Order Escalated':
+                flash("Order Referred","success")
+                return redirect(url_for('customer_details',user_id = user_id))
+            else:
+                flash("Something went wrong","error")
+                return redirect(url_for('customer_details',user_id = user_id))
 
     print('appointment_list',appointment_list,'profile1',profile1,'profile2',profile2,'paid_invoices',paid_invoices, 'unpaid_invoices',unpaid_invoices)
 
     return render_template("customer_details.html", appointment_list=appointment_list,profile1=profile1,profile2=profile2,
-                           paid_invoices=paid_invoices,unpaid_invoices=unpaid_invoices)
+        paid_invoices=paid_invoices,unpaid_invoices=unpaid_invoices,languages=languages,specializations=specializations, categories=category_resp['data'])
 
 @app.route("/invoice_details/<int:invoice_id>", methods=['GET','POST'])
 def invoice_details(invoice_id):
@@ -1799,6 +1974,8 @@ def invoice_preview():
 @app.route("/appointment_details/<int:appointment_id>" ,methods=['GET','POST'])
 def appointment_details(appointment_id):
     print('1683', appointment_id)
+    followup_reminder_list_api="api/doctor/followup_reminder_list"
+
     headers={
             "Content-type":"application/json"
     }
@@ -1809,18 +1986,41 @@ def appointment_details(appointment_id):
     }
     api_data=json.dumps(payload)
     appointment_detail=requests.post(base_url+appointment_detail_api, data=api_data, headers=headers)
-    'ss'
     appointment_detail_response=json.loads(appointment_detail.text)
-    print(appointment_detail_response)
+    # print(appointment_detail_response)
 
     appointment_details=appointment_detail_response['data']
-    print(appointment_details)
+    # print(appointment_details)
     user_id=appointment_details['user_id']
     category_id=appointment_details['category_id']
     follow_ups = appointment_details['followup']
     observations=appointment_details['observations']
-    print(user_id,category_id, follow_ups, observations)
+    # print(user_id,category_id, follow_ups, observations)
+
+    data1={
+        "appointment_id":appointment_id   
+        }
+    api_data1=json.dumps(data1)
+    print(api_data1)
+    followup_reminder_request = requests.post(base_url+followup_reminder_list_api, data=api_data1, headers=headers)
+    followup_reminder_response = json.loads(followup_reminder_request.text)
+    print("reminder api",followup_reminder_request.status_code)
+    followup_reminder = followup_reminder_response['data']
+    print(followup_reminder)
+    print('asdf')
+    print(appointment_details)
+    prescription_details_for_doctor=''
+    try:
+        prescriptions = requests.post(base_url + '/api/doctor/get_prescription', data = json.dumps({"appointment_id":appointment_id}), headers = headers) 
+        print(prescriptions)
+        prescription_details_for_doctor = json.loads(prescriptions.text)['data']
+    except Exception as e:
+        print(e)
+    print(prescription_details_for_doctor)
+    print(appointment_details)
+    prescription_details_for_doctor=''
     
+    print(prescription_details_for_doctor)
     if request.method == 'POST':
         if request.form['form_type'] == 'reschedule':
             print("reschedule")
@@ -1911,8 +2111,8 @@ def appointment_details(appointment_id):
             print(follow_up_submit.status_code)
             print(follow_up_response)
         return redirect(url_for('customers'))
-    
-    return render_template("appointment_details2.html",appointment_details=appointment_details)
+    print(appointment_details)
+    return render_template("appointment_details2.html",appointment_details=appointment_details,followup_reminder=followup_reminder,prescription_details_for_doctor=prescription_details_for_doctor)
 
 @app.route("/appointments" , methods=['GET','POST'])
 def appointments():
@@ -1925,35 +2125,56 @@ def appointments():
         "Content-Type":"application/json"
         }
         if request.method == 'POST':
-            print('POST')
             appointment_status=request.form['status']
-            print(appointment_status)
             specialization=request.form['specialization']
             location=request.form['location']
+            date=request.form['date']
         else:
             appointment_status=""
             specialization=""
             location=""
-
+            date=""
+        
+        print(appointment_status)
+        print(specialization)
+        print(location)
+        print(date)
         payload={
                 "appointment_status" : appointment_status,
                 "doctor_flag":"",
-                "user_id":""
-                # "specialization":specialization,
-                # "location":location, 
+                "user_id":"",
+                "specialization":specialization,
+                "location":location, 
+                "date":date
             }
         api_data=json.dumps(payload)
-        print(api_data)
+        # print(api_data)
         #header not passed as it caused error
         appointment_response=requests.post(base_url+appointment_list_api,data=api_data,headers=headers)
-        'ss'
-        print('appointment api status code',appointment_response.status_code)
+        filter_option_response=requests.post(base_url+'api/administrator/filter',data=api_data,headers=headers)
+        location_data, specialization_data=json.loads(filter_option_response.text)['locations'],json.loads(filter_option_response.text)['specializations']
+        # print('appointment api status code',appointment_response.status_code)
         appointment_data=json.loads(appointment_response.text)
-        for i in appointment_data['data'][::-1]:
-            print(i)
-            break
+        j = 0
+        # for i in appointment_data['data'][::-1]:
+        #     print(i)
+            # j+=1
+            # if j == 3:
+            #     break
         appointment_list=appointment_data['data']
-        return render_template("appointments.html",appointments=appointment_list)
+        new = 0
+        try:
+            notifications_req = requests.get(base_url + '/api/administrator/get-notifications', headers = headers) 
+            notifications = json.loads(notifications_req.text)['data']
+            # print(notifications)
+            if notifications:
+                for notification in notifications:
+                    if notification['did_open'] == False:
+                        new += 1
+        
+        except Exception as e:
+            print(e)
+        return render_template("appointments.html",appointments=appointment_list, notifications=notifications, new = new, locations=location_data, specializations = specialization_data)
     except Exception as e:
         print(e)
     return render_template("appointments.html")
@@ -2356,6 +2577,8 @@ def add_plan():
         doctor=request.form['plan_name']
         price=request.form['plan_price']
         location=request.form['location']
+        unit_price_for_single=request.form['unit_price_for_single']
+        unit_price_for_couple=request.form['unit_price_for_couple']
         print(doctor)
         doctor_profile_id, doc_name, specialization = doctor.split('|')
         payload={
@@ -2364,7 +2587,9 @@ def add_plan():
             "doctor_id":str(doctor_profile_id),
             "location_id":location,
             "doc_name":doc_name,
-            "speciality":specialization
+            "speciality":specialization,
+            "unit_price_for_single":unit_price_for_single,
+            "unit_price_for_couple":unit_price_for_couple
         }
         api_data=json.dumps(payload)
         print("payload", api_data)
@@ -2374,7 +2599,7 @@ def add_plan():
         print(plans_resp)
         if plans_resp['response_code']==200:
             flash("Plan created","success")
-            return redirect(url_for('add_plan'))
+            return redirect(url_for('plans'))
         elif plans_resp['response_code'] == 401:
             flash("plan is already exits, better try edit", "warning")
             return redirect(url_for("plans"))
@@ -2400,8 +2625,10 @@ def edit_plan():
     plans_req=requests.post(base_url+get_plan,data=api_data,headers=headers)
     print(plans_req.status_code)
     plans_resp=json.loads(plans_req.text)
-    # plans=plans_resp['data']
     print('plans2',plans_resp)
+    if 'response_code' in plans_resp and plans_resp['response_code'] == 404:
+        flash('Price for this location is not available, Please Create')
+        return redirect(url_for('plans'))
 
     location_req=requests.get(base_url+locations_api, headers=headers)
     print("locations",location_req.status_code)
@@ -2414,6 +2641,8 @@ def edit_plan():
         print(request.form)
         price=request.form['plan_price']
         price2=request.form['plan_price2']
+        unit_price_for_single=request.form['unit_price_for_single']
+        unit_price_for_couple=request.form['unit_price_for_couple']
         if 'duration' in request.form:
             duration=request.form['duration']
             payload={
@@ -2421,7 +2650,9 @@ def edit_plan():
                 "price_for_single":price,
                 "price_for_couple": price2,
                 "location_id":location_id,
-                "duration":duration
+                "duration":duration,    
+                "unit_price_for_single":unit_price_for_single,
+                "unit_price_for_couple":unit_price_for_couple
             }
         else:
             payload={
@@ -2429,6 +2660,8 @@ def edit_plan():
                 "price_for_single":price,
                 "price_for_couple": price2,
                 "location_id":location_id,
+                "unit_price_for_single":unit_price_for_single,
+                "unit_price_for_couple":unit_price_for_couple
             }
         print(payload)
         try:
@@ -2439,6 +2672,7 @@ def edit_plan():
             print(plans_resp)
             if plans_resp['response_code']==200:
                 flash("Plan updated","success")
+                return redirect(url_for('plans'))
             else:
                 flash("Something went wrong..","error")
         except Exception as e:

@@ -170,6 +170,47 @@ Swal.fire({
                                     {% endif %}
                                     </span>
                                     </li>
+                                    <li>Appointment Status: 
+                                    {% if appointment_details.appointment_status == 0 %}
+                                                <span class="tb-status text-info">New</span>
+                                                {% elif appointment_details.appointment_status==1 %}
+                                                <span class="tb-status text-success">Accepted</span>
+                                                {% elif appointment_details.appointment_status==2 %}
+                                                <span class="tb-status text-primary">Refered</span>
+                                                {% elif appointment_details.appointment_status==3 %}
+                                                 <span>
+                                                 {% if appointment_details.refund != '0' %}
+                                                 {{appointment_details.refund}}
+                                                 <span class="tb-status text-danger">Refund</span>{% else %}
+                                                <span class="tb-status text-danger">Cancelled</span>
+                                                 {% endif %}
+                                                  </span>
+                                                {% elif appointment_details.appointment_status==4 %}
+                                                <span class="tb-status text-warning">Reschedule requested by doctor</span>
+                                                {% elif appointment_details.appointment_status==5 %}
+                                                <span class="tb-status text-warning">Reschedule requested by patient</span>
+                                                {% elif appointment_details.appointment_status==6 %}
+                                                <span class="tb-status text-gray">Closed</span>
+                                                {% elif appointment_details.appointment_status==7 %}
+                                                <span class="tb-status text-primary">Rescheduled</span>
+                                                {% elif appointment_details.appointment_status==8 %}
+                                                <span class="tb-status text-info">Follow Up</span>
+                                                {% elif appointment_details.appointment_status==9 %}
+                                                <span class="tb-status text-danger">No Show</span>
+                                                {% elif appointment_details.appointment_status==10 %}
+                                                <span class="tb-status text-danger">Transfered</span>
+                                                {% elif appointment_details.appointment_status==11 %}
+                                                <span class="tb-status text-danger">Transfered</span>
+                                                {% elif appointment_details.appointment_status==12 %}
+                                                <span class="tb-status text-danger">New</span>
+                                                {% endif %}    
+                                    </li>
+                                    {% if appointment_details.appointment_status == 3 %}
+                                    <li>
+                                        Cancelled Date: <span class="text-base" style="font-family: 'DM Sans';font-size: 14px;font-weight: 700;">{{appointment_details.cancelled_date[:10]|date_format}}</span>
+                                        Cancelled Time: <span class="text-base" style="font-family: 'DM Sans';font-size: 14px;font-weight: 700;">{{appointment_details.cancelled_date[11:16]|time_slot_format}}</span>
+                                    </li>
+                                    {% endif %}
 
                                         {% if (appointment_details.reported_count == 2) or (appointment_details.reported_count == '2') %}
                                         <li>
@@ -187,7 +228,7 @@ Swal.fire({
                                 class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em
                                     class="icon ni ni-arrow-left"></em></a>
                             
-                            {% if appointment_details.appointment_status==6 %}
+                            {#{% if appointment_details.appointment_status==6 %}
 
                             <a href="{{url_for('follow_up',appointment_id=appointment_details.appointment_id)}}"
                                 class="btn btn-primary d-none d-sm-inline-flex" style="background-color:#6A1B78 ;border-color: #6A1B78;box-shadow: #6A1B78;"><span> Follow
@@ -197,7 +238,7 @@ Swal.fire({
                                 class="btn btn-dark d-none d-sm-inline-flex"><span> Chat
                                     </span></a>
                                     
-                            {% endif %}
+                            {% endif %}#}
                              
                             {% if (appointment_details.appointment_status != 6) or (appointment_details.appointment_status !=3) %}
                             <div class="dropdown" {% if (appointment_details.appointment_status == 6) or (appointment_details.appointment_status ==3) %} style="display:none ;" {% endif %}>
@@ -205,11 +246,13 @@ Swal.fire({
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-auto mt-1" style="">
                                     <ul class="link-list-plain">
                                         
-                                        
-                                        {% if (appointment_details.appointment_status!=4) or (appointment_details.appointment_status!=5) or (appointment_details.appointment_status!=8) or (appointment_details.appointment_status==10)  %}
+                                        {% if (appointment_details.appointment_status==2) or (appointment_details.appointment_status==8) %}
+                                        <li><a data-toggle="modal" data-target="#makeaccept">Make Accepted </a></li>
                                         
                                         {% endif %}
-
+                                        {% if appointment_details.appointment_status != 4 %}
+                                            <li><a href="#" id="requestReschedule">Request Reschedule</a></li>
+                                        {% endif %}
                                         <li><a data-toggle="modal" data-target="#cancel">Cancel </a></li>
                                         <li>
                                             {% if appointment_details.can_reschedule %}
@@ -230,6 +273,20 @@ Swal.fire({
                     </div>
                 </div><!-- .nk-block-head -->
 
+                <div class="modal-backdrop" id="modalBackdrop"></div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-header">Are you sure?</div>
+        <div class="modal-body">
+            <p class="text-soft">We highly discourage you from using the ‘Reschedule’ option. Use it only in an emergency and if you are unable to attend the consultation</p>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel-btn" id="cancelBtn">Cancel</button>
+            <button class="confirm-btn" id="confirmBtn">Yes, Proceed</button>
+        </div>
+    </div>
+
    <div class="modal fade" id="confirmRescheduleModal" tabindex="-1" role="dialog" aria-labelledby="confirmRescheduleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -240,8 +297,8 @@ Swal.fire({
                 </button>
             </div>
             <div class="modal-body">
-                This will allow user to reschedule the appointment even before 24 hour from the appointment time. <br/>
-                Are you sure you want to allow this?
+                This will allow user to reschedule the appointment even within 24 hour from the appointment time. <br/>
+                Are you sure want to allow this?
             </div>
             <div class="modal-footer">
                 <a class="btn btn-primary text-white" href="{{url_for('can_reschedule', appointment_id = appointment_details.appointment_id)}}">Yes</a>
@@ -262,7 +319,7 @@ Swal.fire({
             </div>
             <div class="modal-body">
                 This will block user to reschedule the appointment even before 24 hour from the appointment time. <br/>
-                Are you sure you want to block this?
+                Are you sure want to block this?
             </div>
             <div class="modal-footer">
                 <a class="btn btn-primary text-white" href="{{url_for('block_reschedule', appointment_id = appointment_details.appointment_id)}}">Yes</a>
@@ -282,7 +339,7 @@ Swal.fire({
                                         <a class="nav-link {% if (active_tab == None) or (active_tab == customer_info) %} active {% endif %}" data-toggle="tab" href="#customer_info">Patient
                                             Info</a>
                                     </li>
-                                    <li class="nav-item" {% if appointment_details.type_booking == "new" %} style="display:block;"{% else %} style="display:none;" {% endif %}>
+                                    <li class="nav-item">
                                         <a class="nav-link" data-toggle="tab" href="#online_assessment">Online Assessment</a>
                                     </li>
                                     <li class="nav-item">
@@ -913,6 +970,7 @@ Swal.fire({
                                                         <div class="profile-ud wider">
                                                             <a href="{{url_for('action_doctor',actions=7,appointment_id=appointment_details.appointment_id)}}"
                                                                 class="btn btn-sm btn-outline-light bg-white d-none d-sm-inline-flex"><span>Accept</span></a>
+                                                                
                                                             {% if appointment_details.rescheduled_count != appointment_details.reschedule_limit %}
                                                             <button type="button"
                                                                 class="btn btn-sm btn-outline-light bg-white d-none d-sm-inline-flex"
@@ -981,13 +1039,13 @@ Swal.fire({
                                 <h5 class="title mr-auto">Attachments</h5>
                                 <div class="button-group">
                                 {#<button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#add_analysis">Add Assessment</button>#}
-                                <button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#file_upload">Upload Attachment</button>
+                               {# <button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#file_upload">Upload Attachment</button>#}
                             </div>
                             </div>
                                
-                                {% if (appointment_details.analysis_info) or (appointment_details.questions) %}
+                                {% if (prescription_details_for_doctor.analysis_info) or (appointment_details.questions) %}
 
-                                {% for analysis in appointment_details.analysis_info %}
+                                {% for analysis in prescription_details_for_doctor.analysis_info %}
                                 <div class="card border border-light">
                                     <div class="card card-preview">
                                         <div class="card-title">
@@ -1077,7 +1135,7 @@ Swal.fire({
                                                                     <div class="dropdown-menu dropdown-menu-right">
                                                                         <ul class="link-list-plain no-bdr">
                                                                            
-                                                                            <li><a href="{{url_for('user_download',file_path=analysis.analysis_info_path,appointment_id=appointment_details.appointment_id)}}" class="file-dl-toast"><em
+                                                                            <li><a href="{{url_for('user_download2',file_path=analysis.analysis_info_path,appointment_id=appointment_details.appointment_id)}}" class="file-dl-toast"><em
                                                                                         class="icon ni ni-download"></em><span>Download</span></a></li>
 
                                                                         </ul>
@@ -1112,8 +1170,8 @@ Swal.fire({
                                     </div>
                                 </div>
                                 <!-- heading end -->
-                                {% if appointment_details.prescript_text %}
-                                {% for prescription in appointment_details.prescript_text %}
+                                {% if prescription_details_for_doctor.prescript_text %}
+                                {% for prescription in prescription_details_for_doctor.prescript_text %}
                                 <div class="card border border-light">
                                     <input type="hidden" id="prescription_id" name="prescription_id" value="{{prescription.id}}">
                                 <div class="card card-preview">
@@ -1596,7 +1654,7 @@ Swal.fire({
                                                             {#<li><a href="#file-move" data-toggle="modal"><em
                                                                         class="icon ni ni-forward-arrow"></em><span>Move</span></a></li>#}
 
-                                                            <li><a href="{{url_for('user_download',file_path=prescription.prescription,appointment_id=appointment_details.appointment_id)}}" class="file-dl-toast"><em
+                                                            <li><a href="{{prescription.prescription}}" class="file-dl-toast"><em
                                                                         class="icon ni ni-download"></em><span>Download</span></a></li>
 
                                                             {#<li><a href="#"><em class="icon ni ni-pen"></em><span>Rename</span></a></li>#}
@@ -1750,19 +1808,21 @@ Swal.fire({
                             <!-- prescription tab content @e -->
 
                             <!-- follow up tab content @s -->
+                            
                             <div class="tab-pane" id="follow_up">
                                 <div class="card-inner">
+                                    {#<button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#add_follow_up">Add Follow Up</button>#}
                                 {#<p>Eu dolore ea ullamco dolore Lorem  cupidatat officia. </p>#}
+                                {#
                                 <div class="d-flex mb-3">
                                     <h5 class="title">Follow Up</h5>
                                     {% if appointment_details.appointment_status == 6 %}
-                                    {#<button type="button" class="btn btn-dark ml-auto" data-toggle="modal" data-target="#add_follow_up">Add Follow Up</button>#}
                                     <a type="button" class="btn btn-dark ml-auto" href="{{url_for('follow_up',appointment_id=appointment_details.appointment_id)}}">Add Follow Up</a>
                                     {% endif %}
-                                </div>
+                                </div>#}
                                  <!-- heading end -->
                                  {% if appointment_details.followup %}
-                                 {% for follow_up in follow_ups %}
+                                 {% for follow_up in appointment_details.followup %}
                                  
                                  <div class="card border border-light">
                                  <div class="card card-preview">
@@ -1803,16 +1863,17 @@ Swal.fire({
                                             <li class="mr-4" style="position: absolute; right: 0;" >
                                                 <!-- payment button -->
                                                 <!-- dropdown button -->
+                                                
                                         <div class="dropdown ">
-                                            <a href="#" class="btn btn-sm btn-dark" data-toggle="dropdown" aria-expanded="false"><span>More Actions</span><em class="icon ni ni-chevron-down"></em></a>
+                                            {#<a href="#" class="btn btn-sm btn-dark" data-toggle="dropdown" aria-expanded="false"><span>More Actions</span><em class="icon ni ni-chevron-down"></em></a>#}
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-auto mt-1" style="">
                                                 <ul class="link-list-plain">   
                                                     {#{% if appointment_details.type_booking == "followup" %}#}
                                                     <!-- {#<li><a {#data-toggle="modal" data-target="#reschedule"#}>No Show </a></li> #} -->
                                                     <!-- {#<li><a {#href="{{url_for('action_doctor',actions=6,appointment_id=appointment_details.appointment_id)}}"#}>Mark as Done</a></li>#} -->
-                                                    <li><a href="{{url_for('invoices')}}">Pay </a></li> 
-                                                    <li><a data-toggle="modal" data-target="#reschedule">Reschedule </a></li> 
-                                                    <li><a {#href="{{url_for('action_doctor',actions=3,appointment_id=appointment_details.appointment_id)}}"#}>Cancel </a></li>
+                                                    {#<li><a href="{{url_for('invoices')}}">Pay </a></li> 
+                                                    <li><a data-toggle="modal" data-target="#reschedule">Reschedule </a></li> #}
+                                                    {#<li><a href="{{url_for('action_doctor',actions=3,appointment_id=appointment_details.appointment_id)}}">Cancel </a></li>#}
                                                     {#{% endif %}#}
                                                 </ul>
                                                 
@@ -1961,8 +2022,8 @@ Swal.fire({
                                     -->
                                 </div>
                                 <!-- heading end -->
-                                {% if observations %}
-                                {% for observation in observations %}
+                                {% if appointment_details.observations %}
+                                {% for observation in appointment_details.observations %}
                                 
                                 <div class="card border border-light">
                                     <div class="card card-preview">
@@ -1972,7 +2033,7 @@ Swal.fire({
                                                 <li>Appointment: <span class="text-base">#{{appointment_details.appointment_id}}</span></li>
                                                 <li>Created Date: <span class="text-base">{{observation.uploaded_date|date_format}}{#12 September 2022#}</span></li>
                                                 <li>Time: <span class="text-base">{{observation.uploaded_time|time_format}}{#3.00 PM#}</span></li>
-                                                <li>Created by: <span class="text-base">{{observation.uploaded_date}}{#Dr John RV#}</span></li>
+                                                <li>Created by: <span class="text-base">{{observation.doctor_name}}{#Dr John RV#}</span></li>
                                                 {% if session.doctor_flag == 1 %}
                                                 <li>
                                                     <div class="dropdown">
@@ -2581,7 +2642,7 @@ Swal.fire({
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Upload Attachment</h5>
+                {#<h5 class="modal-title">Upload Attachment</h5>#}
                 <a href="#" class="close" data-dismiss="modal" aria-label="Close">
                     <em class="icon ni ni-cross"></em>
                 </a>
@@ -2637,7 +2698,7 @@ Swal.fire({
             <div class="modal-body modal-body-lg text-center">
                 <div class="nk-modal">
                     <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
-                    <h4 class="nk-modal-title">Are you sure you want to cancel this appointment?</h4>
+                    <h4 class="nk-modal-title">Are you sure want to cancel this appointment?</h4>
                     <div class="nk-modal-text">
                     {% if ndays %}
                         {% if ndays <= 3  %}
@@ -2661,6 +2722,50 @@ Swal.fire({
     </div>
 </div>
 
+<div class="modal fade" tabindex="-1" id="makeaccept" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
+                    <h4 class="nk-modal-title">Are you sure want to Accept this appointment?</h4>
+
+                    <!-- Add checkbox here -->
+                    <div class="form-group">
+                        <input type="checkbox" id="paymentConfirmed" class="form-check-input">
+                        <label for="paymentConfirmed" class="form-check-label">Payment is confirmed by admin</label>
+                    </div>
+
+                    <div class="nk-modal-action mt-5">
+                        <!-- Button initially disabled -->
+                        <a href="{{url_for('make_accept',appointment_id=appointment_details.appointment_id)}}">
+                        <button 
+                           id="makeacceptButton" type="button" class="btn btn-lg btn-mw btn-primary" disabled>Make Accept</button></a>
+                        <a href="#" class="btn btn-lg btn-mw btn-outline-primary" data-dismiss="modal">Return</a>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Get elements
+    const paymentConfirmedCheckbox = document.getElementById('paymentConfirmed');
+    const makeacceptButton = document.getElementById('makeacceptButton');
+
+    // Function to toggle the button based on checkbox status
+    function toggleAcceptButton() {
+        if (paymentConfirmedCheckbox.checked) {
+            makeacceptButton.disabled = false; // Enable the button if checked
+        } else {
+            makeacceptButton.disabled = true; // Disable the button if unchecked
+        }
+    }
+
+    // Listen for checkbox change event
+    paymentConfirmedCheckbox.addEventListener('change', toggleAcceptButton);
+</script>
 
 <!-- --------------------- CANCEL MODAL @E --------------------------------- -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -2784,7 +2889,66 @@ html2pdf(element, opt);
 // {% endfor %}
 // {% endif %}
 </script>
+<script>
+        // Get modal elements
+        const modal = document.getElementById('modal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+        const requestReschedule = document.getElementById('requestReschedule');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const confirmBtn = document.getElementById('confirmBtn');
 
+        // Show modal function
+        function showModal() {
+            modal.style.display = 'block';
+            modalBackdrop.style.display = 'block';
+        }
+
+        // Hide modal function
+        function hideModal() {
+            modal.style.display = 'none';
+            modalBackdrop.style.display = 'none';
+        }
+
+        // Add event listeners
+        requestReschedule.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+            showModal();
+        });
+
+        cancelBtn.addEventListener('click', hideModal);
+        modalBackdrop.addEventListener('click', hideModal);
+
+        // Confirm button action
+        confirmBtn.addEventListener('click', () => {
+            hideModal();
+            // Send a POST request to the backend
+            const requestData = {
+                appointment_id: {{appointment_details.appointment_id}}, // Replace with the actual ID
+            };
+
+            fetch('https://api.inticure.online/api/doctor/reschedule_request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    alert('Reschedule request submitted successfully!');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to submit reschedule request.');
+                });
+        });
+    </script>
 {#
 <!-- <script type="text/javascript">
     {% if appointment_details.prescript_text %}
@@ -3117,6 +3281,64 @@ margins = {
     .boxed input[type="radio"]:checked + label {
       border: solid 2px #854FFF;
     }
+
+    .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Style for the modal content */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height:400px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            text-align: right;
+        }
+
+        .modal-footer button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-footer .confirm-btn {
+            background-color: #6a1b78;
+            color: white;
+        }
+
+        .modal-footer .cancel-btn {
+            background-color: #ccc;
+        }
     </style>
     <!-- Rectangle radio buttons @e-->
 

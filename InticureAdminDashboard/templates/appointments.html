@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+
 <div class="nk-content ">
     <div class="container-fluid">
         <div class="nk-content-inner">
@@ -15,6 +16,14 @@
                                         class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
                                             class="icon ni ni-arrow-left"></em><span>Back</span></a>#}
                                     {#<button class="d-sm-inline-flex btn btn-dark btn-md ">Add </button>#}
+                                        <a href="#" id="openModal" class="nk-menu-link">
+    <span class="nk-menu-icon">
+        <em class="icon ni ni-bell"></em>
+        <span class="notification-badge">{{ new }}</span>
+    </span>
+    <span class="nk-menu-text">Notifications</span>
+</a>
+
                                     <button class="d-sm-inline-flex btn btn-outline-light bg-white btn-md" data-toggle="modal"
                                         data-target="#filter"><em class="icon ni ni-filter"></em><span>Filter</span></button>
                                 </div>
@@ -29,7 +38,7 @@
                                 <table class="datatable-init table" data-ordering="false">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th>Order ID</th>
+                                            <th>View</th>
                                             <th>Patient Name</th>
                                             <th>Patient Email</th>
                                             <th>Patient Phone</th>
@@ -42,6 +51,7 @@
                                             <th>Confirmation Contact</th>
                                             <th>Rescheduled date</th>
                                             <th>Rescheduled time</th>
+                                            <th>Total</th>
                                             <th>Payment Gateway</th>
                                             <th>Status</th>
                                         </tr>
@@ -49,7 +59,7 @@
                                     <tbody>
                                         {% for appointment in appointments %}
                                         <tr>
-                                            <td><a href="{{url_for('appointment_details',appointment_id=appointment.appointment_id)}}">{{appointment.appointment_id}}</a></td>
+                                            <td><a href="{{url_for('appointment_details',appointment_id=appointment.appointment_id)}}">view</a></td>
                                             <td>{% if appointment.user_fname %}
                                                 {{appointment.user_fname|capitalize}}
                                                 {{appointment.user_lname|capitalize}}
@@ -170,6 +180,7 @@
                                                 Not Available
                                             {% endif %}
                                             </td>
+                                            <td>{{appointment.total}}</td>
                                             <td>
                                             {% if appointment.payment_gateway %}
                                                 {{appointment.payment_gateway}}
@@ -186,10 +197,11 @@
                                                 {% elif appointment.appointment_status==2 %}
                                                 <span class="tb-status text-primary">Refered</span>
                                                 {% elif appointment.appointment_status==3 %}
-                                                <span class="tb-status text-danger">Cancelled</span>
                                                  <span>
                                                  {% if appointment.refund != '0' %}
                                                  {{appointment.refund}}
+                                                 <span class="tb-status text-danger">Refund</span>{% else %}
+                                                <span class="tb-status text-danger">Cancelled</span>
                                                  {% endif %}
                                                   </span>
                                                 {% elif appointment.appointment_status==4 %}
@@ -227,6 +239,40 @@
     </div>
 </div>
 
+<!-- ########################## NOTIFICATION MODAL @S ################################## -->
+
+<div id="notificationsModal" class="custom-modal-wrapper">
+    <div class="custom-modal">
+        <div class="custom-modal-header">
+            <span class="close-button" id="closeModal">&times;</span>
+            <h3>Notifications</h3>
+        </div>
+        <div class="custom-modal-body">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Time</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if notifications %}
+                    {% for notification in notifications %}
+                    <tr>
+                        <td>{{ notification.user_name }}</td>
+                        <td>{{ notification.on_time }}</td>
+                        <td>{{ notification.on_date }}</td>
+                        <td>{{ notification.description }}</td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <!-- ########################## FILTER MODAL @S ################################## -->
 
 <div class="modal fade" tabindex="-1" id="filter" aria-hidden="true" style="display: none;">
@@ -241,7 +287,7 @@
             <div class="modal-body">
                 <form action="" method="POST" {#class="form-validate is-alter"#} {#novalidate="novalidate"#}>
                     <input type="hidden" id="form_type" name="form_type" value="filter">
-                    
+
                     <div class="form-group">
                         <label class="form-label" for="status">Appointment Status</label>
                         <div class="form-control-wrap ">
@@ -270,39 +316,151 @@
                             <div class="form-control-select">
                                 <select class="form-control" id="specialization" name="specialization">
                                     <option value="">Select Option</option>
-                                    <option value="sexologist">Sexologist</option>
-                                    <option value="psychologist">Psychologist</option>
-                                    <option value="dietitian">Dietitian</option>
-                                    <option value="somnologist">Somnologist</option>
+                                    {% for specialization in specializations %}
+                                    <option value="{{specialization.specialization}}">{{specialization.specialization}}</option>  
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label class="form-label" for="location">Location</label>
                         <div class="form-control-wrap ">
                             <div class="form-control-select">
                                 <select class="form-control" id="location" name="location">
                                     <option value="">Select Option</option>
-                                    <option value="1">Trivandrum</option>
-                                    <option value="2">Kochi</option>
-                                    <option value="3">Kannur</option>
-                                    <option value="4">Thrissur</option>
+                                    {% for location in locations %}
+                                    <option value="{{location.location}}">{{location.location}}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                         </div>
                     </div>
-                    
+
+                    <div class="form-group">
+                        <label class="form-label" for="date">Select Date</label>
+                        <div class="form-control-wrap">
+                            <input type="date" class="form-control" id="date" name="date">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <button type="submit" class="btn btn-md btn-dark">Apply Filter</button>
                         <a href="#" class="btn btn-md btn-mw btn-dark" data-dismiss="modal">Cancel</a>
                     </div>
                 </form>
             </div>
-            
+
         </div>
     </div>
 </div>
+
+<style>
+    /* Modal Wrapper (Background) */
+    #notificationsModal.custom-modal-wrapper {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    /* Modal Container */
+    #notificationsModal .custom-modal {
+        position: relative;
+        background: #fff;
+        margin: 10% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 600px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Header and Close Button */
+    #notificationsModal .custom-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    #notificationsModal .custom-modal-header .close-button {
+        font-size: 24px;
+        font-weight: bold;
+        color: #aaa;
+        cursor: pointer;
+    }
+
+    #notificationsModal .custom-modal-header .close-button:hover {
+        color: #000;
+    }
+
+    /* Table Styling */
+    #notificationsModal .custom-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    #notificationsModal .custom-table th,
+    #notificationsModal .custom-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    #notificationsModal .custom-table th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<script>
+    // Open Modal
+    const openModalButton = document.getElementById('openModal');
+    const modalWrapper = document.getElementById('notificationsModal');
+    const closeModalButton = document.getElementById('closeModal');
+
+    openModalButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        modalWrapper.style.display = 'block';
+        notifyBackend();
+    });
+
+    // Close Modal
+    closeModalButton.addEventListener('click', function () {
+        modalWrapper.style.display = 'none';
+    });
+
+    // Close Modal when clicking outside the modal content
+    window.addEventListener('click', function (event) {
+        if (event.target === modalWrapper) {
+            modalWrapper.style.display = 'none';
+        }
+    });
+    function notifyBackend() {
+        const backendUrl = 'https://api.inticure.online/api/administrator/notifications-opened';
+
+        fetch(backendUrl, {
+            method: 'GET', // Change to 'GET' if necessary
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                console.log('Modal opened notification sent to backend.');
+            })
+            .catch(error => {
+                console.error('Error notifying backend:', error);
+            });
+    }
+</script>
 
 <!-- ########################## FILTER MODAL @E ################################## -->
 {% endblock %}
